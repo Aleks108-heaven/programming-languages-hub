@@ -1,0 +1,122 @@
+[
+ {
+  "id": "what",
+  "attrs": "id=\"what\""
+ },
+ {
+  "id": "tools",
+  "attrs": "id=\"tools\""
+ },
+ {
+  "id": "exec",
+  "attrs": "id=\"exec\""
+ },
+ {
+  "id": "quiz-1",
+  "attrs": "id=\"quiz-1\" data-quiz=\"p1\""
+ },
+ {
+  "id": "concepts",
+  "attrs": "id=\"concepts\""
+ },
+ {
+  "id": "code",
+  "attrs": "id=\"code\""
+ },
+ {
+  "id": "langs",
+  "attrs": "id=\"langs\""
+ },
+ {
+  "id": "memory",
+  "attrs": "id=\"memory\""
+ },
+ {
+  "id": "quiz-2",
+  "attrs": "id=\"quiz-2\" data-quiz=\"p2\""
+ },
+ {
+  "id": "sql",
+  "attrs": "id=\"sql\""
+ },
+ {
+  "id": "quiz-sql",
+  "attrs": "id=\"quiz-sql\" data-quiz=\"sql\""
+ },
+ {
+  "id": "landscape",
+  "attrs": "id=\"landscape\""
+ },
+ {
+  "id": "quiz-3",
+  "attrs": "id=\"quiz-3\" data-quiz=\"p3\""
+ },
+ {
+  "id": "ai",
+  "attrs": "id=\"ai\""
+ },
+ {
+  "id": "quiz-4",
+  "attrs": "id=\"quiz-4\" data-quiz=\"p4\""
+ },
+ {
+  "id": "intern",
+  "attrs": "id=\"intern\" class=\"lv-intern\""
+ },
+ {
+  "id": "junior",
+  "attrs": "id=\"junior\" class=\"lv-junior\""
+ },
+ {
+  "id": "mid",
+  "attrs": "id=\"mid\" class=\"lv-mid\""
+ },
+ {
+  "id": "depth",
+  "attrs": "id=\"depth\""
+ },
+ {
+  "id": "choose",
+  "attrs": "id=\"choose\""
+ },
+ {
+  "id": "qa",
+  "attrs": "id=\"qa\""
+ },
+ {
+  "id": "path",
+  "attrs": "id=\"path\""
+ },
+ {
+  "id": "sequence",
+  "attrs": "id=\"sequence\""
+ },
+ {
+  "id": "projects",
+  "attrs": "id=\"projects\""
+ },
+ {
+  "id": "mistakes-s",
+  "attrs": "id=\"mistakes-s\""
+ },
+ {
+  "id": "quiz-5",
+  "attrs": "id=\"quiz-5\" data-quiz=\"p5\""
+ },
+ {
+  "id": "selfcheck",
+  "attrs": "id=\"selfcheck\""
+ },
+ {
+  "id": "exam",
+  "attrs": "id=\"exam\""
+ },
+ {
+  "id": "review",
+  "attrs": "id=\"review\""
+ },
+ {
+  "id": "refs-s",
+  "attrs": "id=\"refs-s\""
+ }
+]

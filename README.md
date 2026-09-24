@@ -1,6 +1,6 @@
 # Programming Languages Hub
 
-A study hub that takes a learner from **internship** to **junior** to **mid-level** developer. It covers how programming languages work, the 2026 language landscape, SQL and databases, a structured learning path, and a quiz after every part. A second view, **Role Modules**, goes deeper into each career level in four languages. Both live in one page: `index.html`.
+A study hub that takes a learner from **internship** to **junior** to **mid-level** developer. It covers how programming languages work, the 2026 language landscape, SQL and databases, a structured learning path, and a quiz after every part. A second view, **Role Modules**, goes deeper into each career level. Both live in one page, `index.html`, and **the whole app is available in English, Ukrainian, Polish and Spanish**.
 
 Everything runs in the browser as plain HTML, CSS and JavaScript. There is no framework, no server and nothing to install.
 
@@ -24,15 +24,26 @@ This rebuilds `index.html`, starts a server at http://127.0.0.1:8000/ and opens 
 
 The server listens on `127.0.0.1` only, so other machines can't reach it, and it serves nothing but the app page (every other path returns 404). You can also open `index.html` directly from disk with no server.
 
-**Views:** a bar at the top switches between **Study hub** and **Role modules**. Links can open a view directly: `#roles`, `#intern`, `#junior`, `#mid`, or any hub section such as `#sql`.
+**The app bar** stays at the top of the page and controls everything:
+
+| Control | What it does |
+|---|---|
+| **Study hub / Role modules** | Switches the view. Links can open a view directly: `#roles`, `#intern`, `#junior`, `#mid`, or any hub section such as `#sql`. |
+| **EN · UA · PL · ES** | Switches the language of the whole app: every section, table, checklist, quiz, exam and role module. Your ticks, scores and review list are kept. |
+| **Theme** | Cycles auto, light and dark. |
+
+On first visit the language follows the browser's language if it's one of the four, otherwise English. The choice is remembered.
 
 ## What's inside
 
 ```
 index.html                                      the app: hub + Role Modules (generated, do not edit by hand)
-build.py                                        validates the translations and builds index.html
+build.py                                        validates the translations and builds index.html (with the app bar)
 serve.py                                        builds, then serves the app on 127.0.0.1
-Programming-Languages-Hub.html                  source for the Study hub view
+hub/
+  content/en.json, uk.json, pl.json, es.json    all Study hub text: interface strings, sections (HTML) and data
+  sections.json                                 section order
+  template.html, hub.js                         Study hub styles, markup and logic
 role-modules/
   content/en.json, uk.json, pl.json, es.json    all Role Modules text, one file per language
   template.html                                 Role Modules layout, styles, code examples and logic
@@ -67,20 +78,24 @@ Three role tracks: **Internship**, **Junior** and **Mid-level**. Each track has:
 - a table of which languages matter at that level
 - a **module quiz** (6 questions, instant feedback) and a **role exam** (12 questions, pass mark 70%)
 
-The whole interface and all content are available in **English, Ukrainian, Polish and Spanish**. Code and code comments stay in English, as in real codebases.
+Code and code comments stay in English in every language, as in real codebases.
 
 ## Editing content
 
-**Hub:** all tables, checklists, quizzes, the exam, code examples and links live in one `DATA` object at the top of the `<script>` block in `Programming-Languages-Hub.html`. Longer text is plain HTML. A quiz or exam row looks like this:
+All text lives in JSON, one file per language:
 
-```js
+- **Study hub:** `hub/content/<lang>.json` has `ui` (buttons and labels), `hero`, `sections` (each section's HTML) and `data` (tables, checklists, the learning path, quizzes, the exam, code notes and links).
+- **Role Modules:** `role-modules/content/<lang>.json`.
+
+`en.json` is the reference. Source code and URLs exist only there; the other languages leave out `code` keys and use `null` for URLs and numbers, and the build fills them in from English. A hub quiz or exam row looks like this:
+
+```json
 ["Question?", ["Answer A", "Answer B", "Answer C", "Answer D"], 2, "Explanation shown after answering."]
-//                                                               ^ index of the correct answer, counting from 0
 ```
 
-The number of questions and the pass mark update automatically.
+The number is the index of the correct answer, counting from 0. It must be the same in every language. The number of questions and the pass mark update automatically.
 
-**Role Modules:** edit the JSON files in `role-modules/content/`.
+To add content, add it to `en.json` first, then to the same place in the other three files.
 
 After any change, rebuild (or just run `python serve.py`, which rebuilds first):
 
@@ -88,7 +103,15 @@ After any change, rebuild (or just run `python serve.py`, which rebuilds first):
 python build.py
 ```
 
-The build fails if any translation differs from `en.json` in structure: a missing question, a different number of options, a different correct answer, a changed code-example id, or a missing `{placeholder}`. This keeps the four languages marking the same answers as correct.
+The build refuses to write `index.html` if any translation differs from English in structure, and lists every problem:
+
+- a missing or extra key, section, question, option or list item
+- a different correct answer, number or URL
+- a changed language name, level key or code-example id
+- a missing `{placeholder}` in an interface string
+- different HTML structure in a section (element ids or tag counts)
+
+This keeps all four languages showing the same page and marking the same answers as correct.
 
 ## Where progress is stored
 
@@ -96,9 +119,10 @@ Checklist ticks, quiz and exam scores, the review list and the chosen theme and 
 
 ## Verification and security
 
-- The page scripts were exercised in a headless browser (jsdom): every section renders, quizzes and exams score correctly, and there are no script errors.
+- The page scripts were exercised in a headless browser (jsdom) in all four languages: every section renders, switching language keeps progress, quizzes and exams score correctly, and there are no script errors.
 - Code examples: the Python, TypeScript, Java (21) and C# (.NET 10) snippets in the hub were run and produce the expected output. The SQL examples were run against SQLite. The Go and Rust snippets, and the code examples in Role Modules, were reviewed but not compiled.
 - All external links returned HTTP 200 in September 2026.
 - Security review: no secrets in the repository; no `eval` or other dynamic code; all external links use `rel="noopener"`; the only external resource loaded is Google Fonts. All displayed content comes from the pages' own data. Values read back from `localStorage` are validated (whole numbers only) before they reach the page, so tampered storage cannot inject HTML.
 - The local server binds to 127.0.0.1, serves only `/` and `/index.html` (source files, folders and `.git` return 404), and sends `Cache-Control: no-store` and `X-Content-Type-Options: nosniff`.
+- Translations were written with AI assistance; a native-speaker review is recommended before wide sharing.
 - The Aikido security scan was not run, because it requires signing in to Aikido.

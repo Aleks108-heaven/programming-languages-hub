@@ -76,10 +76,9 @@ a{color:var(--brand)}
 
 <div class="rm-root rm-wrap">
 <header class="hero">
-<div class="topbar"><div class="label" id="rm-eyebrow"></div><a id="rm-hubLink" href="__HUB_URL__" target="_blank" rel="noopener"></a></div>
+<div class="label" id="rm-eyebrow"></div>
 <h1 id="rm-title"></h1>
 <p class="lede" id="rm-lede"></p>
-<div class="topbar"><div class="chips" id="rm-langs" role="group"></div></div>
 <div class="roles" id="rm-roles" role="group"></div>
 </header>
 <main id="rm-main"></main>
@@ -329,7 +328,6 @@ Store orders in PostgreSQL, one schema per service.
 (() => {
 const I18N = /*__DATA__*/null;
 const LANGS = ['en', 'uk', 'pl', 'es'];
-const LANG_NAMES = {en: 'English', uk: 'Українська', pl: 'Polski', es: 'Español'};
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
 const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch (e) { return d } };
@@ -341,8 +339,7 @@ const cleanScores = v => {
   return {quiz: pick(v && v.quiz), exam: pick(v && v.exam)};
 };
 let scores = cleanScores(load('roles-scores', null));
-let lang = load('roles-lang', null);
-if (!LANGS.includes(lang)) { const nav = (navigator.language || 'en').slice(0, 2); lang = LANGS.includes(nav) ? nav : 'en' }
+let lang = window.APP.lang;   // the app bar owns the language; see the 'app:lang' listener below
 const roleIds = I18N.en.roles.map(r => r.id);
 let role = roleIds.includes(location.hash.slice(1)) ? location.hash.slice(1) : load('roles-role', 'intern');
 if (!roleIds.includes(role)) role = 'intern';
@@ -357,11 +354,8 @@ function renderHeader() {
   $('#rm-eyebrow').textContent = t('eyebrow');
   $('#rm-title').textContent = t('title');
   $('#rm-lede').textContent = t('lede');
-  $('#rm-hubLink').textContent = t('backToHub') + ' ↗';
   $('#rm-codeNote').textContent = t('codeNote');
   $('#rm-reset').textContent = t('reset');
-  $('#rm-langs').setAttribute('aria-label', t('language'));
-  $('#rm-langs').innerHTML = LANGS.map(l => '<button type="button" data-l="' + l + '" lang="' + l + '" aria-pressed="' + (l === lang) + '">' + LANG_NAMES[l] + '</button>').join('');
   $('#rm-roles').setAttribute('aria-label', t('roles'));
   $('#rm-roles').innerHTML = T().roles.map(r => {
     const q = scores.quiz[r.id], e = scores.exam[r.id];
@@ -427,8 +421,6 @@ function drawExam() {
 function render() { renderHeader(); renderRole() }
 
 document.querySelector('.rm-root').addEventListener('click', e => {
-  const lb = e.target.closest('#rm-langs button');
-  if (lb) { lang = lb.dataset.l; store('roles-lang', lang); render(); return }
   const rb = e.target.closest('#rm-roles button');
   if (rb) { role = rb.dataset.r; store('roles-role', role); history.replaceState(null, '', '#' + role); render(); $('#rm-main').scrollIntoView(); return }
   const cp = e.target.closest('.copy');
@@ -471,6 +463,7 @@ document.querySelector('.rm-root').addEventListener('click', e => {
   }
   if (e.target.closest('#rm-reset')) { scores = {quiz: {}, exam: {}}; store('roles-scores', scores); render() }
 });
+document.addEventListener('app:lang', e => { lang = e.detail; render() });
 addEventListener('hashchange', () => { const h = location.hash.slice(1); if (roleIds.includes(h) && h !== role) { role = h; render() } });
 render();
 })();

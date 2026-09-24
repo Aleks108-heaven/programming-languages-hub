@@ -1,0 +1,1540 @@
+{
+ "ui": {
+  "appName": "Programming Languages Hub",
+  "viewsAria": "Views",
+  "viewHub": "Study hub",
+  "viewRoles": "Role modules",
+  "language": "Language",
+  "theme": "Theme: {t}",
+  "themeAuto": "auto",
+  "themeLight": "light",
+  "themeDark": "dark",
+  "contents": "Contents",
+  "searchPh": "Search the hub…",
+  "searchAria": "Search the hub",
+  "searchHits": "{n} of {m} sections match · Enter to jump",
+  "searchNone": "No matches",
+  "lvIntern": "Intern",
+  "lvJunior": "Junior",
+  "lvMid": "Mid",
+  "lvlIntern": "Internship",
+  "lvlJunior": "Junior",
+  "lvlMid": "Mid-level",
+  "ready": "{d} of {n} ready",
+  "all": "All",
+  "allLangs": "<strong>All {n} languages.</strong> Pick a goal to narrow the list.",
+  "goalAria": "Filter by goal",
+  "check": "Check {i} of {n}",
+  "showHint": "Show hint",
+  "hideHint": "Hide hint",
+  "question": "Question {i} of {n}",
+  "answers": "Answers",
+  "answered": "{d} / {n} answered",
+  "score": "Score: {s} / {n}",
+  "correct": "Correct.",
+  "wrong": "Not quite.",
+  "submit": "Submit answers",
+  "retakeExam": "Retake exam",
+  "answerAll": "Answer all {n} questions first ({d} answered)",
+  "examResult": "{s} / {n} ({p}%): {v}.",
+  "passed": "passed",
+  "notPassed": "not passed yet",
+  "passedMsg": "Review any ✗ answers above.",
+  "failedMsg": "Read the explanation under each ✗, revisit those sections, then retake.",
+  "best": "Best: {s} / {n}",
+  "notAttempted": "Not attempted yet",
+  "examIntro": "{n} questions covering the whole hub. Answer every question, then submit to see your score. The pass mark is 70% ({p} of {n}). Your best score is saved on this device.",
+  "toReview": "To review: {n}",
+  "tileQuizzes": "Part quizzes",
+  "tileNone": "None completed yet",
+  "tileAvg": "Average best score {p}%",
+  "tileExam": "Final exam",
+  "tilePassed": "Passed",
+  "tilePassMark": "Pass mark {p}",
+  "tileReview": "Questions to review",
+  "tileReviewLink": "Review my mistakes →",
+  "tileNothing": "Nothing missed so far",
+  "copy": "Copy code",
+  "copied": "Copied",
+  "copyFailed": "Copy failed",
+  "taskAria": "Task",
+  "langAria": "Language",
+  "sqlAria": "SQL example",
+  "phase": "Phase {i}",
+  "learn": "Learn",
+  "build": "Build",
+  "doneWhen": "Done when"
+ },
+ "hero": "<div class=\"label\">Study hub · Intern → Junior → Mid · Expanded edition, September 2026</div>\r\n<h1>Programming Languages Hub</h1>\r\n<p class=\"lede\">What programming languages are, how source code becomes behaviour, which ecosystems matter in 2026, how SQL fits alongside them, and what to know at each career stage. Fundamentals that transfer, not one language memorised. Follow the structured path from first program to mid-level engineer, and check yourself with a quiz after every part.</p>\r\n<div class=\"pipe\" aria-label=\"Mental model\"><b>human intent</b><i>→</i><b>source code</b><i>→</i><b>parser / compiler / runtime</b><i>→</i><b>machine instructions + libraries</b><i>→</i><b>OS / hardware</b><i>→</i><b>observable behaviour</b></div>\r\n<div class=\"progress\" id=\"progress\"></div>\r\n<div class=\"stats\" id=\"summary\"></div>",
+ "sections": {
+  "what": "<h2>What is a programming language?</h2>\r\n<p>A formal system for expressing algorithms, data manipulation, rules and interactions with computers. Code follows the language's <strong>syntax</strong> (how valid code is written) and <strong>semantics</strong> (what it means). A compiler, interpreter, virtual machine, runtime, or a mix of these then executes or translates it into operations the computer can perform.</p>\r\n<p class=\"tip\"><b>Career lens</b>Languages are the most visible skill on a CV, but employers hire for the fundamentals a language carries: problem decomposition, debugging discipline, testing and system thinking. Treat a language as a vehicle for fundamentals.</p>",
+  "tools": "<h2>Language vs. tools vs. framework</h2>\r\n<div class=\"tw\"><table><thead><tr><th>Thing</th><th>What it is</th><th>Examples</th></tr></thead><tbody id=\"t-tools\"></tbody></table></div>\r\n<p class=\"tip\"><b>Interview check</b>Library vs framework is \"who calls whom\": your code calls a library; a framework calls your code. Also be ready to separate a language from its runtime.</p>",
+  "exec": "<h2>How code gets executed</h2>\r\n<div class=\"models\">\r\n<div class=\"model\"><h3>Ahead-of-time compilation</h3><p>Compiled to native machine code before it runs.</p><code>C · C++ · Go · Rust</code></div>\r\n<div class=\"model\"><h3>Bytecode + virtual machine</h3><p>Compiled to an intermediate form, executed by a runtime.</p><code>Java → JVM bytecode · C# → .NET IL</code></div>\r\n<div class=\"model\"><h3>Interpreted / runtime</h3><p>Executed by a language runtime; modern ones also use JIT compilation.</p><code>Python · JavaScript</code></div>\r\n<div class=\"model\"><h3>Transpilation</h3><p>One source language transformed into another before execution.</p><code>TypeScript → JavaScript</code></div>\r\n</div>\r\n<p class=\"note\"><strong>Keep in mind:</strong> \"compiled\" and \"interpreted\" are simplified labels. Modern runtimes combine parsing, bytecode, JIT compilation, caching, optimisation and native execution.</p>\r\n<h3>Deep dive: what happens when you \"run\" Python or JavaScript <span class=\"pill lv-mid\">Mid</span></h3>\r\n<ol class=\"steps\">\r\n<li><span><strong>Lexing/parsing:</strong> source text is tokenised and parsed into an abstract syntax tree (AST).</span></li>\r\n<li><span><strong>Lowering:</strong> the AST becomes bytecode (CPython <code>.pyc</code>; V8 Ignition bytecode).</span></li>\r\n<li><span><strong>Execution + profiling:</strong> the interpreter runs bytecode and records type/branch profiles of hot paths.</span></li>\r\n<li><span><strong>JIT optimisation:</strong> hot functions are recompiled to machine code (V8 TurboFan, PyPy tracing JIT). Broken assumptions trigger a <em>deopt</em> back to the interpreter.</span></li>\r\n<li><span><strong>Runtime services:</strong> garbage collection, built-ins and FFI boundaries run alongside your code.</span></li>\r\n</ol>\r\n<p class=\"note\"><strong>Consequences:</strong> the first run of Python code is slower than the second (bytecode caching); micro-benchmarks can lie (JIT warm-up); a deopt explains why a function suddenly slows down after a type change.</p>",
+  "quiz-1": "<div class=\"lvhead\"><h2>Quiz: Foundations</h2><span class=\"count score\"></span></div>\r\n<p>Four questions on what a language is, tools vs. frameworks, and how code gets executed. Pick an answer to see whether it's right and why.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Retake quiz</button>",
+  "concepts": "<h2>Core concepts that transfer</h2>\r\n<div class=\"tw\"><table><thead><tr><th>Concept</th><th>Why it matters</th></tr></thead><tbody id=\"t-concepts\"></tbody></table></div>\r\n<h3>Deep dive: type systems, the most transferable concept</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Axis</th><th>Meaning</th><th>Examples</th></tr></thead><tbody id=\"t-types\"></tbody></table></div>\r\n<ul class=\"checks\" style=\"list-style:disc;padding-left:20px;display:grid;gap:8px\">\r\n<li><strong>Gradual typing</strong> is the industry's compromise: Python <code>typing</code> (mypy/pyright) and TypeScript add static guarantees without losing dynamic flexibility.</li>\r\n<li><strong>Generics</strong> let code work over many types safely; understanding variance (in/out, covariance/contravariance) is a real mid-level discriminator.</li>\r\n<li><strong>Sum types / pattern matching</strong> (Rust enum + match, sealed classes in Java/Kotlin, TS discriminated unions) make invalid states unrepresentable.</li>\r\n<li><strong>Testing types:</strong> in static languages the compiler is a free, fast test suite; dynamic languages need more tests to cover what a compiler would catch.</li>\r\n</ul>",
+  "code": "<h2>Same task, six languages</h2>\r\n<p>Four everyday tasks written idiomatically in each language. Switch the task, then the language, and compare how each one handles collections, errors and concurrency.</p>\r\n<div class=\"tabs\" id=\"taskTabs\" role=\"group\" aria-label=\"Task\"></div>\r\n<div class=\"codehead\"><div class=\"tabs\" id=\"langTabs\" role=\"group\" aria-label=\"Language\"></div><button type=\"button\" class=\"reset noprint\" id=\"copyBtn\">Copy code</button></div>\r\n<div class=\"label\" id=\"snipCap\"></div>\r\n<pre class=\"code\"><code id=\"snippet\"></code></pre>\r\n<p class=\"note\" id=\"snipNote\"></p>",
+  "langs": "<h2>Major languages and where they fit</h2>\r\n<div class=\"tabs\" id=\"goalTabs\" role=\"group\" aria-label=\"Filter by goal\"></div>\r\n<div class=\"tw\"><table><thead><tr><th>Language</th><th>Strengths / ecosystem</th><th>Learning focus</th><th>Common use</th></tr></thead><tbody id=\"t-langs\"></tbody></table></div>\r\n<p class=\"note\" id=\"goalWhy\"></p>\r\n<h3>Language profiles, 2026 view</h3>\r\n<div class=\"profiles\" id=\"profiles\"></div>",
+  "memory": "<h2>Memory models compared</h2>\r\n<div class=\"tw\"><table><thead><tr><th>Model</th><th>Languages</th><th>Tradeoff</th></tr></thead><tbody id=\"t-mem\"></tbody></table></div>\r\n<p class=\"note\"><strong>Mid-level bar:</strong> explain why GC exists, what a leak looks like in a GC language (unintentionally retained references), and when ownership-based or manual management is worth the cost.</p>",
+  "quiz-2": "<div class=\"lvhead\"><h2>Quiz: Concepts, languages &amp; memory</h2><span class=\"count score\"></span></div>\r\n<p>Four questions on type systems, the major languages and memory models. Pick an answer to see whether it's right and why.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Retake quiz</button>",
+  "sql": "<h2>SQL &amp; database programming</h2>\r\n<p>SQL (Structured Query Language) is generally considered a programming language, more specifically a <strong>domain-specific language (DSL)</strong> for querying and managing relational databases. It is <strong>declarative</strong>: developers describe the desired data operation or result, while the database management system determines how to execute it. SQL complements general-purpose languages such as Python, Java, C#, JavaScript, Go and Rust.</p>\r\n<p class=\"tip\"><b>Declarative vs. imperative</b>In Python you write the loop that walks through customers and keeps the German ones. In SQL you write <code>SELECT name FROM customers WHERE country = 'DE'</code>, and the database's query planner chooses whether to scan the table or use an index. Most applications use both: a general-purpose language for logic, SQL for the data.</p>\r\n<h3>Core SQL skills</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Skill</th><th>What to know</th></tr></thead><tbody id=\"t-sql\"></tbody></table></div>\r\n<h3>SQL learning progression</h3>\r\n<p>Tick what you can already do. These levels line up with the phases of the structured learning path.</p>\r\n<div class=\"sqllv\">\r\n<div class=\"lv-intern\"><span class=\"pill\">Internship</span><ul class=\"checks\" data-lv=\"sqlintern\"></ul></div>\r\n<div class=\"lv-junior\"><span class=\"pill\">Junior</span><ul class=\"checks\" data-lv=\"sqljunior\"></ul></div>\r\n<div class=\"lv-mid\"><span class=\"pill\">Mid-level</span><ul class=\"checks\" data-lv=\"sqlmid\"></ul></div>\r\n</div>\r\n<h3>SQL in practice</h3>\r\n<p>Examples use a small shop schema: <code>customers(id, name, country)</code>, <code>orders(id, customer_id, total, created_at)</code> and <code>accounts(id, balance)</code>. PostgreSQL syntax.</p>\r\n<div class=\"codehead\"><div class=\"tabs\" id=\"sqlTabs\" role=\"group\" aria-label=\"SQL example\"></div><button type=\"button\" class=\"reset noprint\" id=\"sqlCopy\">Copy code</button></div>\r\n<pre class=\"code\"><code id=\"sqlCode\"></code></pre>\r\n<p class=\"note\" id=\"sqlNote\"></p>\r\n<h3>Dialect differences</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Database</th><th>Limit rows</th><th>Auto-increment key</th><th>Notes</th></tr></thead><tbody id=\"t-dialects\"></tbody></table></div>\r\n<p class=\"note\"><strong>Portable habit:</strong> learn standard SQL first (PostgreSQL or SQLite are good places to practise), then look up dialect details when a job needs them. Joins, aggregation and transactions carry across every database.</p>",
+  "quiz-sql": "<div class=\"lvhead\"><h2>Quiz: SQL &amp; databases</h2><span class=\"count score\"></span></div>\r\n<p>Five questions on SQL's nature, joins, aggregation, injection and transactions. Pick an answer to see whether it's right and why.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Retake quiz</button>",
+  "landscape": "<h2>The 2026 popularity &amp; salary landscape</h2>\r\n<p>Popularity depends on how you measure it. Each tracker crowns a different winner.</p>\r\n<div class=\"stats\">\r\n<div class=\"stat\"><span class=\"label\">Surveys · usage</span><span class=\"v\">JavaScript</span><span class=\"w\">~66–69% of professional devs (Stack Overflow 2025, 49,000+ respondents)</span></div>\r\n<div class=\"stat\"><span class=\"label\">GitHub · contributors</span><span class=\"v\">TypeScript</span><span class=\"w\">#1 since August 2025, ~67% year-over-year growth</span></div>\r\n<div class=\"stat\"><span class=\"label\">Search · TIOBE</span><span class=\"v\">Python 21.81%</span><span class=\"w\">Feb 2026, 10+ points ahead of C, the widest gap in 25 years</span></div>\r\n<div class=\"stat\"><span class=\"label\">Admiration</span><span class=\"v\">Rust ~72%</span><span class=\"w\">Most admired for ~10 consecutive years</span></div>\r\n</div>\r\n<p class=\"tip\"><b>For learners</b>JS/TS dominate general software work; Python dominates data/AI and is the fastest-growing mainstream language; SQL (used by ~59–61% of developers) is worth learning whatever your main language is.</p>\r\n<h3>Salary signals · approx. US medians, 2026 roundups</h3>\r\n<div class=\"sal\" role=\"img\" aria-label=\"Salary ranges by language, 100K to 210K US dollars\">\r\n<div class=\"axis\"><span></span><div><span>$100K</span><span>$155K</span><span>$210K</span></div><span></span></div>\r\n<div id=\"sal\"></div>\r\n</div>\r\n<p class=\"note\"><strong>Pay follows scarcity and risk-criticality, not popularity.</strong> JS and Python have the most jobs and the most candidates; hard languages in high-stakes domains (Rust in infrastructure, C++ in HFT/games, Scala in finance) pay premiums. Python's ML premium (amber bar) comes from the specialisation, not the language. Figures are directional and vary a lot by region.</p>",
+  "quiz-3": "<div class=\"lvhead\"><h2>Quiz: The 2026 landscape</h2><span class=\"count score\"></span></div>\r\n<p>Four questions on popularity trackers and salary signals. Pick an answer to see whether it's right and why.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Retake quiz</button>",
+  "ai": "<h2>AI-assisted development</h2>\r\n<p>AI coding assistants are standard: 82% of developers in Stack Overflow's 2025 survey used OpenAI's GPT models for development in the past year. That changes what to learn.</p>\r\n<div class=\"models\">\r\n<div class=\"model\"><h3>Fundamentals matter more</h3><p>Assistants accelerate people who can review, correct and verify code, and amplify gaps for those who can't.</p></div>\r\n<div class=\"model\"><h3>Verification is the career</h3><p>Describe requirements precisely (inputs, outputs, edge cases, constraints), then test the result like code you didn't write.</p></div>\r\n<div class=\"model\"><h3>Know what you ship</h3><p>You own licence, security and correctness. Never paste secrets into assistants; scan generated dependencies.</p></div>\r\n<div class=\"model\"><h3>Language synergy</h3><p>Help is strongest in mainstream languages (Python, TypeScript, Java) and weaker in niche languages and internal frameworks.</p></div>\r\n</div>\r\n<p class=\"note\"><strong>Still differentiating:</strong> problem decomposition, architecture, debugging production systems and judgement about tradeoffs.</p>",
+  "quiz-4": "<div class=\"lvhead\"><h2>Quiz: AI-assisted development</h2><span class=\"count score\"></span></div>\r\n<p>Four questions on working with AI coding assistants. Pick an answer to see whether it's right and why.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Retake quiz</button>",
+  "intern": "<div class=\"lvhead\"><h2>Internship expectations</h2><span class=\"count\" data-c=\"intern\"></span></div>\r\n<p>The goal is not to know every feature. Understand a problem, write small programs, run, debug and test them, and explain the result. Tick what you can already do.</p>\r\n<p class=\"tip\"><b>Go deeper: Role Modules</b>Separate internship, junior and mid-level modules with detailed lessons, language-specific notes, code examples, a quiz and an exam for each role, in English, Ukrainian, Polish and Spanish. <a href=\"#roles\">Open Role Modules →</a></p><ul class=\"checks\" data-lv=\"intern\"></ul>\r\n<p class=\"tip\"><b>Realistic 3-month plan</b>Weeks 1–4: fundamentals + one language. Weeks 5–8: small projects with tests and Git. Weeks 9–12: a small API or automation project with CI and code review from a mentor.</p>",
+  "junior": "<div class=\"lvhead\"><h2>Junior expectations</h2><span class=\"count\" data-c=\"junior\"></span></div><ul class=\"checks\" data-lv=\"junior\"></ul>",
+  "mid": "<div class=\"lvhead\"><h2>Mid-level expectations</h2><span class=\"count\" data-c=\"mid\"></span></div><ul class=\"checks\" data-lv=\"mid\"></ul>",
+  "depth": "<h2>How deep to go, per stage</h2>\r\n<div class=\"tw\"><table><thead><tr><th>Stage</th><th>Learn deeply</th><th>Can wait</th></tr></thead><tbody>\r\n<tr class=\"lv-intern\"><td><span class=\"pill\">Intern</span></td><td>Syntax, types, control flow, functions, collections, basic OOP, errors, tests, Git, debugging.</td><td>Advanced metaprogramming, compiler internals, advanced concurrency, micro-optimisations.</td></tr>\r\n<tr class=\"lv-junior\"><td><span class=\"pill\">Junior</span></td><td>Idioms, modules, dependency management, testing, async/concurrency basics, APIs, databases, CI/CD.</td><td>Language-spec edge cases and specialised runtime internals unless job-relevant.</td></tr>\r\n<tr class=\"lv-mid\"><td><span class=\"pill\">Mid</span></td><td>Runtime behaviour, architecture, performance, observability, security, concurrency, design tradeoffs.</td><td>Knowing every library feature by memory; use documentation effectively instead.</td></tr>\r\n</tbody></table></div>",
+  "choose": "<h2>Choosing a first or next language</h2>\r\n<p>Choose based on the target work, not popularity alone. The goal filter in \"Major languages\" uses this table.</p>\r\n<div class=\"tw\"><table><thead><tr><th>Goal</th><th>Consider</th><th>Why</th></tr></thead><tbody id=\"t-goals\"></tbody></table></div>\r\n<p class=\"tip\"><b>A common two-language combo</b>Python (data, automation, testing) + TypeScript (product and web work) covers a large share of 2026 job postings. Add Go or Rust later if you move toward infrastructure or systems.</p>",
+  "qa": "<h2>From a QA perspective</h2>\r\n<p>A QA engineer doesn't need to become a full-time developer. Programming literacy improves test design, automation, API testing, debugging, log analysis, CI/CD work and communication with developers.</p>\r\n<ul class=\"checks\" data-lv=\"qa\"></ul>\r\n<p class=\"tip\"><b>ISTQB and programming languages</b>ISTQB certifications are tool- and language-agnostic: they do not teach or require proficiency in any specific programming language. ISTQB focuses strictly on software testing methodologies, principles, terminology and frameworks. The programming skills on this page complement a certification; they are not part of it.</p>",
+  "path": "<h2>Structured learning path</h2>\r\n<p>Five phases from first program to mid-level engineer. Each phase has a goal, what to learn, what to build, and \"done when\" criteria. Move on when you meet the criteria, not when the calendar says so.</p>\r\n<p class=\"tip\"><b>How to use this path</b>Timings assume about 10–15 hours a week; full-time learners can often halve them. Stay with one main language until phase 3. Spend most of your time building and debugging, not watching tutorials. After each phase, retake the related quizzes and clear your review list.</p>\r\n<div class=\"phases\" id=\"phases\"></div>\r\n<p class=\"note\"><strong>Where the rest of the hub fits:</strong> the numbered steps are in the learning sequence below, the stage checklists (internship, junior, mid-level) measure readiness, the project table gives a build for each level, and the SQL progression runs alongside phases 2–5.</p>",
+  "sequence": "<h2>Recommended learning sequence</h2>\r\n<p>A real order: each step builds on the previous one, and the phases of the structured path group these steps. Tick steps as you finish them.</p><ol class=\"seq\" id=\"seq\"></ol>",
+  "projects": "<h2>Practical project progression</h2>\r\n<div class=\"tw\"><table><thead><tr><th>Level</th><th>Project</th><th>Skills demonstrated</th></tr></thead><tbody id=\"t-proj\"></tbody></table></div>\r\n<p class=\"tip\"><b>Portfolio tip</b>One finished, tested, documented project with a README, CI badge and live demo beats five half-finished repos. Write the README for a hiring engineer: problem, design choices, how to run it, known limitations.</p>",
+  "mistakes-s": "<h2>Common beginner mistakes</h2><ul class=\"mistakes\" id=\"mistakes\"></ul>",
+  "quiz-5": "<div class=\"lvhead\"><h2>Quiz: Career stages &amp; QA</h2><span class=\"count score\"></span></div>\r\n<p>Five questions on stage expectations, choosing a language, the QA view and projects. Pick an answer to see whether it's right and why.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Retake quiz</button>",
+  "selfcheck": "<h2>Self-check</h2>\r\n<p>The guide's QA-style verification checklist, as questions. Answer out loud first, then reveal a hint.</p><div class=\"quiz\" id=\"quiz\"></div>",
+  "exam": "<div class=\"lvhead\"><h2>Final exam</h2><span class=\"count\" id=\"examBest\"></span></div>\r\n<p id=\"examIntro\"></p>\r\n<div class=\"quiz\" id=\"examQ\"></div>\r\n<div class=\"examfoot\"><button type=\"button\" class=\"act\" id=\"examSubmit\">Submit answers</button><span class=\"count\" id=\"examMsg\" aria-live=\"polite\"></span></div>\r\n<p class=\"note\" id=\"examResult\" aria-live=\"polite\" hidden></p>",
+  "review": "<div class=\"lvhead\"><h2>Review my mistakes</h2><span class=\"count\" id=\"reviewCount\"></span></div>\r\n<p>Every question you miss in a part quiz or the final exam lands here. Answer it correctly to clear it from the list.</p>\r\n<div class=\"quiz\" id=\"reviewQ\"></div><p class=\"note\" id=\"reviewEmpty\" hidden>Nothing to review. Missed questions from the quizzes and the exam will appear here.</p>\r\n<button type=\"button\" class=\"reset\" id=\"reviewRefresh\">Refresh list</button>",
+  "refs-s": "<h2>Reference map</h2>\r\n<h3>Official documentation</h3><ul class=\"refs\" id=\"refs\"></ul>\r\n<h3>Practice</h3><ul class=\"refs\" id=\"practice\"></ul>\r\n<h3>Companion app</h3>\r\n<p class=\"tip\"><b>Role Modules</b>Internship, junior and mid-level modules with detailed lessons, language-specific notes, code examples, a quiz and an exam for each role, in English, Ukrainian, Polish and Spanish. <a href=\"#roles\">Open Role Modules →</a></p>\r\n<p class=\"note\"><strong>Sources.</strong> Official docs (Python, MDN, TypeScript, Dev.java, Microsoft Learn, Go, Kotlin) checked September 2026. Landscape data: Stack Overflow Developer Survey 2025, GitHub Octoverse 2025, TIOBE (Feb 2026), PYPL, and 2026 salary roundups (Stack Overflow, DICE, US labour statistics). Treat any single ranking as one signal, not ground truth.</p>\r\n<p class=\"bottom\"><strong>Bottom line.</strong> Learn one language deeply enough to understand the fundamentals, then learn more by comparing type systems, execution models, memory models, concurrency models, tooling and ecosystems. For a QA-oriented path, TypeScript/JavaScript and Python are strong starting points; Java, C#, Go, Rust and C++ show you different engineering models. In 2026, add two habits: verify AI-generated code like code you didn't write, and let data (surveys, commit activity, local job listings), not hype, guide your language choices.</p>\r\n<button class=\"reset\" id=\"reset\" type=\"button\">Clear my progress on this device</button>"
+ },
+ "data": {
+  "tools": [
+   [
+    "Programming language",
+    "Rules for expressing computation.",
+    "Python, JavaScript, Java, C#, C++, Go, Rust, Kotlin"
+   ],
+   [
+    "Compiler / interpreter / runtime",
+    "Turns source into executable behaviour or executes it.",
+    "JVM, .NET runtime, Python interpreter, Go compiler, Rust compiler"
+   ],
+   [
+    "Standard library",
+    "Built-in APIs supplied with the language/platform.",
+    "Python stdlib, Java Collections, .NET BCL"
+   ],
+   [
+    "Package manager",
+    "Installs and manages dependencies.",
+    "npm, pip, Maven/Gradle, NuGet, Cargo, Go modules"
+   ],
+   [
+    "Framework",
+    "Higher-level structure for building applications.",
+    "React, Spring, ASP.NET Core, Django, Angular"
+   ],
+   [
+    "IDE / editor",
+    "Writing, navigating, debugging and refactoring code.",
+    "VS Code, IntelliJ IDEA, Visual Studio, PyCharm"
+   ],
+   [
+    "Build tool",
+    "Automates compilation, bundling, testing, packaging.",
+    "Maven, Gradle, MSBuild, Vite, CMake"
+   ],
+   [
+    "Version control",
+    "Tracks source changes and collaboration.",
+    "Git, GitHub, GitLab"
+   ]
+  ],
+  "concepts": [
+   [
+    "Syntax",
+    "How valid code is written."
+   ],
+   [
+    "Semantics",
+    "What valid code means and does."
+   ],
+   [
+    "Variables and values",
+    "Names/references and the data they hold."
+   ],
+   [
+    "Types",
+    "Which values can be stored and which operations are valid."
+   ],
+   [
+    "Control flow",
+    "if/else, loops, branching, exceptions, early returns."
+   ],
+   [
+    "Functions",
+    "Reusable units of behaviour with inputs and outputs."
+   ],
+   [
+    "Data structures",
+    "Lists, maps, sets, queues, trees, graphs."
+   ],
+   [
+    "Modules / packages",
+    "Ways to organise and reuse code."
+   ],
+   [
+    "Error handling",
+    "Exceptions, error values, result types, validation, recovery."
+   ],
+   [
+    "Concurrency",
+    "Threads, async tasks, actors, goroutines."
+   ],
+   [
+    "Memory",
+    "Stack/heap, allocation, references, ownership, GC or manual management."
+   ],
+   [
+    "I/O and networking",
+    "Files, processes, HTTP, sockets, databases, external services."
+   ],
+   [
+    "Testing",
+    "Unit, integration, API, component, E2E, performance, security."
+   ],
+   [
+    "Debugging",
+    "Logs, breakpoints, traces and minimal reproductions."
+   ]
+  ],
+  "types": [
+   [
+    "Static vs. dynamic",
+    "Types checked at compile time vs. at runtime.",
+    "Java, C#, Rust, TS (static) vs. Python, JS, Ruby (dynamic)"
+   ],
+   [
+    "Strong vs. weak",
+    "How much implicit conversion/coercion is allowed.",
+    "Python (strong) vs. JavaScript <code>==</code> coercion (weak)"
+   ],
+   [
+    "Nominal vs. structural",
+    "Types matched by declared name vs. by shape.",
+    "Java/C# (nominal) vs. TypeScript/Go interfaces (structural)"
+   ],
+   [
+    "Explicit vs. inferred",
+    "Types written out vs. deduced by the compiler.",
+    "Haskell/Rust (heavy inference), Java pre-10 (explicit)"
+   ],
+   [
+    "Nullability",
+    "Whether null/None is part of every type.",
+    "Kotlin, Swift, Rust, TS strictNullChecks separate nullable types; Java Optional and Python typing.Optional approximate it"
+   ]
+  ],
+  "memory": [
+   [
+    "Garbage collected (tracing)",
+    "Java, C#, Go, JavaScript",
+    "Easiest to use; pauses/overhead. Go's GC is tuned for low latency."
+   ],
+   [
+    "Reference counting + cycle collector",
+    "Python, Swift, Rust (Rc/Arc)",
+    "Predictable, but cycles need care (Python <code>__del__</code> caveats)."
+   ],
+   [
+    "Ownership / borrow checker",
+    "Rust",
+    "No GC, memory safety at compile time; steeper learning curve."
+   ],
+   [
+    "Manual management",
+    "C, C++",
+    "Maximum control; use-after-free and leaks are your responsibility."
+   ]
+  ],
+  "languages": [
+   [
+    "Python",
+    "Readable syntax, broad stdlib, large ecosystem.",
+    "Functions, data structures, OOP, typing, testing, packaging.",
+    "Automation, backend, data, AI/ML, scripting, QA"
+   ],
+   [
+    "JavaScript",
+    "Web-native, mature browser and server ecosystems.",
+    "Async, DOM, modules, promises, APIs.",
+    "Frontend, Node.js backend, tooling, automation"
+   ],
+   [
+    "TypeScript",
+    "JavaScript plus static type checking.",
+    "Types, narrowing, generics, modules, compiler options.",
+    "Web apps, Node.js, large JS codebases, test automation"
+   ],
+   [
+    "Java",
+    "Mature JVM ecosystem, strong typing, enterprise tooling.",
+    "OOP, collections, generics, exceptions, concurrency, JVM.",
+    "Backend, enterprise, Android ecosystem, services"
+   ],
+   [
+    "C#",
+    "Modern strongly typed language for .NET.",
+    "OOP, LINQ, async/await, generics, .NET runtime.",
+    "Backend, enterprise, desktop, cloud, Unity games"
+   ],
+   [
+    "C++",
+    "Performance, low-level control, mature systems ecosystem.",
+    "Memory, RAII, templates, STL, build systems.",
+    "Systems, embedded, games, performance-critical"
+   ],
+   [
+    "Go",
+    "Simple syntax, fast compilation, built-in concurrency.",
+    "Packages, interfaces, errors, goroutines, channels, testing.",
+    "Cloud services, networking, infrastructure, tooling"
+   ],
+   [
+    "Rust",
+    "Memory safety without traditional GC.",
+    "Ownership, borrowing, traits, lifetimes, Result/Option.",
+    "Systems, infrastructure, security-sensitive software"
+   ],
+   [
+    "Kotlin",
+    "Concise JVM language, strong Java interop.",
+    "Null safety, classes, collections, coroutines.",
+    "Android, JVM backend, multiplatform"
+   ],
+   [
+    "Swift",
+    "Apple ecosystem, strong type and safety features.",
+    "Optionals, structs/classes, protocols, concurrency.",
+    "iOS / macOS / watchOS / tvOS"
+   ],
+   [
+    "PHP",
+    "Web-focused, very large installed base.",
+    "Modern PHP, OOP, Composer, HTTP, testing.",
+    "Web backends and CMS ecosystems"
+   ],
+   [
+    "Ruby",
+    "Expressive syntax, productive web ecosystem.",
+    "Objects, blocks, metaprogramming basics, testing.",
+    "Web development, automation, scripting"
+   ]
+  ],
+  "goals": [
+   [
+    "Web frontend",
+    [
+     "JavaScript",
+     "TypeScript"
+    ],
+    "Browser ecosystem and modern web tooling."
+   ],
+   [
+    "QA automation",
+    [
+     "TypeScript",
+     "JavaScript",
+     "Python",
+     "Java",
+     "C#"
+    ],
+    "Strong automation ecosystems and good integration with test tools."
+   ],
+   [
+    "Backend services",
+    [
+     "Java",
+     "C#",
+     "Go",
+     "Python",
+     "TypeScript",
+     "Kotlin"
+    ],
+    "Mature frameworks and service ecosystems."
+   ],
+   [
+    "Systems / performance",
+    [
+     "C++",
+     "Rust",
+     "Go"
+    ],
+    "Control, predictable performance, efficient systems development."
+   ],
+   [
+    "Data / AI / automation",
+    [
+     "Python"
+    ],
+    "Strong libraries and productive scripting/data workflows."
+   ],
+   [
+    "Android",
+    [
+     "Kotlin"
+    ],
+    "Modern Android ecosystem."
+   ],
+   [
+    "Apple platforms",
+    [
+     "Swift"
+    ],
+    "Native Apple development."
+   ]
+  ],
+  "profiles": [
+   [
+    "Python",
+    "The AI/ML era's default. Stack Overflow usage grew ~7 points in 2024→2025, the largest jump of any language. Modern Python (3.12+): type hints, uv/ruff tooling, async. Still the strongest pick for QA automation and data work."
+   ],
+   [
+    "TypeScript",
+    "The language of large-scale web work: #1 by GitHub contributors in 2025. Core professional skills: generics, discriminated unions and strict mode."
+   ],
+   [
+    "JavaScript",
+    "Still the most-used language (~66–69% of professional developers) because the browser is non-negotiable. Learn the runtime (event loop, promises) as deeply as the syntax."
+   ],
+   [
+    "Rust",
+    "Most admired for ~10 years (~72% want to keep using it); user base more than doubled since 2022. Learn ownership first; slow ramp, big payoff in systems and high-performance backends."
+   ],
+   [
+    "Go",
+    "The pragmatic cloud language (Kubernetes, Docker, most CNCF projects). Fast to learn from Python/Java; strong salaries, broad demand, small language surface."
+   ],
+   [
+    "Java / C#",
+    "Enterprise workhorses with huge, stable job markets. Actively modernised: records, pattern matching, virtual threads (Java); top-level statements, Span, minimal APIs (C#)."
+   ],
+   [
+    "C++",
+    "Not growing in usage but concentrated in high-value domains (games, HFT, embedded, browsers). Learn it if you target those domains."
+   ],
+   [
+    "Kotlin",
+    "The default for Android and growing server-side (Ktor, Spring). Coroutines are the key differentiating skill."
+   ],
+   [
+    "Swift",
+    "Apple platforms only, but lucrative and stable. SwiftUI + async/await is the modern core."
+   ]
+  ],
+  "salaries": [
+   [
+    "Solidity",
+    200,
+    200,
+    "~$200K"
+   ],
+   [
+    "Rust",
+    155,
+    185,
+    "$155–185K"
+   ],
+   [
+    "Go",
+    132,
+    155,
+    "$132–155K"
+   ],
+   [
+    "Scala",
+    150,
+    150,
+    "~$150K"
+   ],
+   [
+    "Kotlin / Swift",
+    130,
+    135,
+    "$130–135K"
+   ],
+   [
+    "TypeScript",
+    128,
+    132,
+    "$128–132K"
+   ],
+   [
+    "Python",
+    125,
+    125,
+    "~$125K"
+   ],
+   [
+    "Python · ML",
+    150,
+    175,
+    "$150–175K+",
+    1
+   ],
+   [
+    "Java / C# / JS",
+    110,
+    130,
+    "$110–130K"
+   ]
+  ],
+  "checklists": {
+   "intern": [
+    "Understand variables, common types, operators, conditions, loops and functions.",
+    "Use basic collections and pick a fitting structure for a simple problem.",
+    "Read existing code and follow data flow through functions/modules.",
+    "Use Git: clone, branch, status, diff, commit, pull, push, resolve simple conflicts.",
+    "Use an IDE/editor, terminal, formatter and debugger.",
+    "Install dependencies and understand a basic package/build configuration.",
+    "Write basic automated tests; understand assertions, fixtures/setup and isolation.",
+    "Read error messages and create a minimal reproducible example.",
+    "Understand HTTP, JSON, REST basics and client/server terminology.",
+    "Security hygiene: no committed secrets, validate input, authentication vs authorization."
+   ],
+   "junior": [
+    "Build small-to-medium features with limited supervision.",
+    "Write idiomatic code instead of translating another language literally.",
+    "Use modules, interfaces/abstractions, dependency management and configuration correctly.",
+    "Write meaningful unit and integration tests; understand mocks/stubs and their tradeoffs.",
+    "Debug systematically with logs, stack traces, breakpoints, traces and source control.",
+    "Review pull requests and explain tradeoffs in readability, reliability, performance, maintainability.",
+    "Understand database basics, transactions, indexes and common API failure modes.",
+    "Understand async/concurrent execution where relevant to the ecosystem.",
+    "Use CI pipelines and quality gates: linting, formatting, tests, builds, artifacts.",
+    "Recognise injection, broken access control, insecure secrets and unsafe dependencies.",
+    "Use AI assistants responsibly: generate, then verify, and explain every line you merge."
+   ],
+   "mid": [
+    "Design components and interfaces with clear responsibilities and dependency boundaries.",
+    "Choose data structures and algorithms by complexity and operational constraints.",
+    "Reason about performance, memory, concurrency, failure recovery and observability.",
+    "Understand runtime behaviour: GC, VMs/JITs, compilation, networking, OS interactions.",
+    "Lead debugging of production-like failures; separate symptoms from root causes.",
+    "Design test strategies, not just individual tests.",
+    "Manage dependencies, version compatibility, migrations and backward compatibility.",
+    "Make architectural tradeoffs explicit; evaluate reversibility and operational risk.",
+    "Mentor juniors through code review, pairing and technical explanations.",
+    "Contribute to standards and automation without adding unnecessary complexity.",
+    "Evaluate AI tooling critically: where it speeds the team up, where it adds review burden or risk."
+   ],
+   "sqlintern": [
+    "Write SELECT queries with WHERE filtering and ORDER BY sorting.",
+    "Join two tables with a simple INNER or LEFT JOIN.",
+    "Insert, update and delete rows (CRUD).",
+    "Explain tables, rows, columns, primary keys and foreign keys."
+   ],
+   "sqljunior": [
+    "Join several tables and aggregate with GROUP BY and HAVING.",
+    "Group related changes in a transaction with COMMIT and ROLLBACK.",
+    "Protect data with constraints: NOT NULL, UNIQUE, CHECK and foreign keys.",
+    "Add an index and confirm the database uses it.",
+    "Change the schema only through migrations; manage seed and test data.",
+    "Use parameterised queries every time."
+   ],
+   "sqlmid": [
+    "Read execution plans and optimise slow queries.",
+    "Choose isolation levels and reason about concurrency anomalies.",
+    "Diagnose locking, blocking and deadlocks.",
+    "Use advanced SQL: window functions, recursive CTEs and upserts.",
+    "Model data: normalisation, when to denormalise, and schema evolution."
+   ],
+   "qa": [
+    "Read production code to find testable behaviour, boundaries and failure paths.",
+    "Write deterministic automation rather than fragile UI scripts.",
+    "Generate test data programmatically, including boundary and invalid data.",
+    "Validate API contracts, status codes, headers, JSON schemas and error behaviour.",
+    "Build helpers/fixtures that reduce duplication without hiding behaviour.",
+    "Use parameterised tests for equivalence classes and boundary-value analysis.",
+    "Inspect async behaviour and race conditions in distributed or multi-user systems.",
+    "Run static analysis, linters, dependency checks and security scanners in CI.",
+    "Treat AI-generated test code like product code: check assertions test behaviour, not implementation."
+   ]
+  },
+  "sequence": [
+   "Fundamentals: values → variables → types → expressions → control flow",
+   "Functions and decomposition: inputs, outputs, side effects, modules",
+   "Collections and data structures",
+   "Error handling and defensive programming",
+   "OOP and/or functional concepts, and when each helps",
+   "Git and collaborative development",
+   "Testing: unit → integration → API/component → E2E",
+   "HTTP, JSON, REST APIs, SQL and relational databases",
+   "Package management and build tools",
+   "Debugging, logging and observability",
+   "Concurrency / asynchronous programming",
+   "Security and dependency management",
+   "Performance and profiling",
+   "Architecture and maintainability"
+  ],
+  "projects": [
+   [
+    "intern",
+    "CLI calculator / task tracker",
+    "Syntax, functions, collections, validation, tests"
+   ],
+   [
+    "intern",
+    "Small REST API client",
+    "HTTP, JSON, error handling, test data"
+   ],
+   [
+    "junior",
+    "CRUD API + database",
+    "Architecture, persistence, validation, integration tests"
+   ],
+   [
+    "junior",
+    "UI + API automated test project",
+    "Fixtures, page objects where useful, API helpers, CI"
+   ],
+   [
+    "mid",
+    "Service with authentication and observability",
+    "Security, logging, metrics, failure handling (Junior → Mid)"
+   ],
+   [
+    "mid",
+    "Multi-service or production-like system",
+    "Contracts, resilience, concurrency, performance, architecture"
+   ]
+  ],
+  "mistakes": [
+   "Learning syntax without learning debugging.",
+   "Copying framework code without understanding the language underneath.",
+   "Using libraries before understanding the standard library.",
+   "Overusing inheritance instead of simpler composition.",
+   "Ignoring error handling because the happy path works.",
+   "Writing tests that only repeat implementation details.",
+   "Treating asynchronous code as if it were always sequential.",
+   "Committing secrets or trusting client-side code.",
+   "Optimising performance before measuring it.",
+   "Memorising documentation instead of learning to navigate it.",
+   "Pasting AI-generated code without understanding it.",
+   "Chasing trendy languages before fundamentals are solid."
+  ],
+  "selfCheck": [
+   [
+    "Can you explain the difference between a language, runtime, library and framework?",
+    "Language = rules; runtime = executes it; library = code you call; framework = calls your code."
+   ],
+   [
+    "Can you run code from both an IDE and a terminal?",
+    "Know the exact command your IDE runs for you (python app.py, npm test, dotnet run)."
+   ],
+   [
+    "Can you interpret a compiler/interpreter/runtime error?",
+    "Read the error type, the message, then the first stack frame in your own code."
+   ],
+   [
+    "Can you write a small function and test normal, boundary and invalid inputs?",
+    "For age 18–65: test 30, then 17/18/65/66, then -1, null and \"abc\"."
+   ],
+   [
+    "Can you trace data through modules and identify side effects?",
+    "Follow one value from input to output; note every write to a file, DB, network or shared state."
+   ],
+   [
+    "Can you explain where dependencies come from and how versions are controlled?",
+    "Registry (npm, PyPI, Maven Central), manifest, lock file, semantic versioning."
+   ],
+   [
+    "Can you reproduce a defect before attempting a fix?",
+    "A fix you can't verify against a reproduction is a guess."
+   ],
+   [
+    "Can you explain what your tests prove, and what they do not?",
+    "Tests show the presence of defects, not their absence (ISTQB principle 1)."
+   ],
+   [
+    "Can you name a performance, reliability and security risk in a small app?",
+    "E.g. N+1 queries, no retries/timeouts on HTTP calls, unvalidated input reaching SQL."
+   ],
+   [
+    "Can you review AI-generated code and explain why it is (or is not) correct and safe?",
+    "Check edge cases, error paths, invented APIs, licence and new dependencies, then run the tests."
+   ]
+  ],
+  "quizzes": {
+   "p1": [
+    [
+     "In the \"who calls whom\" rule, which one calls <em>your</em> code?",
+     [
+      "A library",
+      "A framework",
+      "A package manager",
+      "A compiler"
+     ],
+     1,
+     "Your code calls a library; a framework calls your code."
+    ],
+    [
+     "TypeScript becoming JavaScript before it runs is an example of…",
+     [
+      "Ahead-of-time compilation to native code",
+      "Bytecode + virtual machine",
+      "Transpilation",
+      "Pure interpretation"
+     ],
+     2,
+     "Transpilation turns one source language into another before execution."
+    ],
+    [
+     "What does the Java compiler produce?",
+     [
+      "Native machine code",
+      "JVM bytecode",
+      "JavaScript",
+      "Nothing; Java is interpreted from source"
+     ],
+     1,
+     "Java compiles to JVM bytecode, which the JVM runs (and JIT-compiles when code is hot)."
+    ],
+    [
+     "A hot JavaScript function suddenly slows down after it receives a different type. The most likely cause?",
+     [
+      "Garbage collection stopped",
+      "A JIT deopt back to the interpreter",
+      "The parser re-ran",
+      "Bytecode caching was disabled"
+     ],
+     1,
+     "The JIT optimised for the old type; broken assumptions trigger a deopt."
+    ]
+   ],
+   "p2": [
+    [
+     "TypeScript and Go interfaces match types by their shape. This is called…",
+     [
+      "Nominal typing",
+      "Structural typing",
+      "Weak typing",
+      "Explicit typing"
+     ],
+     1,
+     "Structural typing matches by shape; nominal typing (Java, C#) matches by declared name."
+    ],
+    [
+     "JavaScript's <code>==</code> coercion (e.g. <code>\"1\" == 1</code> is true) is an example of…",
+     [
+      "Weak typing",
+      "Static typing",
+      "Type inference",
+      "Nullability"
+     ],
+     0,
+     "Weak typing allows a lot of implicit conversion; Python, which is strongly typed, would not coerce here."
+    ],
+    [
+     "Which language powers Kubernetes, Docker and most CNCF projects?",
+     [
+      "Rust",
+      "Go",
+      "Kotlin",
+      "Ruby"
+     ],
+     1,
+     "Go is the pragmatic cloud language: small surface, fast compilation, built-in concurrency."
+    ],
+    [
+     "What does a memory leak usually look like in a garbage-collected language?",
+     [
+      "Forgetting to call free()",
+      "Use-after-free",
+      "References retained unintentionally",
+      "Stack overflow"
+     ],
+     2,
+     "The GC can't free objects you still (accidentally) reference, such as an ever-growing cache."
+    ]
+   ],
+   "p3": [
+    [
+     "According to the salary signals, what mainly drives pay premiums?",
+     [
+      "Popularity",
+      "Scarcity and risk-criticality",
+      "Language age",
+      "Syntax simplicity"
+     ],
+     1,
+     "Rust in infrastructure, C++ in HFT and Scala in finance pay more because skills are scarce and stakes are high."
+    ],
+    [
+     "Which language has been #1 by GitHub contributors since August 2025?",
+     [
+      "Python",
+      "JavaScript",
+      "TypeScript",
+      "Java"
+     ],
+     2,
+     "TypeScript took the top spot on GitHub, with ~67% year-over-year growth."
+    ],
+    [
+     "Python's ML salary premium comes from…",
+     [
+      "The language itself",
+      "The AI/ML specialisation",
+      "Python being the newest language",
+      "Low competition for Python jobs"
+     ],
+     1,
+     "The premium follows the specialisation, not the language."
+    ],
+    [
+     "Roughly what share of developers use SQL?",
+     [
+      "~10–15%",
+      "~30%",
+      "~59–61%",
+      "~90%"
+     ],
+     2,
+     "SQL is quietly essential: worth learning whatever your main language is."
+    ]
+   ],
+   "p4": [
+    [
+     "What is the right way to treat AI-generated code?",
+     [
+      "Trust it if it compiles",
+      "Verify it like code you didn't write",
+      "Only use it for tests",
+      "Never use it"
+     ],
+     1,
+     "Verification is the career: test and review it like any external contribution."
+    ],
+    [
+     "Where do AI coding assistants help most?",
+     [
+      "Niche languages",
+      "Internal frameworks",
+      "Mainstream languages like Python, TypeScript and Java",
+      "Assembly"
+     ],
+     2,
+     "Large training corpora make help stronger in mainstream languages."
+    ],
+    [
+     "Is it OK to paste an API key into an assistant to debug a failing request?",
+     [
+      "Yes, if the chat is private",
+      "Yes, if you delete the chat after",
+      "No, never paste secrets into assistants",
+      "Only for test keys"
+     ],
+     2,
+     "Never share secrets with assistants; use placeholders instead."
+    ],
+    [
+     "Who owns the licence, security and correctness of AI code you merge?",
+     [
+      "The AI vendor",
+      "You",
+      "The code reviewer only",
+      "Nobody"
+     ],
+     1,
+     "Know what you ship: you're responsible for everything you merge."
+    ]
+   ],
+   "p5": [
+    [
+     "Which topic can an intern safely leave for later?",
+     [
+      "Debugging",
+      "Git",
+      "Compiler internals",
+      "Writing tests"
+     ],
+     2,
+     "Compiler internals, advanced metaprogramming and micro-optimisations can wait."
+    ],
+    [
+     "Which two-language combo covers a large share of 2026 job postings?",
+     [
+      "C + Perl",
+      "Python + TypeScript",
+      "Swift + PHP",
+      "Rust + Ruby"
+     ],
+     1,
+     "Python for data, automation and testing, plus TypeScript for product and web work."
+    ],
+    [
+     "Which programming language does an ISTQB certification require?",
+     [
+      "Java",
+      "Python",
+      "JavaScript",
+      "None; ISTQB is tool- and language-agnostic"
+     ],
+     3,
+     "ISTQB focuses on testing methodologies, principles, terminology and frameworks, not on any language."
+    ],
+    [
+     "A field accepts ages 18–65. Which values are the boundary tests?",
+     [
+      "0 and 100",
+      "17, 18, 65 and 66",
+      "18 and 65 only",
+      "30, 40 and 50"
+     ],
+     1,
+     "Test just outside and just inside each boundary."
+    ],
+    [
+     "What makes the strongest portfolio?",
+     [
+      "Five half-finished repos",
+      "One finished, tested, documented project",
+      "A list of languages on your CV",
+      "Forked tutorials"
+     ],
+     1,
+     "A README, CI badge and live demo on one complete project beats quantity."
+    ]
+   ],
+   "sql": [
+    [
+     "SQL is best described as…",
+     [
+      "A general-purpose imperative language",
+      "A declarative domain-specific language for relational data",
+      "A markup language",
+      "A scripting language for browsers"
+     ],
+     1,
+     "You describe the result you want; the database management system decides how to execute it."
+    ],
+    [
+     "Which clause filters groups <em>after</em> aggregation?",
+     [
+      "WHERE",
+      "ORDER BY",
+      "HAVING",
+      "LIMIT"
+     ],
+     2,
+     "WHERE filters rows before grouping; HAVING filters the groups GROUP BY produces."
+    ],
+    [
+     "customers LEFT JOIN orders: what happens to a customer with no orders?",
+     [
+      "They are dropped",
+      "They appear once, with NULLs in the order columns",
+      "The query fails",
+      "They appear once per table"
+     ],
+     1,
+     "LEFT JOIN keeps every row from the left table and fills unmatched columns with NULL."
+    ],
+    [
+     "What is the correct defence against SQL injection?",
+     [
+      "Escaping quotes by hand",
+      "Hiding error messages",
+      "Parameterised queries / prepared statements",
+      "Using stored procedures only"
+     ],
+     2,
+     "Parameters are sent separately from the SQL text, so input can never change the query's structure."
+    ],
+    [
+     "In a money transfer, the second UPDATE fails. What should happen?",
+     [
+      "COMMIT the first update",
+      "ROLLBACK so neither change applies",
+      "Retry only the first update",
+      "Nothing; SQL fixes it automatically"
+     ],
+     1,
+     "Atomicity: the transaction's changes apply together or not at all."
+    ]
+   ]
+  },
+  "exam": [
+   [
+    "What does a language's <em>semantics</em> describe?",
+    [
+     "How valid code is written",
+     "What valid code means and does",
+     "How code is formatted",
+     "Which IDE to use"
+    ],
+    1,
+    "Syntax is how code is written; semantics is what it means."
+   ],
+   [
+    "Which of these is a package manager?",
+    [
+     "React",
+     "JVM",
+     "Cargo",
+     "Git"
+    ],
+    2,
+    "Cargo manages Rust dependencies. React is a framework, the JVM a runtime, Git version control."
+   ],
+   [
+    "Why is the first run of a Python script slower than the second?",
+    [
+     "The JIT hasn't warmed up",
+     "Bytecode caching (.pyc)",
+     "The GC runs first",
+     "The OS caches the terminal"
+    ],
+    1,
+    "CPython caches compiled bytecode in .pyc files for later runs."
+   ],
+   [
+    "Which language keeps nullable and non-nullable types separate by default?",
+    [
+     "Java",
+     "Kotlin",
+     "JavaScript",
+     "C"
+    ],
+    1,
+    "Kotlin, Swift and Rust separate them; Java's Optional only approximates this."
+   ],
+   [
+    "Python with mypy or pyright is an example of…",
+    [
+     "Gradual typing",
+     "Weak typing",
+     "Manual memory management",
+     "Transpilation"
+    ],
+    0,
+    "Gradual typing adds static checks without losing dynamic flexibility."
+   ],
+   [
+    "Which memory model uses reference counting plus a cycle collector?",
+    [
+     "Rust ownership",
+     "Python",
+     "C manual management",
+     "Go tracing GC"
+    ],
+    1,
+    "Python (and Swift) count references; cycles need a separate collector."
+   ],
+   [
+    "Which language has been the most admired for about 10 years?",
+    [
+     "Python",
+     "Go",
+     "Rust",
+     "TypeScript"
+    ],
+    2,
+    "Rust: ~72% of its users want to keep using it."
+   ],
+   [
+    "For native Android development, the guide recommends…",
+    [
+     "Swift",
+     "Kotlin",
+     "PHP",
+     "Ruby"
+    ],
+    1,
+    "Kotlin is the modern Android language."
+   ],
+   [
+    "What does the ISTQB Foundation Level certification focus on?",
+    [
+     "Proficiency in Java or Python",
+     "A specific automation tool",
+     "Testing methodologies, principles, terminology and frameworks",
+     "Writing production code"
+    ],
+    2,
+    "ISTQB certifications are tool- and language-agnostic."
+   ],
+   [
+    "\"Tests show the presence of defects, not their absence\" is…",
+    [
+     "A TDD rule",
+     "ISTQB testing principle 1",
+     "A Python idiom",
+     "A CI/CD best practice"
+    ],
+    1,
+    "This is why a green test run never proves software is bug-free."
+   ],
+   [
+    "What should you do before attempting to fix a defect?",
+    [
+     "Rewrite the module",
+     "Reproduce it",
+     "Add logging everywhere",
+     "Ask an AI to fix it"
+    ],
+    1,
+    "A fix you can't verify against a reproduction is a guess."
+   ],
+   [
+    "What can a mid-level developer skip memorising?",
+    [
+     "Runtime behaviour",
+     "Observability",
+     "Every library feature",
+     "Design tradeoffs"
+    ],
+    2,
+    "Use documentation effectively instead of memorising APIs."
+   ],
+   [
+    "In the 3-month intern plan, what happens in weeks 9–12?",
+    [
+     "Learn a second language",
+     "A small API or automation project with CI and mentor review",
+     "Study compiler internals",
+     "Prepare for a mid-level interview"
+    ],
+    1,
+    "Weeks 1–4 fundamentals, 5–8 small projects, 9–12 an API or automation project."
+   ],
+   [
+    "Which is a reliability risk in a small app?",
+    [
+     "Using a for loop",
+     "No retries or timeouts on HTTP calls",
+     "Using type hints",
+     "Writing a README"
+    ],
+    1,
+    "Missing timeouts and retries turn a slow dependency into an outage."
+   ],
+   [
+    "Which two habits does the bottom line add for 2026?",
+    [
+     "Learn more frameworks; skip tests",
+     "Verify AI-generated code; let data, not hype, guide language choices",
+     "Memorise syntax; avoid AI",
+     "Follow the TIOBE index; learn C first"
+    ],
+    1,
+    "Treat AI code like code you didn't write, and use surveys, commit activity and job listings to choose languages."
+   ],
+   [
+    "What does a foreign key do?",
+    [
+     "Speeds up every query",
+     "Links a row to a row in another table and enforces that it exists",
+     "Encrypts a column",
+     "Makes a column unique across the database"
+    ],
+    1,
+    "Foreign keys enforce referential integrity between tables."
+   ],
+   [
+    "What does EXPLAIN show you?",
+    [
+     "The query's result",
+     "How the database plans to execute the query",
+     "The table's schema",
+     "Who ran the query"
+    ],
+    1,
+    "Execution plans show scans, joins and index use: the starting point for query optimisation."
+   ]
+  ],
+  "docs": [
+   [
+    "Python",
+    "Official Python Tutorial",
+    "https://docs.python.org/3/tutorial/index.html"
+   ],
+   [
+    "JavaScript",
+    "MDN JavaScript Guide",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide"
+   ],
+   [
+    "TypeScript",
+    "TypeScript Handbook",
+    "https://www.typescriptlang.org/docs/handbook/intro"
+   ],
+   [
+    "Java",
+    "Dev.java: Learn Java",
+    "https://dev.java/learn/"
+   ],
+   [
+    "C#",
+    "Microsoft Learn: Tour of C#",
+    "https://learn.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/overview"
+   ],
+   [
+    "Go",
+    "Go Documentation",
+    "https://go.dev/doc/"
+   ],
+   [
+    "Go",
+    "A Tour of Go",
+    "https://go.dev/tour/"
+   ],
+   [
+    "Kotlin",
+    "Kotlin Basic Syntax",
+    "https://kotlinlang.org/docs/basic-syntax.html"
+   ],
+   [
+    "Rust",
+    "The Rust Book",
+    "https://doc.rust-lang.org/book/"
+   ],
+   [
+    "Rust",
+    "Rust by Example",
+    "https://doc.rust-lang.org/rust-by-example/"
+   ],
+   [
+    "C++",
+    "cppreference",
+    "https://en.cppreference.com/"
+   ],
+   [
+    "Swift",
+    "The Swift Programming Language",
+    "https://www.swift.org/documentation/"
+   ],
+   [
+    "PHP",
+    "PHP Manual",
+    "https://www.php.net/manual/"
+   ],
+   [
+    "SQL",
+    "PostgreSQL Tutorial",
+    "https://www.postgresql.org/docs/current/tutorial.html"
+   ]
+  ],
+  "practice": [
+   [
+    "freeCodeCamp",
+    "Free interactive courses and certificates",
+    "https://www.freecodecamp.org/learn/"
+   ],
+   [
+    "The Odin Project",
+    "Free full-stack web curriculum with projects",
+    "https://www.theodinproject.com/"
+   ],
+   [
+    "Codewars",
+    "Coding exercises in 50+ languages",
+    "https://www.codewars.com/"
+   ],
+   [
+    "Advent of Code",
+    "Yearly puzzles, full archive since 2015",
+    "https://adventofcode.com/"
+   ],
+   [
+    "Go by Example",
+    "Annotated, runnable Go programs",
+    "https://gobyexample.com/"
+   ],
+   [
+    "Rust by Example",
+    "Runnable Rust examples",
+    "https://doc.rust-lang.org/rust-by-example/"
+   ],
+   [
+    "Learn Git Branching",
+    "Interactive Git practice in the browser",
+    "https://learngitbranching.js.org/"
+   ],
+   [
+    "SQLBolt",
+    "Interactive SQL lessons",
+    "https://sqlbolt.com/"
+   ],
+   [
+    "PostgreSQL Exercises",
+    "SQL practice on a real schema",
+    "https://pgexercises.com/"
+   ],
+   [
+    "Use The Index, Luke",
+    "SQL indexing and performance",
+    "https://use-the-index-luke.com/"
+   ],
+   [
+    "roadmap.sh",
+    "Role-based learning roadmaps",
+    "https://roadmap.sh/"
+   ]
+  ],
+  "path": [
+   {
+    "phase": "Foundations",
+    "lv": "intern",
+    "time": "Weeks 1–8",
+    "goal": "Write, run and debug small programs in one language, starting from a blank file.",
+    "learn": [
+     "Sequence steps 01–04: values, types, control flow, functions, collections and error handling",
+     "Reading error messages and stack traces",
+     "Terminal, editor, formatter and debugger basics"
+    ],
+    "practice": [
+     "Short daily exercises (Codewars, Advent of Code archives)",
+     "A CLI calculator or task tracker with input validation and a few tests"
+    ],
+    "done": [
+     "You can solve a small problem without copying a solution",
+     "You can explain every line you wrote",
+     "Quiz 1 and Quiz 2 scores of 75% or more"
+    ]
+   },
+   {
+    "phase": "Working like a developer",
+    "lv": "intern",
+    "time": "Weeks 9–16",
+    "goal": "Work the way a team works: version control, automated tests, APIs and a database.",
+    "learn": [
+     "Sequence steps 05–08: OOP and functional basics, Git, testing, HTTP/JSON/REST and SQL",
+     "SQL at internship level: SELECT, filtering, sorting, simple JOINs, CRUD and schema concepts"
+    ],
+    "practice": [
+     "A REST API client that stores its results in SQLite",
+     "Every change goes through a branch and a pull request with tests"
+    ],
+    "done": [
+     "Tests run with one command and pass in CI",
+     "You can write a two-table JOIN without looking it up",
+     "Most of the internship checklist is ticked"
+    ]
+   },
+   {
+    "phase": "Building real services",
+    "lv": "junior",
+    "time": "Months 5–9",
+    "goal": "Ship small-to-medium features with limited supervision.",
+    "learn": [
+     "Sequence steps 09–10: package management, build tools, debugging, logging",
+     "SQL at junior level: multi-table joins, aggregation, transactions, constraints, indexes, migrations and test data",
+     "Idiomatic code in your main language"
+    ],
+    "practice": [
+     "A CRUD API backed by a real database, with migrations and seed data",
+     "Integration tests against a disposable database (a Docker container or SQLite)"
+    ],
+    "done": [
+     "You give concrete, useful feedback in code reviews",
+     "Schema changes go through migrations, never by hand",
+     "Most of the junior checklist is ticked"
+    ]
+   },
+   {
+    "phase": "Production thinking",
+    "lv": "junior",
+    "time": "Months 10–18",
+    "goal": "Keep software correct under load, failure and attack.",
+    "learn": [
+     "Sequence steps 11–13: concurrency and async, security and dependencies, performance and profiling",
+     "SQL at mid level: execution plans, query optimisation, isolation levels and locking",
+     "Observability: logs, metrics and traces"
+    ],
+    "practice": [
+     "Add authentication, rate limiting and metrics to your service",
+     "Find and fix one slow query using its execution plan"
+    ],
+    "done": [
+     "You can explain a production-like failure from its logs and traces",
+     "You measure before you optimise",
+     "Final exam passed (70% or more)"
+    ]
+   },
+   {
+    "phase": "Mid-level engineering",
+    "lv": "mid",
+    "time": "Month 18 onward",
+    "goal": "Own components end to end and help other people grow.",
+    "learn": [
+     "Sequence step 14: architecture and maintainability",
+     "Runtime internals: GC, JIT and memory models",
+     "Database modelling and the trade-offs between designs",
+     "A second language with a different model (Go, Rust, or Java/C#)"
+    ],
+    "practice": [
+     "A multi-service or production-like system with contracts and resilience",
+     "Mentor a junior developer through a feature"
+    ],
+    "done": [
+     "You make trade-offs explicit and prefer reversible decisions",
+     "Most of the mid-level checklist is ticked",
+     "You could teach any section of this hub"
+    ]
+   }
+  ],
+  "sqlSkills": [
+   [
+    "SELECT, INSERT, UPDATE, DELETE",
+    "The four CRUD statements: read, create, change and remove rows."
+   ],
+   [
+    "WHERE, ORDER BY, LIMIT/OFFSET",
+    "Filter rows, sort results and page through them."
+   ],
+   [
+    "JOINs",
+    "Combine tables: INNER keeps only matches; LEFT keeps every row from the left table; RIGHT, FULL and CROSS joins where the dialect supports them."
+   ],
+   [
+    "Aggregation",
+    "COUNT, SUM, AVG, MIN and MAX with GROUP BY; HAVING filters groups after aggregation, WHERE filters rows before it."
+   ],
+   [
+    "Subqueries and CTEs",
+    "Queries inside queries; WITH (common table expressions) names each step so complex queries stay readable."
+   ],
+   [
+    "Schema and constraints",
+    "Tables, rows and columns; primary keys identify rows, foreign keys link tables; NOT NULL, UNIQUE and CHECK protect data."
+   ],
+   [
+    "Transactions and ACID",
+    "BEGIN, COMMIT and ROLLBACK group changes so they all apply or none do: atomicity, consistency, isolation, durability."
+   ],
+   [
+    "Indexes and query plans",
+    "Indexes speed up lookups at a write cost; EXPLAIN shows how the database will run a query."
+   ],
+   [
+    "SQL injection prevention",
+    "Never build SQL from user input by string concatenation; use parameterised queries or prepared statements."
+   ],
+   [
+    "Migrations and test data",
+    "Versioned schema changes (Flyway, Liquibase, Alembic, EF Core, Prisma), seed data and repeatable test datasets."
+   ],
+   [
+    "Dialect differences",
+    "PostgreSQL, MySQL, SQL Server/T-SQL, Oracle and SQLite share a core but differ in syntax and features."
+   ]
+  ],
+  "dialects": [
+   [
+    "PostgreSQL",
+    "<code>LIMIT n OFFSET m</code>",
+    "<code>GENERATED … AS IDENTITY</code> or <code>SERIAL</code>",
+    "Standards-focused and feature-rich: JSONB, arrays, powerful indexing. A common default for new projects."
+   ],
+   [
+    "MySQL",
+    "<code>LIMIT n OFFSET m</code> or <code>LIMIT m, n</code>",
+    "<code>AUTO_INCREMENT</code>",
+    "Very widely deployed in web stacks. InnoDB is the transactional engine; identifiers are quoted with backticks."
+   ],
+   [
+    "SQL Server (T-SQL)",
+    "<code>TOP n</code> or <code>OFFSET m ROWS FETCH NEXT n ROWS ONLY</code>",
+    "<code>IDENTITY(1,1)</code>",
+    "Microsoft ecosystem and .NET. T-SQL adds procedural extensions; identifiers are quoted with square brackets."
+   ],
+   [
+    "Oracle",
+    "<code>FETCH FIRST n ROWS ONLY</code> (12c+), historically <code>ROWNUM</code>",
+    "Identity columns (12c+) or sequences",
+    "Enterprise and finance. PL/SQL for procedural code; an empty string is treated as NULL."
+   ],
+   [
+    "SQLite",
+    "<code>LIMIT n OFFSET m</code>",
+    "<code>INTEGER PRIMARY KEY</code>",
+    "An embedded, single-file database with flexible typing. Ideal for learning, tests, mobile apps and tools."
+   ]
+  ],
+  "sqlExamples": [
+   {
+    "task": "Filter & sort",
+    "code": "SELECT name, country\nFROM customers\nWHERE country = 'DE'\nORDER BY name\nLIMIT 10;",
+    "note": "You describe the result (German customers, alphabetically, first 10); the database decides how to find them."
+   },
+   {
+    "task": "JOIN + aggregate",
+    "code": "SELECT c.name,\n       COUNT(o.id)             AS order_count,\n       COALESCE(SUM(o.total), 0) AS revenue\nFROM customers c\nLEFT JOIN orders o ON o.customer_id = c.id\nGROUP BY c.id, c.name\nHAVING COUNT(o.id) >= 2\nORDER BY revenue DESC;",
+    "note": "LEFT JOIN keeps customers with no orders, and COUNT(o.id) counts only matched orders. HAVING then keeps customers with at least two orders."
+   },
+   {
+    "task": "CTE + subquery",
+    "code": "WITH spend AS (\n    SELECT customer_id, SUM(total) AS spent\n    FROM orders\n    WHERE created_at >= '2026-01-01'\n    GROUP BY customer_id\n)\nSELECT c.name, s.spent\nFROM spend s\nJOIN customers c ON c.id = s.customer_id\nWHERE s.spent > (SELECT AVG(spent) FROM spend)\nORDER BY s.spent DESC;",
+    "note": "The CTE names an intermediate result so each step reads top to bottom. The subquery compares every customer with the average."
+   },
+   {
+    "task": "Transaction",
+    "code": "BEGIN;\n\nUPDATE accounts SET balance = balance - 100 WHERE id = 1;\nUPDATE accounts SET balance = balance + 100 WHERE id = 2;\n\n-- If either statement fails, run ROLLBACK instead:\n-- both changes are undone together.\nCOMMIT;",
+    "note": "Atomicity in practice: a transfer must never debit one account without crediting the other."
+   },
+   {
+    "task": "Index & plan",
+    "code": "CREATE INDEX idx_orders_customer ON orders (customer_id);\n\n-- PostgreSQL: runs the query and shows the real plan and timings\nEXPLAIN ANALYZE\nSELECT * FROM orders WHERE customer_id = 42;",
+    "note": "Before the index, expect a sequential scan of the whole table; after it, an index scan. Indexes speed up reads but add cost to every write."
+   },
+   {
+    "task": "Safe query (Python)",
+    "code": "# UNSAFE: user input becomes part of the SQL text (SQL injection)\n# cur.execute(f\"SELECT * FROM customers WHERE name = '{name}'\")\n\n# SAFE: the driver sends the value separately from the SQL\ncur.execute(\"SELECT * FROM customers WHERE name = %s\", (name,))\nrow = cur.fetchone()",
+    "note": "Placeholder syntax varies by driver (%s in psycopg and mysql-connector, ? in sqlite3 and JDBC, @name in ADO.NET), but the rule is the same: never concatenate input into SQL."
+   }
+  ],
+  "snippets": [
+   {
+    "task": "Sum the even numbers",
+    "note": "Python and C# read almost like a sentence. Go deliberately has no built-in filter/map, so a plain loop is idiomatic. Rust's iterator chain compiles down to the same machine code as the loop.",
+    "code": {
+     "Python": "nums = [1, 2, 3, 4, 5, 6]\ntotal = sum(n for n in nums if n % 2 == 0)\nprint(total)  # 12",
+     "TypeScript": "const nums: number[] = [1, 2, 3, 4, 5, 6];\nconst total = nums.filter((n) => n % 2 === 0).reduce((acc, n) => acc + n, 0);\nconsole.log(total); // 12",
+     "Java": "import java.util.List;\n\npublic class Main {\n    public static void main(String[] args) {\n        List<Integer> nums = List.of(1, 2, 3, 4, 5, 6);\n        int total = nums.stream().filter(n -> n % 2 == 0).mapToInt(Integer::intValue).sum();\n        System.out.println(total); // 12\n    }\n}",
+     "C#": "int[] nums = [1, 2, 3, 4, 5, 6];\nvar total = nums.Where(n => n % 2 == 0).Sum();\nConsole.WriteLine(total); // 12",
+     "Go": "package main\n\nimport \"fmt\"\n\nfunc main() {\n\tnums := []int{1, 2, 3, 4, 5, 6}\n\ttotal := 0\n\tfor _, n := range nums {\n\t\tif n%2 == 0 {\n\t\t\ttotal += n\n\t\t}\n\t}\n\tfmt.Println(total) // 12\n}",
+     "Rust": "fn main() {\n    let nums = vec![1, 2, 3, 4, 5, 6];\n    let total: i32 = nums.iter().filter(|&&n| n % 2 == 0).sum();\n    println!(\"{total}\"); // 12\n}"
+    }
+   },
+   {
+    "task": "Validate input in a function",
+    "note": "Two error models: Python, TypeScript, Java and C# throw exceptions; Go returns an error value next to the result and Rust returns a Result the caller must handle. Boundary tests for all six: 17, 18, 65, 66 and -1.",
+    "code": {
+     "Python": "def is_working_age(age: int) -> bool:\n    if age < 0:\n        raise ValueError(f\"age must be >= 0, got {age}\")\n    return 18 <= age <= 65\n\nprint(is_working_age(18), is_working_age(66))  # True False",
+     "TypeScript": "function isWorkingAge(age: number): boolean {\n  if (!Number.isInteger(age) || age < 0) {\n    throw new RangeError(`age must be a non-negative integer, got ${age}`);\n  }\n  return age >= 18 && age <= 65;\n}\n\nconsole.log(isWorkingAge(18), isWorkingAge(66)); // true false",
+     "Java": "public class Main {\n    static boolean isWorkingAge(int age) {\n        if (age < 0) {\n            throw new IllegalArgumentException(\"age must be >= 0, got \" + age);\n        }\n        return age >= 18 && age <= 65;\n    }\n\n    public static void main(String[] args) {\n        System.out.println(isWorkingAge(18) + \" \" + isWorkingAge(66)); // true false\n    }\n}",
+     "C#": "static bool IsWorkingAge(int age)\n{\n    ArgumentOutOfRangeException.ThrowIfNegative(age);\n    return age is >= 18 and <= 65;\n}\n\nConsole.WriteLine($\"{IsWorkingAge(18)} {IsWorkingAge(66)}\"); // True False",
+     "Go": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n)\n\nfunc isWorkingAge(age int) (bool, error) {\n\tif age < 0 {\n\t\treturn false, errors.New(\"age must be >= 0\")\n\t}\n\treturn age >= 18 && age <= 65, nil\n}\n\nfunc main() {\n\tok, err := isWorkingAge(18)\n\tfmt.Println(ok, err) // true <nil>\n}",
+     "Rust": "fn is_working_age(age: i32) -> Result<bool, String> {\n    if age < 0 {\n        return Err(format!(\"age must be >= 0, got {age}\"));\n    }\n    Ok((18..=65).contains(&age))\n}\n\nfn main() {\n    println!(\"{:?}\", is_working_age(18)); // Ok(true)\n    println!(\"{:?}\", is_working_age(-1)); // Err(\"age must be >= 0, got -1\")\n}"
+    }
+   },
+   {
+    "task": "Read a file and handle errors",
+    "note": "Catch the specific error you expect (file not found) and let everything else surface. Java makes you declare checked exceptions (throws IOException); in Go and Rust the error is a value you have to look at, and Rust's match won't compile until every case is handled.",
+    "code": {
+     "Python": "from pathlib import Path\n\ntry:\n    print(Path(\"config.txt\").read_text(encoding=\"utf-8\"))\nexcept FileNotFoundError:\n    print(\"config.txt not found\")",
+     "TypeScript": "import { readFile } from \"node:fs/promises\";\n\ntry {\n  console.log(await readFile(\"config.txt\", \"utf8\"));\n} catch (err) {\n  if ((err as NodeJS.ErrnoException).code === \"ENOENT\") {\n    console.log(\"config.txt not found\");\n  } else {\n    throw err;\n  }\n}",
+     "Java": "import java.io.IOException;\nimport java.nio.file.Files;\nimport java.nio.file.NoSuchFileException;\nimport java.nio.file.Path;\n\npublic class Main {\n    public static void main(String[] args) throws IOException {\n        try {\n            System.out.println(Files.readString(Path.of(\"config.txt\")));\n        } catch (NoSuchFileException e) {\n            System.out.println(\"config.txt not found\");\n        }\n    }\n}",
+     "C#": "try\n{\n    Console.WriteLine(File.ReadAllText(\"config.txt\"));\n}\ncatch (FileNotFoundException)\n{\n    Console.WriteLine(\"config.txt not found\");\n}",
+     "Go": "package main\n\nimport (\n\t\"errors\"\n\t\"fmt\"\n\t\"io/fs\"\n\t\"os\"\n)\n\nfunc main() {\n\tdata, err := os.ReadFile(\"config.txt\")\n\tif errors.Is(err, fs.ErrNotExist) {\n\t\tfmt.Println(\"config.txt not found\")\n\t\treturn\n\t}\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Print(string(data))\n}",
+     "Rust": "use std::fs;\nuse std::io::ErrorKind;\n\nfn main() {\n    match fs::read_to_string(\"config.txt\") {\n        Ok(text) => println!(\"{text}\"),\n        Err(e) if e.kind() == ErrorKind::NotFound => println!(\"config.txt not found\"),\n        Err(e) => panic!(\"{e}\"),\n    }\n}"
+    }
+   },
+   {
+    "task": "Run two tasks concurrently",
+    "note": "Same goal, three models: async/await on an event loop (Python, TypeScript, C#), threads (Java virtual threads, Rust scoped threads) and goroutines (Go). Both tasks wait at the same time, so the total is about 1 second, not 2.",
+    "code": {
+     "Python": "import asyncio\n\nasync def fetch(name: str, seconds: float) -> str:\n    await asyncio.sleep(seconds)  # stands in for a network call\n    return f\"{name} done\"\n\nasync def main() -> None:\n    results = await asyncio.gather(fetch(\"users\", 1), fetch(\"orders\", 1))\n    print(results)  # ~1 s total, not 2\n\nasyncio.run(main())",
+     "TypeScript": "const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));\n\nasync function fetchData(name: string, ms: number): Promise<string> {\n  await sleep(ms); // stands in for a network call\n  return `${name} done`;\n}\n\nconst results = await Promise.all([fetchData(\"users\", 1000), fetchData(\"orders\", 1000)]);\nconsole.log(results); // ~1 s total, not 2",
+     "Java": "import java.util.concurrent.Executors;\n\npublic class Main {\n    static String fetch(String name) throws InterruptedException {\n        Thread.sleep(1000); // stands in for a network call\n        return name + \" done\";\n    }\n\n    public static void main(String[] args) throws Exception {\n        try (var pool = Executors.newVirtualThreadPerTaskExecutor()) {\n            var users = pool.submit(() -> fetch(\"users\"));\n            var orders = pool.submit(() -> fetch(\"orders\"));\n            System.out.println(users.get() + \", \" + orders.get()); // ~1 s total\n        }\n    }\n}",
+     "C#": "static async Task<string> FetchAsync(string name)\n{\n    await Task.Delay(1000); // stands in for a network call\n    return $\"{name} done\";\n}\n\nvar results = await Task.WhenAll(FetchAsync(\"users\"), FetchAsync(\"orders\"));\nConsole.WriteLine(string.Join(\", \", results)); // ~1 s total",
+     "Go": "package main\n\nimport (\n\t\"fmt\"\n\t\"sync\"\n\t\"time\"\n)\n\nfunc fetch(name string) string {\n\ttime.Sleep(time.Second) // stands in for a network call\n\treturn name + \" done\"\n}\n\nfunc main() {\n\tnames := []string{\"users\", \"orders\"}\n\tresults := make([]string, len(names))\n\tvar wg sync.WaitGroup\n\tfor i, name := range names {\n\t\twg.Add(1)\n\t\tgo func() {\n\t\t\tdefer wg.Done()\n\t\t\tresults[i] = fetch(name)\n\t\t}()\n\t}\n\twg.Wait()\n\tfmt.Println(results) // ~1 s total\n}",
+     "Rust": "use std::thread;\nuse std::time::Duration;\n\nfn fetch(name: &str) -> String {\n    thread::sleep(Duration::from_secs(1)); // stands in for a network call\n    format!(\"{name} done\")\n}\n\nfn main() {\n    let (users, orders) = thread::scope(|s| {\n        let a = s.spawn(|| fetch(\"users\"));\n        let b = s.spawn(|| fetch(\"orders\"));\n        (a.join().unwrap(), b.join().unwrap())\n    });\n    println!(\"{users}, {orders}\"); // ~1 s total\n}"
+    }
+   }
+  ]
+ }
+}

@@ -1,131 +1,270 @@
-"""Build index.html: the Programming Languages Hub and Role Modules in one page.
+"""Build index.html: one app with two views (Study hub, Role modules) in four languages.
 
 Usage:
     python build.py                 # writes index.html
     python build.py --publish OUT   # also writes a body-only copy for publishing as an Artifact
 
 Sources:
-    Programming-Languages-Hub.html     the study hub (edit its DATA block and HTML)
-    role-modules/template.html         Role Modules layout, styles, code examples and logic
-    role-modules/content/<lang>.json   Role Modules text in en, uk, pl and es
+    hub/template.html, hub/hub.js       Study hub styles, markup and logic
+    hub/sections.json                   Study hub section order and attributes
+    hub/content/<lang>.json             Study hub text: ui strings, hero, sections (HTML) and data
+    role-modules/template.html          Role Modules styles, markup, code examples and logic
+    role-modules/content/<lang>.json    Role Modules text
 
-Every translation must mirror en.json exactly: same UI keys and placeholders, same roles,
-lessons and code ids, and the same number of options and correct answer for every question.
+Translations are checked against English before anything is written:
+  * the same keys, list lengths, section ids and HTML structure (element ids and tag counts)
+  * the same {placeholders} in every ui string
+  * numbers (such as the index of the correct answer), URLs, level keys and language names unchanged
+Hub translations may leave out "code" keys; code is shared from en.json.
 """
 import json
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-ROLES = ROOT / "role-modules"
 LANGS = ["en", "uk", "pl", "es"]
+LANG_LABELS = {"en": ("EN", "English"), "uk": ("UA", "Українська"), "pl": ("PL", "Polski"), "es": ("ES", "Español")}
 HEAD = ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
         '<meta name="viewport" content="width=device-width,initial-scale=1">\n')
 
+# Strings that must stay identical to English (they are keys, links or code)
+LOCKED = [re.compile(p) for p in (
+    r"^data\.languages\.\d+\.0$",        # language names are used by the goal filter
+    r"^data\.goals\.\d+\.1\.\d+$",
+    r"^data\.path\.\d+\.lv$",           # level keys used for colours
+    r"^data\.projects\.\d+\.0$",
+    r"^data\.(snippets|sqlExamples)\.\d+\.code(\.|$)",   # source code is never translated
+)]
+# Keys a translation may leave out (shared from English): source code only
+OMITTABLE = re.compile(r"^data\.(snippets|sqlExamples)\.\d+\.code$")
 
-def check(ref, other, lang):
+
+# ---------------------------------------------------------------- checks
+def placeholders(text):
+    return set(re.findall(r"\{\w+\}", text))
+
+
+def skeleton(html):
+    """Element ids and tag counts: translations may reword text, not restructure the page."""
+    return set(re.findall(r'\sid="([^"]+)"', html)), Counter(re.findall(r"<([a-z][a-z0-9]*)\b", html))
+
+
+def merge(en, tr, path, errors):
+    """Return the translation with shared values filled in from English, recording any mismatch."""
+    if tr is None:
+        return en
+    if isinstance(en, dict):
+        if not isinstance(tr, dict):
+            errors.append(f"{path}: expected an object")
+            return en
+        for k in set(tr) - set(en):
+            errors.append(f"{path}.{k}: unexpected key")
+        out = {}
+        for k, v in en.items():
+            if k in tr:
+                out[k] = merge(v, tr[k], f"{path}.{k}", errors)
+            elif OMITTABLE.match(f"{path}.{k}".split(".", 1)[1]):
+                out[k] = v
+            else:
+                errors.append(f"{path}.{k}: missing")
+                out[k] = v
+        return out
+    if isinstance(en, list):
+        if not isinstance(tr, list) or len(tr) != len(en):
+            errors.append(f"{path}: {len(tr) if isinstance(tr, list) else 'not a list'} items, expected {len(en)}")
+            return en
+        return [merge(a, b, f"{path}.{i}", errors) for i, (a, b) in enumerate(zip(en, tr))]
+    if isinstance(en, str):
+        if not isinstance(tr, str) or not tr.strip():
+            errors.append(f"{path}: empty or not text")
+            return en
+        rel = path.split(".", 1)[1]
+        if (en.startswith("http") or any(p.search(rel) for p in LOCKED)) and tr != en:
+            errors.append(f"{path}: must stay {en!r}")
+            return en
+        return tr
+    if tr != en:  # numbers and booleans are shared
+        errors.append(f"{path}: must stay {en!r}")
+    return en
+
+
+def check_hub(en, tr, lang):
     errors = []
-    err = lambda msg: errors.append(f"{lang}: {msg}")
+    merged = merge(en, tr, lang, errors)
+    for key, text in en["ui"].items():
+        if placeholders(text) != placeholders(tr.get("ui", {}).get(key, "")):
+            errors.append(f"{lang}.ui.{key}: placeholders must be {sorted(placeholders(text))}")
+    for name, a, b in [("hero", en["hero"], tr.get("hero", ""))] + [
+            (f"sections.{k}", v, tr.get("sections", {}).get(k, "")) for k, v in en["sections"].items()]:
+        (ida, taga), (idb, tagb) = skeleton(a), skeleton(b)
+        if ida != idb:
+            errors.append(f"{lang}.{name}: element ids differ {sorted(ida ^ idb)}")
+        if taga != tagb:
+            diff = {t: (taga[t], tagb[t]) for t in taga.keys() | tagb.keys() if taga[t] != tagb[t]}
+            errors.append(f"{lang}.{name}: tag counts differ (en, {lang}) {diff}")
+    return merged, errors
+
+
+def check_roles(ref, other, lang):
+    errors = []
+    err = errors.append
     if set(ref["ui"]) != set(other["ui"]):
-        err(f"ui keys differ: {sorted(set(ref['ui']) ^ set(other['ui']))}")
+        err(f"{lang}: role ui keys differ: {sorted(set(ref['ui']) ^ set(other['ui']))}")
     for key, text in ref["ui"].items():
-        want = set(re.findall(r"\{\w+\}", text))
-        got = set(re.findall(r"\{\w+\}", other["ui"].get(key, "")))
-        if want != got:
-            err(f"ui.{key} placeholders {got} != {want}")
+        if placeholders(text) != placeholders(other["ui"].get(key, "")):
+            err(f"{lang}: role ui.{key} placeholders differ")
     if [r["id"] for r in ref["roles"]] != [r["id"] for r in other["roles"]]:
-        err("role ids differ")
-        return errors
+        return errors + [f"{lang}: role ids differ"]
     for a, b in zip(ref["roles"], other["roles"]):
-        rid = a["id"]
         for field in ("expect", "tasks", "lessons", "langContext", "quiz", "exam"):
             if len(a[field]) != len(b[field]):
-                err(f"{rid}.{field}: {len(b[field])} items, expected {len(a[field])}")
+                err(f"{lang}: {a['id']}.{field}: {len(b[field])} items, expected {len(a[field])}")
         for i, (la, lb) in enumerate(zip(a["lessons"], b["lessons"])):
             if la["code"] != lb["code"] or len(la["langs"]) != len(lb["langs"]):
-                err(f"{rid}.lessons[{i}] code id or language-note count differs")
+                err(f"{lang}: {a['id']}.lessons[{i}] code id or language-note count differs")
         for field in ("quiz", "exam"):
             for i, (qa, qb) in enumerate(zip(a[field], b[field])):
                 if qa["c"] != qb["c"] or len(qa["a"]) != len(qb["a"]):
-                    err(f"{rid}.{field}[{i}] correct answer or option count differs")
+                    err(f"{lang}: {a['id']}.{field}[{i}] correct answer or option count differs")
     return errors
 
 
-def between(text, start, end, what):
-    i = text.find(start)
-    j = text.find(end, i + len(start))
-    if i < 0 or j < 0:
-        sys.exit(f"Build failed: cannot find {what}")
-    return text[i + len(start):j]
+# ---------------------------------------------------------------- pieces
+def load(path):
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
-def role_modules():
-    data = {l: json.loads((ROLES / "content" / f"{l}.json").read_text(encoding="utf-8")) for l in LANGS}
-    tpl = (ROLES / "template.html").read_text(encoding="utf-8")
-    errors = [e for l in LANGS[1:] for e in check(data["en"], data[l], l)]
+def js_blob(value):
+    return json.dumps(value, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
+
+
+def hub_parts(errors):
+    content = {l: load(ROOT / "hub" / "content" / f"{l}.json") for l in LANGS}
+    merged = {"en": content["en"]}
+    for l in LANGS[1:]:
+        merged[l], errs = check_hub(content["en"], content[l], l)
+        errors += errs
+    tpl = (ROOT / "hub" / "template.html").read_text(encoding="utf-8")
+    head, markup = tpl.split("</style>", 1)
+    data = "<script>\nwindow.I18N_HUB=" + js_blob(merged) + ";\nwindow.HUB_ORDER=" + js_blob(load(ROOT / "hub" / "sections.json")) + ";\n</script>"
+    script = "<script>\n" + (ROOT / "hub" / "hub.js").read_text(encoding="utf-8") + "</script>"
+    return head, markup, data, script, merged
+
+
+def role_parts(errors):
+    content = {l: load(ROOT / "role-modules" / "content" / f"{l}.json") for l in LANGS}
+    tpl = (ROOT / "role-modules" / "template.html").read_text(encoding="utf-8")
+    for l in LANGS[1:]:
+        errors += check_roles(content["en"], content[l], l)
     code_ids = set(re.findall(r'id="code-([\w-]+)"', tpl))
-    errors += [f"missing code block: {x['code']}" for r in data["en"]["roles"] for x in r["lessons"] if x["code"] not in code_ids]
-    if errors:
-        sys.exit("Build failed:\n  " + "\n  ".join(errors))
-    blob = json.dumps(data, ensure_ascii=False, separators=(",", ":")).replace("</", "<\\/")
-    tpl = tpl.replace("/*__DATA__*/null", blob)
-    style = between(tpl, '<style id="rm-app">', "</style>", "Role Modules styles")
-    start = tpl.index('<div class="rm-root')
-    markup = tpl[start:tpl.index("<script>\n(() => {")]      # app markup + code example blocks
-    markup = markup.replace('href="__HUB_URL__" target="_blank" rel="noopener"', 'href="#hub"')
+    errors += [f"missing code block: {x['code']}" for r in content["en"]["roles"] for x in r["lessons"] if x["code"] not in code_ids]
+    tpl = tpl.replace("/*__DATA__*/null", js_blob(content))
+    s = tpl.index('<style id="rm-app">')
+    style = tpl[s + len('<style id="rm-app">'):tpl.index("</style>", s)]
+    markup = tpl[tpl.index('<div class="rm-root'):tpl.index("<script>\n(() => {")]
     script = tpl[tpl.index("<script>\n(() => {"):tpl.rindex("</script>") + len("</script>")]
     return style, markup, script
 
 
 SHELL_CSS = """
-.viewbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding-block:10px;background:var(--paper);border-bottom:1px solid var(--line)}
-.viewbar a{font:500 13px var(--mono);letter-spacing:.04em;text-decoration:none;color:var(--ink);border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px}
-.viewbar a[aria-current="page"]{background:var(--brand-tint);border-color:var(--brand);color:var(--brand)}
-nav.toc{top:calc(env(safe-area-inset-top,0px) + 64px);max-height:calc(100vh - 80px)}
-@media print{.viewbar,#view-roles{display:none!important}}
+/* ---- app bar ---- */
+.appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin-inline:-16px;padding:8px 16px;background:var(--paper);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
+.appbar .brand{font:650 17px var(--display);color:var(--ink);text-decoration:none;margin-right:auto}
+.appbar .seg{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.appbar .seg a,.appbar .seg button{font:500 13px var(--mono);letter-spacing:.03em;color:var(--ink);background:none;border:0;border-radius:999px;padding:5px 12px;text-decoration:none;cursor:pointer}
+.appbar .seg [aria-current="page"],.appbar .seg [aria-pressed="true"]{background:var(--brand-tint);color:var(--brand)}
+.appbar .theme{font:500 12px var(--mono);color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+nav.toc{top:calc(env(safe-area-inset-top,0px) + 72px);max-height:calc(100vh - 88px)}
+@media (max-width:640px){.appbar .brand{flex-basis:100%}}
+@media print{.appbar,#view-roles{display:none!important}}
 """
 
+
+def shell_markup():
+    langs = "".join(f'<button type="button" data-l="{l}" lang="{l}" title="{name}" aria-label="{name}">{short}</button>'
+                    for l, (short, name) in LANG_LABELS.items())
+    return ('<header class="appbar"><a class="brand" href="#hub" id="ab-brand"></a>'
+            '<nav class="seg" id="ab-views"><a href="#hub" id="vb-hub"></a><a href="#roles" id="vb-roles"></a></nav>'
+            f'<div class="seg" role="group" id="ab-langs">{langs}</div>'
+            '<button type="button" class="theme" id="themeBtn"></button></header>\n')
+
+
 SHELL_JS = """<script>
-/* ---- one app, two views: #hub (default) and #roles / #intern / #junior / #mid ---- */
+/* ---- app shell: language, theme and view for the whole page ---- */
 (() => {
-  const ROLE_HASHES = ['roles', 'intern', 'junior', 'mid'];
-  const hub = document.getElementById('view-hub'), roles = document.getElementById('view-roles');
-  function show() {
+  const LANGS = ['en', 'uk', 'pl', 'es'], ROLE_HASHES = ['roles', 'intern', 'junior', 'mid'], THEMES = ['auto', 'light', 'dark'];
+  const read = k => { try { return JSON.parse(localStorage.getItem(k)) } catch (e) { return null } };
+  const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) {} };
+  let lang = read('app-lang') ?? read('roles-lang');
+  if (!LANGS.includes(lang)) { const nav = (navigator.language || 'en').slice(0, 2); lang = LANGS.includes(nav) ? nav : 'en' }
+  let theme = 'auto';
+  try { theme = localStorage.getItem('plhub-theme') || 'auto' } catch (e) {}
+  if (!THEMES.includes(theme)) theme = 'auto';
+  window.APP = {lang};
+  const root = document.documentElement, $ = id => document.getElementById(id);
+  const hostTheme = root.getAttribute('data-theme');
+  const t = (k, v = {}) => window.I18N_HUB[lang].ui[k].replace(/\\{(\\w+)\\}/g, (_, x) => v[x]);
+
+  function applyTheme() {
+    if (theme === 'auto') { hostTheme ? root.setAttribute('data-theme', hostTheme) : root.removeAttribute('data-theme') }
+    else root.setAttribute('data-theme', theme);
+    $('themeBtn').textContent = t('theme', {t: t('theme' + theme[0].toUpperCase() + theme.slice(1))});
+  }
+  function applyLang() {
+    root.lang = lang;
+    $('ab-brand').textContent = t('appName');
+    $('ab-views').setAttribute('aria-label', t('viewsAria'));
+    $('vb-hub').textContent = t('viewHub');
+    $('vb-roles').textContent = t('viewRoles');
+    $('ab-langs').setAttribute('aria-label', t('language'));
+    $('ab-langs').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
+    applyTheme();
+  }
+  function showView() {
     const h = location.hash.slice(1), inRoles = ROLE_HASHES.includes(h);
-    hub.hidden = inRoles; roles.hidden = !inRoles;
-    document.getElementById('vb-hub').setAttribute('aria-current', inRoles ? 'false' : 'page');
-    document.getElementById('vb-roles').setAttribute('aria-current', inRoles ? 'page' : 'false');
-    let lang = 'en';
-    if (inRoles) { try { lang = JSON.parse(localStorage.getItem('roles-lang')) || 'en' } catch (e) {} }
-    document.documentElement.lang = ['en', 'uk', 'pl', 'es'].includes(lang) ? lang : 'en';
+    $('view-hub').hidden = inRoles; $('view-roles').hidden = !inRoles;
+    $('vb-hub').setAttribute('aria-current', inRoles ? 'false' : 'page');
+    $('vb-roles').setAttribute('aria-current', inRoles ? 'page' : 'false');
     if (h === 'hub' || h === 'roles') scrollTo(0, 0);
   }
-  addEventListener('hashchange', show);
-  show();
+  $('ab-langs').addEventListener('click', e => {
+    const b = e.target.closest('button[data-l]');
+    if (!b || b.dataset.l === lang) return;
+    lang = window.APP.lang = b.dataset.l; write('app-lang', lang); applyLang();
+    document.dispatchEvent(new CustomEvent('app:lang', {detail: lang}));
+  });
+  $('themeBtn').addEventListener('click', () => {
+    theme = THEMES[(THEMES.indexOf(theme) + 1) % THEMES.length];
+    try { localStorage.setItem('plhub-theme', theme) } catch (e) {}
+    applyTheme();
+  });
+  let closed = [];
+  addEventListener('beforeprint', () => { root.setAttribute('data-theme', 'light'); closed = [...document.querySelectorAll('details:not([open])')]; closed.forEach(d => d.open = true) });
+  addEventListener('afterprint', () => { applyTheme(); closed.forEach(d => d.open = false) });
+  addEventListener('hashchange', showView);
+  applyLang(); showView();
 })();
 </script>"""
 
 
 def main():
-    hub = (ROOT / "Programming-Languages-Hub.html").read_text(encoding="utf-8")
-    if not hub.startswith(HEAD):
-        sys.exit("Build failed: unexpected start of Programming-Languages-Hub.html")
-    hub = hub[len(HEAD):].rstrip()
-    hub = hub[:-len("</html>")] if hub.endswith("</html>") else hub
-    head, rest = hub.split("</style>", 1)
-    body, hub_script = rest[:rest.index("<script>")], rest[rest.index("<script>"):]
-    rm_style, rm_markup, rm_script = role_modules()
+    errors = []
+    hub_head, hub_markup, hub_data, hub_script, merged = hub_parts(errors)
+    rm_style, rm_markup, rm_script = role_parts(errors)
+    if errors:
+        shown = errors[:60]
+        sys.exit("Build failed:\n  " + "\n  ".join(shown) + (f"\n  ... and {len(errors) - 60} more" if len(errors) > 60 else ""))
 
-    page = (head + "\n/* ---- Role Modules ---- */\n" + rm_style + SHELL_CSS + "</style>\n"
-            '<nav class="viewbar" aria-label="Views"><a href="#hub" id="vb-hub">Study hub</a>'
-            '<a href="#roles" id="vb-roles">Role modules · EN · UK · PL · ES</a></nav>\n'
-            '<div id="view-hub">' + body + "</div>\n"
-            '<div id="view-roles" hidden>\n' + rm_markup + "</div>\n"
-            + hub_script + "\n" + rm_script + "\n" + SHELL_JS + "\n")
+    page = (hub_head + "\n/* ---- Role Modules ---- */\n" + rm_style + SHELL_CSS + "</style>\n"
+            + shell_markup()
+            + '<div id="view-hub">' + hub_markup + "</div>\n"
+            + '<div id="view-roles" hidden>\n' + rm_markup + "</div>\n"
+            + hub_data + "\n" + SHELL_JS + "\n" + hub_script + "\n" + rm_script + "\n")
     out = ROOT / "index.html"
     out.write_text(HEAD + page + "</html>\n", encoding="utf-8")
-    print(f"wrote {out.name} ({len(page):,} bytes; Role Modules languages: {', '.join(LANGS)})")
+    print(f"wrote {out.name} ({len(page):,} bytes; languages: {', '.join(LANGS)})")
     if "--publish" in sys.argv:
         pub = Path(sys.argv[sys.argv.index("--publish") + 1])
         pub.write_text(page, encoding="utf-8")
