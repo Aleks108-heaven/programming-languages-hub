@@ -1,32 +1,46 @@
 # Programming Languages Hub
 
-A study hub that takes a learner from **internship** to **junior** to **mid-level** developer. It covers how programming languages work, the 2026 language landscape, SQL and databases, a structured learning path, and a quiz after every part. A companion app, **Role Modules**, goes deeper into each career level in four languages.
+A study hub that takes a learner from **internship** to **junior** to **mid-level** developer. It covers how programming languages work, the 2026 language landscape, SQL and databases, a structured learning path, and a quiz after every part. A second view, **Role Modules**, goes deeper into each career level in four languages. Both live in one page: `index.html`.
 
 Everything runs in the browser as plain HTML, CSS and JavaScript. There is no framework, no server and nothing to install.
 
-## Live pages
+## Run it
 
-| Page | Link |
+**Online:** https://claude.ai/artifact/4MAQg6U7GzJAtDMjrtQH5C (private until the owner shares it).
+
+**Locally**, you need Python 3.9 or newer:
+
+```sh
+python serve.py
+```
+
+This rebuilds `index.html`, starts a server at http://127.0.0.1:8000/ and opens it in your browser. Press Ctrl+C to stop it.
+
+| Option | Effect |
 |---|---|
-| Programming Languages Hub | https://claude.ai/artifact/4MAQg6U7GzJAtDMjrtQH5C |
-| Role Modules (EN · UK · PL · ES) | https://claude.ai/artifact/WTh6NaFQPy3VA1RBE8HkGF |
+| `--port 9000` | Use another port |
+| `--no-build` | Serve the existing `index.html` without rebuilding |
+| `--no-open` | Don't open a browser tab |
 
-Both pages are private until the owner shares them. To use them offline, open the HTML files from this repository directly in a browser.
+The server listens on `127.0.0.1` only, so other machines can't reach it, and it serves nothing but the app page (every other path returns 404). You can also open `index.html` directly from disk with no server.
+
+**Views:** a bar at the top switches between **Study hub** and **Role modules**. Links can open a view directly: `#roles`, `#intern`, `#junior`, `#mid`, or any hub section such as `#sql`.
 
 ## What's inside
 
 ```
-Programming-Languages-Hub.html                  the main study hub (single file)
-Role-Modules.html                               built companion app (generated, do not edit by hand)
-Programming-Languages-Learning-Map-Expanded.md  the full guide as a Markdown document
+index.html                                      the app: hub + Role Modules (generated, do not edit by hand)
+build.py                                        validates the translations and builds index.html
+serve.py                                        builds, then serves the app on 127.0.0.1
+Programming-Languages-Hub.html                  source for the Study hub view
 role-modules/
   content/en.json, uk.json, pl.json, es.json    all Role Modules text, one file per language
-  template.html                                 page layout, styles, code examples and logic
-  build.py                                      validates the translations and builds Role-Modules.html
+  template.html                                 Role Modules layout, styles, code examples and logic
+Programming-Languages-Learning-Map-Expanded.md  the full guide as a Markdown document
 design-system/                                  colour tokens, type and page patterns (PL Hub)
 ```
 
-### Programming Languages Hub
+### Study hub view
 
 About 30 sections in six parts, each part followed by a quiz:
 
@@ -44,7 +58,7 @@ Study tools:
 - **Progress summary** in the header, **search** across all sections, a **theme** toggle (auto, light, dark), and a print layout (Ctrl+P when opened locally).
 - A **Practice** list of free sites checked in September 2026: freeCodeCamp, The Odin Project, Codewars, Advent of Code, Go by Example, Rust by Example, Learn Git Branching, SQLBolt, PostgreSQL Exercises, Use The Index, Luke and roadmap.sh.
 
-### Role Modules
+### Role Modules view
 
 Three role tracks: **Internship**, **Junior** and **Mid-level**. Each track has:
 
@@ -66,10 +80,12 @@ The whole interface and all content are available in **English, Ukrainian, Polis
 
 The number of questions and the pass mark update automatically.
 
-**Role Modules:** edit the JSON files in `role-modules/content/`, then rebuild:
+**Role Modules:** edit the JSON files in `role-modules/content/`.
+
+After any change, rebuild (or just run `python serve.py`, which rebuilds first):
 
 ```sh
-python role-modules/build.py
+python build.py
 ```
 
 The build fails if any translation differs from `en.json` in structure: a missing question, a different number of options, a different correct answer, a changed code-example id, or a missing `{placeholder}`. This keeps the four languages marking the same answers as correct.
@@ -84,4 +100,5 @@ Checklist ticks, quiz and exam scores, the review list and the chosen theme and 
 - Code examples: the Python, TypeScript, Java (21) and C# (.NET 10) snippets in the hub were run and produce the expected output. The SQL examples were run against SQLite. The Go and Rust snippets, and the code examples in Role Modules, were reviewed but not compiled.
 - All external links returned HTTP 200 in September 2026.
 - Security review: no secrets in the repository; no `eval` or other dynamic code; all external links use `rel="noopener"`; the only external resource loaded is Google Fonts. All displayed content comes from the pages' own data. Values read back from `localStorage` are validated (whole numbers only) before they reach the page, so tampered storage cannot inject HTML.
+- The local server binds to 127.0.0.1, serves only `/` and `/index.html` (source files, folders and `.git` return 404), and sends `Cache-Control: no-store` and `X-Content-Type-Options: nosniff`.
 - The Aikido security scan was not run, because it requires signing in to Aikido.
