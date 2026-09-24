@@ -1,0 +1,473 @@
+<title>Role Modules</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{--paper:#f3f5f4;--surface:#fff;--ink:#15201e;--muted:#56635f;--line:#d5dcd9;--brand:#0e6b5c;--brand-tint:#dcefe9;--junior:#3a4ea0;--mid:#a24a00;--code-bg:#15201e;--code-ink:#cfe9e1;
+--display:"Bricolage Grotesque",system-ui,sans-serif;--sans:"Source Sans 3",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--paper:#0f1513;--surface:#17201d;--ink:#e6eeeb;--muted:#9aa9a4;--line:#2a3632;--brand:#4fc3a9;--brand-tint:#15332c;--junior:#9aa8ff;--mid:#f0a358;--code-bg:#0a0f0d}}
+:root[data-theme="dark"]{color-scheme:dark;--paper:#0f1513;--surface:#17201d;--ink:#e6eeeb;--muted:#9aa9a4;--line:#2a3632;--brand:#4fc3a9;--brand-tint:#15332c;--junior:#9aa8ff;--mid:#f0a358;--code-bg:#0a0f0d}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--sans);padding-inline:16px}
+a{color:var(--brand)}
+:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding-block:32px 64px;display:grid;gap:8px}
+h1,h2,h3,h4{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,6vw,54px);line-height:1.02;font-weight:700;letter-spacing:-.01em}
+h2{font-size:28px;line-height:1.2;font-weight:650}
+h3{font-size:21px;font-weight:600;line-height:1.25}
+h4{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+p{margin:0;max-width:68ch}
+.label{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.lede{font-size:19px;color:var(--muted)}
+header.hero{display:grid;gap:18px;padding-bottom:24px}
+.topbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
+.lvl-intern{--lv:var(--brand)}.lvl-junior{--lv:var(--junior)}.lvl-mid{--lv:var(--mid)}
+.pill{display:inline-block;font:500 12px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--lv);border:1px solid var(--lv);border-radius:999px;padding:1px 8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips button{font:500 13px var(--mono);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chips button[aria-pressed="true"]{background:var(--brand-tint);border-color:var(--brand);color:var(--brand)}
+.roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.role{text-align:left;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px;align-content:start;cursor:pointer}
+.role:hover{border-color:var(--lv)}
+.role[aria-pressed="true"]{border-color:var(--lv);box-shadow:inset 0 0 0 1px var(--lv)}
+.role strong{font:600 20px var(--display)}
+.role .sum{font-size:15px;color:var(--muted)}
+.role .scores{display:flex;gap:14px;font:500 12px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+section{display:grid;gap:18px;padding-block:36px;border-top:1px solid var(--line)}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:grid;gap:8px;align-content:start}
+.box ul{margin:0;padding-left:20px;display:grid;gap:4px;font-size:16px}
+.lessons{display:grid;gap:16px}
+.lesson{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px;display:grid;gap:14px;min-width:0}
+.lesson .n{font:500 13px var(--mono);color:var(--lv)}
+.notes{display:grid;gap:6px;margin:0}
+.notes div{display:grid;grid-template-columns:minmax(120px,190px) 1fr;gap:4px 14px;font-size:15px;padding:6px 0;border-top:1px dashed var(--line)}
+.notes dt{font-weight:600}.notes dd{margin:0;color:var(--muted)}
+.codehead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
+pre.code{margin:0;background:var(--code-bg);color:var(--code-ink);border-radius:8px;padding:16px;overflow-x:auto;font:13.5px/1.6 var(--mono);tab-size:4}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.45}
+th,td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--line)}
+tr:last-child td{border-bottom:0}
+th{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+td:first-child{font-weight:600;white-space:nowrap}
+.linkbtn{font:500 12px var(--mono);background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;padding:0;justify-self:start}
+.sechead{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
+.count{font:500 13px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.quiz{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:10px;align-content:start}
+.opts{display:grid;gap:6px}
+.opt{text-align:left;font:15px/1.4 var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:8px 12px;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--brand)}
+.opt[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-tint)}
+.opt:disabled{cursor:default}
+.opt.ok{border-color:var(--brand);background:var(--brand-tint);font-weight:600}
+.opt.bad{border-color:var(--mid);color:var(--mid)}
+.card .a{font-size:15px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px}
+.card .a strong{color:var(--ink)}
+.act{font:500 13px var(--mono);background:var(--brand);color:var(--surface);border:0;border-radius:999px;padding:8px 16px;cursor:pointer}
+.foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.note{border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:15px;color:var(--muted);max-width:none}
+.note strong{color:var(--ink)}
+@media (max-width:760px){.roles{grid-template-columns:1fr}.notes div{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+<header class="hero">
+<div class="topbar"><div class="label" id="eyebrow"></div><a id="hubLink" href="__HUB_URL__" target="_blank" rel="noopener"></a></div>
+<h1 id="title"></h1>
+<p class="lede" id="lede"></p>
+<div class="topbar"><div class="chips" id="langs" role="group"></div></div>
+<div class="roles" id="roles" role="group"></div>
+</header>
+<main id="main"></main>
+<p class="note" id="codeNote"></p>
+<button type="button" class="linkbtn" id="reset"></button>
+</div>
+
+<script type="text/plain" id="code-intern-fundamentals" data-lang="Python">
+# Count how often each word appears, ignoring case
+def word_counts(text: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for word in text.lower().split():
+        counts[word] = counts.get(word, 0) + 1
+    return counts
+
+print(word_counts("the cat and the hat"))
+# {'the': 2, 'cat': 1, 'and': 1, 'hat': 1}
+</script>
+<script type="text/plain" id="code-intern-traceback" data-lang="Python traceback">
+Traceback (most recent call last):
+  File "app.py", line 8, in <module>
+    total = add_prices(cart)
+  File "app.py", line 4, in add_prices
+    return sum(item["price"] for item in items)
+KeyError: 'price'
+
+# 1. Read the last line first: a dict in `items` has no "price" key.
+# 2. Then find the frame in your own code: app.py, line 4.
+# 3. Reproduce with the smallest cart that fails, e.g. [{"name": "pen"}].
+</script>
+<script type="text/plain" id="code-intern-git" data-lang="Shell">
+git switch -c fix/page-count       # one branch per change
+# ...edit code, run the tests...
+git status                         # what changed?
+git diff                           # review your own change first
+git add src/pagination.py tests/test_pagination.py
+git commit -m "Fix off-by-one error in page count"
+git push -u origin fix/page-count  # then open a pull request
+</script>
+<script type="text/plain" id="code-intern-test" data-lang="Python · pytest">
+import pytest
+from pricing import discount
+
+@pytest.mark.parametrize("age, expected", [
+    (17, 0),    # just below the boundary
+    (18, 10),   # on the boundary
+    (65, 10),   # on the boundary
+    (66, 20),   # just above
+])
+def test_discount_by_age(age, expected):
+    assert discount(age) == expected
+
+def test_negative_age_is_rejected():
+    with pytest.raises(ValueError):
+        discount(-1)
+</script>
+<script type="text/plain" id="code-intern-http" data-lang="Python · SQL">
+import httpx
+
+response = httpx.get("https://api.example.com/users/42", timeout=5)
+if response.status_code == 404:
+    print("No such user")
+else:
+    response.raise_for_status()   # raise on any other 4xx/5xx
+    user = response.json()        # JSON text -> Python dict
+    print(user["name"])
+
+# The same record, read straight from the database with SQL:
+#   SELECT id, name, email FROM users WHERE id = 42;
+</script>
+<script type="text/plain" id="code-junior-idiomatic" data-lang="Python">
+# Translated line by line from another language: works, but not idiomatic
+result = []
+for i in range(len(users)):
+    if users[i].active == True:
+        result.append(users[i].email.lower())
+
+# Idiomatic Python: one readable comprehension
+emails = [u.email.lower() for u in users if u.active]
+</script>
+<script type="text/plain" id="code-junior-config" data-lang="Python">
+import os
+
+# Read configuration from the environment; fail fast if it is missing
+DATABASE_URL = os.environ["DATABASE_URL"]
+TIMEOUT_SECONDS = float(os.getenv("TIMEOUT_SECONDS", "5"))
+
+# Local development: set it in your shell or an uncommitted .env file
+#   export DATABASE_URL=postgresql://localhost/shop_dev
+</script>
+<script type="text/plain" id="code-junior-table-test" data-lang="Go">
+func TestIsWorkingAge(t *testing.T) {
+	tests := []struct {
+		name string
+		age  int
+		want bool
+	}{
+		{"below", 17, false},
+		{"lower bound", 18, true},
+		{"upper bound", 65, true},
+		{"above", 66, false},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := isWorkingAge(tt.age)
+			if err != nil || got != tt.want {
+				t.Errorf("isWorkingAge(%d) = %v, %v; want %v", tt.age, got, err, tt.want)
+			}
+		})
+	}
+}
+</script>
+<script type="text/plain" id="code-junior-nplus1" data-lang="Python · SQLAlchemy">
+from sqlalchemy import select
+from sqlalchemy.orm import selectinload
+
+# N+1: one query for the orders, then one more per order for its customer
+orders = session.scalars(select(Order)).all()
+for order in orders:
+    print(order.customer.name)      # lazy load -> an extra query each time
+
+# Fixed: load all customers up front (2 queries in total)
+stmt = select(Order).options(selectinload(Order.customer))
+for order in session.scalars(stmt):
+    print(order.customer.name)
+</script>
+<script type="text/plain" id="code-junior-async" data-lang="TypeScript">
+async function loadSequential(id: string) {
+  const user = await getUser(id);
+  const orders = await getOrders(id);   // waits for getUser to finish first
+  return { user, orders };
+}
+
+async function loadConcurrent(id: string) {
+  const [user, orders] = await Promise.all([getUser(id), getOrders(id)]);
+  return { user, orders };              // about one round trip instead of two
+}
+</script>
+<script type="text/plain" id="code-junior-ci" data-lang="YAML · GitHub Actions">
+name: ci
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install -e ".[dev]"
+      - run: ruff check .     # lint
+      - run: pytest           # tests
+      - run: pip-audit        # known-vulnerable dependencies
+</script>
+<script type="text/plain" id="code-mid-interface" data-lang="Go">
+// The consumer defines only the behaviour it needs
+type OrderStore interface {
+	Save(ctx context.Context, o Order) error
+}
+
+type Checkout struct {
+	store OrderStore // PostgreSQL in production, an in-memory fake in tests
+}
+
+func (c *Checkout) PlaceOrder(ctx context.Context, o Order) error {
+	if err := o.Validate(); err != nil {
+		return fmt.Errorf("invalid order: %w", err)
+	}
+	return c.store.Save(ctx, o)
+}
+</script>
+<script type="text/plain" id="code-mid-leak" data-lang="JavaScript">
+// Leak: the cache grows forever and keeps every product in memory
+const cache = new Map();
+export async function getProduct(id) {
+  if (!cache.has(id)) cache.set(id, await fetchProduct(id));
+  return cache.get(id);
+}
+
+// Fix: bound the cache (or use an LRU library with a TTL)
+const MAX_ENTRIES = 1000;
+const bounded = new Map();
+export async function getProductBounded(id) {
+  if (!bounded.has(id)) {
+    if (bounded.size >= MAX_ENTRIES) bounded.delete(bounded.keys().next().value); // evict oldest
+    bounded.set(id, await fetchProduct(id));
+  }
+  return bounded.get(id);
+}
+</script>
+<script type="text/plain" id="code-mid-optimistic" data-lang="SQL">
+-- Read the row together with its version
+SELECT id, stock, version FROM products WHERE id = 7;   -- stock 5, version 12
+
+-- Write only if nobody changed it in the meantime
+UPDATE products
+SET stock = 4, version = version + 1
+WHERE id = 7 AND version = 12;
+
+-- 0 rows updated -> another request won: reload and retry, or report a conflict
+</script>
+<script type="text/plain" id="code-mid-explain" data-lang="SQL · PostgreSQL">
+EXPLAIN ANALYZE
+SELECT * FROM orders
+WHERE customer_id = 42
+ORDER BY created_at DESC
+LIMIT 20;
+-- Before: Seq Scan on orders ...        reads the whole table
+
+CREATE INDEX idx_orders_customer_created
+    ON orders (customer_id, created_at DESC);
+-- After:  Index Scan using idx_orders_customer_created ...   reads ~20 rows
+</script>
+<script type="text/plain" id="code-mid-property" data-lang="Python · Hypothesis">
+from hypothesis import given, strategies as st
+
+def dedupe(items: list[int]) -> list[int]:
+    return list(dict.fromkeys(items))   # keeps the first occurrence, in order
+
+@given(st.lists(st.integers()))
+def test_dedupe_properties(items):
+    result = dedupe(items)
+    assert len(result) == len(set(items))                  # no duplicates left
+    assert set(result) == set(items)                       # nothing lost
+    assert result == sorted(set(items), key=items.index)   # original order kept
+</script>
+<script type="text/plain" id="code-mid-adr" data-lang="Markdown · ADR">
+# ADR 014: Store orders in PostgreSQL
+
+## Status
+Accepted
+
+## Context
+Orders need transactions across order lines and payments. The team
+already operates PostgreSQL. Expected load: about 200 writes per second.
+
+## Decision
+Store orders in PostgreSQL, one schema per service.
+
+## Consequences
++ ACID transactions, mature tooling, no new technology to operate
+- Scaling writes horizontally will need partitioning (revisit at 2,000 writes/s)
+</script>
+
+<script>
+const I18N = /*__DATA__*/null;
+const LANGS = ['en', 'uk', 'pl', 'es'];
+const LANG_NAMES = {en: 'English', uk: 'Українська', pl: 'Polski', es: 'Español'};
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const load = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch (e) { return d } };
+const store = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) {} };
+
+// Saved scores are untrusted input: keep only whole numbers before they reach the page
+const cleanScores = v => {
+  const pick = m => Object.fromEntries(Object.entries(m && typeof m === 'object' ? m : {}).filter(([, n]) => Number.isInteger(n) && n >= 0));
+  return {quiz: pick(v && v.quiz), exam: pick(v && v.exam)};
+};
+let scores = cleanScores(load('roles-scores', null));
+let lang = load('roles-lang', null);
+if (!LANGS.includes(lang)) { const nav = (navigator.language || 'en').slice(0, 2); lang = LANGS.includes(nav) ? nav : 'en' }
+const roleIds = I18N.en.roles.map(r => r.id);
+let role = roleIds.includes(location.hash.slice(1)) ? location.hash.slice(1) : load('roles-role', 'intern');
+if (!roleIds.includes(role)) role = 'intern';
+
+const T = () => I18N[lang];
+const t = (key, vars = {}) => T().ui[key].replace(/\{(\w+)\}/g, (_, k) => vars[k]);
+const R = () => T().roles.find(r => r.id === role);
+const passMark = n => Math.ceil(n * 0.7);
+
+function renderHeader() {
+  document.documentElement.lang = T().ui.htmlLang;
+  $('#eyebrow').textContent = t('eyebrow');
+  $('#title').textContent = t('title');
+  $('#lede').textContent = t('lede');
+  $('#hubLink').textContent = t('backToHub') + ' ↗';
+  $('#codeNote').textContent = t('codeNote');
+  $('#reset').textContent = t('reset');
+  $('#langs').setAttribute('aria-label', t('language'));
+  $('#langs').innerHTML = LANGS.map(l => '<button type="button" data-l="' + l + '" lang="' + l + '" aria-pressed="' + (l === lang) + '">' + LANG_NAMES[l] + '</button>').join('');
+  $('#roles').setAttribute('aria-label', t('roles'));
+  $('#roles').innerHTML = T().roles.map(r => {
+    const q = scores.quiz[r.id], e = scores.exam[r.id];
+    return '<button type="button" class="role lvl-' + r.id + '" data-r="' + r.id + '" aria-pressed="' + (r.id === role) + '"><strong>' + esc(r.name) + '</strong><span class="sum">' + esc(r.summary) + '</span><span class="scores"><span>' + t('quizBest') + ': ' + (q == null ? '–' : q + '/' + r.quiz.length) + '</span><span>' + t('examBest') + ': ' + (e == null ? '–' : e + '/' + r.exam.length) + '</span></span></button>';
+  }).join('');
+}
+
+function codeBlock(id) {
+  const el = document.getElementById('code-' + id);
+  if (!el) return '';
+  return '<div class="codehead"><span class="label">' + esc(el.dataset.lang) + '</span><button type="button" class="linkbtn copy" data-code="' + id + '">' + t('copy') + '</button></div><pre class="code"><code>' + esc(el.textContent.replace(/^\n/, '').replace(/\s+$/, '')) + '</code></pre>';
+}
+
+function mcqHTML(list) {
+  return list.map((q, i) => '<div class="card" data-i="' + i + '"><div class="label">' + t('question', {i: i + 1, n: list.length}) + '</div><p>' + esc(q.q) + '</p><div class="opts" role="group">' +
+    q.a.map((o, j) => [Math.random(), j]).sort((x, y) => x[0] - y[0]).map(([, j]) => '<button type="button" class="opt" data-j="' + j + '" aria-pressed="false">' + esc(q.a[j]) + '</button>').join('') +
+    '</div><p class="a" hidden></p></div>').join('');
+}
+function reveal(card, q, pick) {
+  card.querySelectorAll('.opt').forEach(b => {
+    const j = +b.dataset.j; b.disabled = true;
+    if (j === q.c) { b.classList.add('ok'); b.insertAdjacentText('afterbegin', '✓ ') }
+    else if (j === pick) { b.classList.add('bad'); b.insertAdjacentText('afterbegin', '✗ ') }
+  });
+  const a = card.querySelector('.a'); a.hidden = false;
+  a.innerHTML = '<strong>' + (pick === q.c ? t('correct') : t('wrong')) + '</strong> ' + esc(q.e);
+}
+
+function renderRole() {
+  const r = R();
+  const lessons = r.lessons.map((l, i) => '<article class="lesson lvl-' + r.id + '"><span class="n">' + t('lesson') + ' ' + (i + 1) + '</span><h3>' + esc(l.title) + '</h3><p>' + esc(l.body) + '</p>' +
+    '<h4>' + t('inLanguages') + '</h4><dl class="notes">' + l.langs.map(([n, d]) => '<div><dt>' + esc(n) + '</dt><dd>' + esc(d) + '</dd></div>').join('') + '</dl>' + codeBlock(l.code) + '</article>').join('');
+  $('#main').innerHTML =
+    '<section id="overview"><div class="sechead"><h2>' + esc(r.name) + '</h2><span class="pill lvl-' + r.id + '">' + t('overview') + '</span></div><p>' + esc(r.overview) + '</p>' +
+    '<div class="two"><div class="box"><h4>' + t('expect') + '</h4><ul>' + r.expect.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' +
+    '<div class="box"><h4>' + t('tasks') + '</h4><ul>' + r.tasks.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div></div></section>' +
+    '<section id="lessons"><h2>' + t('lessons') + '</h2><div class="lessons">' + lessons + '</div></section>' +
+    '<section id="languages"><h2>' + t('langContext') + '</h2><div class="tw"><table><thead><tr><th>' + t('langCol') + '</th><th>' + t('whyCol') + '</th></tr></thead><tbody>' +
+    r.langContext.map(([n, d]) => '<tr><td>' + esc(n) + '</td><td>' + esc(d) + '</td></tr>').join('') + '</tbody></table></div></section>' +
+    '<section id="quiz"><div class="sechead"><h2>' + t('quiz') + ' · ' + esc(r.name) + '</h2><span class="count" id="quizScore"></span></div><p>' + t('quizIntro') + '</p><div class="quiz" id="quizQ"></div><button type="button" class="linkbtn" id="quizRetry">' + t('retakeQuiz') + '</button></section>' +
+    '<section id="exam"><div class="sechead"><h2>' + t('exam') + ' · ' + esc(r.name) + '</h2><span class="count" id="examBest"></span></div><p>' + t('examIntro', {n: r.exam.length, p: passMark(r.exam.length)}) + '</p><div class="quiz" id="examQ"></div>' +
+    '<div class="foot"><button type="button" class="act" id="examSubmit"></button><span class="count" id="examMsg" aria-live="polite"></span></div><p class="note" id="examResult" aria-live="polite" hidden></p></section>';
+  drawQuiz(); drawExam();
+}
+
+let qDone = 0, qGot = 0;
+function drawQuiz() {
+  const list = R().quiz; qDone = qGot = 0;
+  $('#quizQ').innerHTML = mcqHTML(list);
+  $('#quizScore').textContent = t('answered', {d: 0, n: list.length});
+}
+let picks = {};
+function drawExam() {
+  const list = R().exam; picks = {};
+  $('#examQ').innerHTML = mcqHTML(list);
+  $('#examResult').hidden = true;
+  $('#examSubmit').textContent = t('submit'); $('#examSubmit').dataset.m = 'submit';
+  $('#examMsg').textContent = t('answered', {d: 0, n: list.length});
+  const b = scores.exam[role];
+  $('#examBest').textContent = b == null ? t('notAttempted') : t('best', {s: b, n: list.length});
+}
+
+function render() { renderHeader(); renderRole() }
+
+document.addEventListener('click', e => {
+  const lb = e.target.closest('#langs button');
+  if (lb) { lang = lb.dataset.l; store('roles-lang', lang); render(); return }
+  const rb = e.target.closest('#roles button');
+  if (rb) { role = rb.dataset.r; store('roles-role', role); history.replaceState(null, '', '#' + role); render(); $('#main').scrollIntoView(); return }
+  const cp = e.target.closest('.copy');
+  if (cp) {
+    const text = document.getElementById('code-' + cp.dataset.code).textContent.replace(/^\n/, '').replace(/\s+$/, '');
+    try { navigator.clipboard.writeText(text).then(() => cp.textContent = t('copied'), () => cp.textContent = t('copyFailed')) } catch (err) { cp.textContent = t('copyFailed') }
+    return;
+  }
+  if (e.target.closest('#quizRetry')) { drawQuiz(); return }
+  const opt = e.target.closest('.opt');
+  if (opt && !opt.disabled) {
+    const card = opt.closest('.card'), i = +card.dataset.i, j = +opt.dataset.j;
+    if (card.closest('#quizQ')) {
+      const list = R().quiz, q = list[i];
+      reveal(card, q, j); qDone++; if (j === q.c) qGot++;
+      if (qDone === list.length) {
+        scores.quiz[role] = Math.max(scores.quiz[role] ?? 0, qGot); store('roles-scores', scores); renderHeader();
+        $('#quizScore').textContent = t('score', {s: qGot, n: list.length});
+      } else $('#quizScore').textContent = t('answered', {d: qDone, n: list.length});
+    } else if (card.closest('#examQ')) {
+      card.querySelectorAll('.opt').forEach(o => o.setAttribute('aria-pressed', String(o === opt)));
+      picks[i] = j; $('#examMsg').textContent = t('answered', {d: Object.keys(picks).length, n: R().exam.length});
+    }
+    return;
+  }
+  if (e.target.closest('#examSubmit')) {
+    const list = R().exam, btn = $('#examSubmit');
+    if (btn.dataset.m === 'retake') { drawExam(); $('#exam').scrollIntoView(); return }
+    const n = Object.keys(picks).length;
+    if (n < list.length) { $('#examMsg').textContent = t('answerAll', {n: list.length, d: n}); return }
+    let s = 0;
+    $('#examQ').querySelectorAll('.card').forEach(c => { const i = +c.dataset.i; if (picks[i] === list[i].c) s++; reveal(c, list[i], picks[i]) });
+    const pass = s >= passMark(list.length);
+    scores.exam[role] = Math.max(scores.exam[role] ?? 0, s); store('roles-scores', scores); renderHeader();
+    $('#examBest').textContent = t('best', {s: scores.exam[role], n: list.length});
+    const res = $('#examResult'); res.hidden = false;
+    res.innerHTML = '<strong>' + s + ' / ' + list.length + ' (' + Math.round(s / list.length * 100) + '%): ' + (pass ? t('passed') : t('notPassed')) + '.</strong> ' + (pass ? t('passedMsg') : t('failedMsg'));
+    $('#examMsg').textContent = ''; btn.textContent = t('retakeExam'); btn.dataset.m = 'retake';
+    return;
+  }
+  if (e.target.closest('#reset')) { scores = {quiz: {}, exam: {}}; store('roles-scores', scores); render() }
+});
+addEventListener('hashchange', () => { const h = location.hash.slice(1); if (roleIds.includes(h) && h !== role) { role = h; render() } });
+render();
+</script>

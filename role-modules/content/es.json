@@ -1,0 +1,410 @@
+{
+  "ui": {
+    "htmlLang": "es",
+    "eyebrow": "Itinerario profesional · Prácticas → Junior → Mid",
+    "title": "Módulos por rol",
+    "lede": "Tres módulos por rol con lecciones, contexto de lenguajes de programación, ejemplos de código, un cuestionario del módulo y un examen para cada nivel. Tus resultados se guardan en este navegador.",
+    "backToHub": "Programming Languages Hub",
+    "language": "Idioma",
+    "roles": "Rol",
+    "overview": "Resumen",
+    "expect": "Qué esperan las empresas",
+    "tasks": "Primeras tareas típicas",
+    "lessons": "Lecciones",
+    "lesson": "Lección",
+    "inLanguages": "En tu lenguaje de programación",
+    "langContext": "Qué lenguajes importan en este nivel",
+    "langCol": "Lenguaje",
+    "whyCol": "Por qué importa aquí",
+    "quiz": "Cuestionario del módulo",
+    "quizIntro": "Elige una respuesta y verás al instante si es correcta y por qué.",
+    "exam": "Examen del rol",
+    "examIntro": "{n} preguntas. Respóndelas todas y luego envía. Para aprobar necesitas un 70% ({p} de {n}).",
+    "question": "Pregunta {i} de {n}",
+    "answered": "{d} / {n} respondidas",
+    "score": "Resultado: {s} / {n}",
+    "correct": "Correcto.",
+    "wrong": "No exactamente.",
+    "submit": "Enviar respuestas",
+    "retakeQuiz": "Repetir cuestionario",
+    "retakeExam": "Repetir examen",
+    "answerAll": "Responde primero las {n} preguntas ({d} respondidas)",
+    "passed": "aprobado",
+    "notPassed": "aún no aprobado",
+    "passedMsg": "Revisa las respuestas marcadas con ✗ arriba.",
+    "failedMsg": "Lee la explicación bajo cada ✗, repasa esas lecciones y vuelve a hacer el examen.",
+    "best": "Mejor: {s} / {n}",
+    "notAttempted": "Sin intentos todavía",
+    "quizBest": "Cuestionario",
+    "examBest": "Examen",
+    "copy": "Copiar código",
+    "copied": "Copiado",
+    "copyFailed": "No se pudo copiar",
+    "reset": "Borrar mis resultados en este dispositivo",
+    "codeNote": "El código y sus comentarios se mantienen en inglés, como en los proyectos reales."
+  },
+  "roles": [
+    {
+      "id": "intern",
+      "name": "Prácticas",
+      "summary": "Aprende rápido, trabaja con seguridad en código real y entrega cambios pequeños y probados.",
+      "overview": "Las prácticas son el lugar donde demuestras que aprendes rápido y trabajas con seguridad dentro de una base de código real. Nadie espera que diseñes sistemas. Tu equipo espera cambios pequeños, correctos y probados, buenas preguntas y explicaciones claras de qué hiciste y por qué. Elige un lenguaje principal y apréndelo bien; los conceptos se trasladan a cada lenguaje que aprendas después.",
+      "expect": [
+        "Resolver tareas pequeñas y bien definidas en un lenguaje",
+        "Leer código existente y seguir los datos a través de funciones y módulos",
+        "Usar Git, ramas y pull requests con confianza",
+        "Escribir pruebas automatizadas básicas y leer mensajes de error",
+        "Hacer preguntas concretas después de intentarlo por tu cuenta"
+      ],
+      "tasks": [
+        "Corregir un error pequeño a partir de una reproducción fiable",
+        "Añadir un campo o una regla de validación a un formulario o una API",
+        "Escribir pruebas para una función que no tiene ninguna",
+        "Mejorar la documentación o un script para desarrolladores",
+        "Escribir una consulta SQL sencilla para un informe"
+      ],
+      "lessons": [
+        {
+          "title": "Fundamentos de programación en un lenguaje",
+          "body": "Valores, variables, tipos, condiciones, bucles, funciones y colecciones son las mismas ideas en todos los lenguajes; solo cambia la sintaxis. Domínalos a fondo en un lenguaje antes de añadir un segundo. Practica escribiendo programas pequeños desde un archivo vacío, no copiando tutoriales: lee datos de entrada, transfórmalos, muestra un resultado y gestiona las entradas incorrectas.",
+          "langs": [
+            ["Python", "Tipado dinámico y la indentación como parte de la sintaxis. Listas, diccionarios y comprehensions cubren casi todo el trabajo diario; empieza por la biblioteca estándar."],
+            ["JavaScript / TypeScript", "Usa let/const y === (nunca ==). Arrays y objetos están en todas partes; añade tipos de TypeScript pronto para detectar errores antes de ejecutar."],
+            ["Java / C#", "Tipos estáticos y clases desde el primer día. El compilador rechaza muchos errores antes de que el programa se ejecute."],
+            ["Go", "Un lenguaje deliberadamente pequeño: slices, maps, structs y valores de error explícitos. Fácil de leer y rápido de aprender."]
+          ],
+          "code": "intern-fundamentals"
+        },
+        {
+          "title": "Leer errores y depurar",
+          "body": "Un mensaje de error es información, no un fracaso. Lee el tipo de error, el mensaje y después el primer marco de la pila que apunta a tu propio código. Reproduce el problema de forma fiable antes de intentar arreglarlo y redúcelo a un ejemplo mínimo reproducible. Usa un depurador con puntos de interrupción para ver los valores en lugar de adivinar; los print sirven para comprobaciones rápidas.",
+          "langs": [
+            ["Python", "El traceback muestra la llamada más reciente al final: lee primero la última línea y luego los marcos de encima."],
+            ["JavaScript / TypeScript", "Usa las DevTools del navegador o el inspector de Node. Los source maps relacionan el JavaScript compilado con tus líneas de TypeScript."],
+            ["Java", "En las trazas de excepciones, la sección \"Caused by\" suele mostrar la causa raíz."],
+            ["C#", "Los depuradores de Visual Studio y Rider se detienen en las excepciones; \"Just My Code\" oculta los marcos del framework."]
+          ],
+          "code": "intern-traceback"
+        },
+        {
+          "title": "Git y pull requests",
+          "body": "Crea una rama por cambio, haz commits pequeños y escribe mensajes que digan qué cambió y por qué. Abre un pull request con una descripción breve y cómo lo probaste. Toma los comentarios de la revisión como aprendizaje: responde a cada uno y sube las correcciones. Nunca hagas commit de secretos como contraseñas o claves de API; si ocurre, avisa a tu equipo para que se renueve el secreto.",
+          "langs": [
+            ["Python", "Añade __pycache__/ y .venv/ al .gitignore."],
+            ["Node.js", "Ignora node_modules/ y los resultados de compilación como dist/."],
+            ["Java", "Ignora target/ (Maven) o build/ (Gradle)."],
+            [".NET", "Ignora bin/ y obj/."]
+          ],
+          "code": "intern-git"
+        },
+        {
+          "title": "Tus primeras pruebas automatizadas",
+          "body": "Una prueba sigue el esquema Arrange, Act, Assert: prepara los datos, llama al código y comprueba el resultado. Prueba el caso normal, los límites y las entradas no válidas. Cada prueba debe tener un único motivo claro para fallar y ejecutarse sin depender de otras. Las pruebas que se ejecutan automáticamente en CI te protegen a ti y a tu equipo de las regresiones.",
+          "langs": [
+            ["Python", "pytest: sentencias assert simples y parametrize para muchos casos."],
+            ["JavaScript / TypeScript", "Vitest o Jest: bloques describe/it con expect()."],
+            ["Java", "JUnit 5 con assertEquals y @ParameterizedTest."],
+            ["C#", "xUnit o NUnit con [Fact] y [Theory]."],
+            ["Go", "El paquete testing integrado; no hace falta ningún framework."]
+          ],
+          "code": "intern-test"
+        },
+        {
+          "title": "HTTP, JSON y tu primer SQL",
+          "body": "La mayoría del software se comunica por HTTP: un cliente envía una petición y el servidor devuelve un código de estado y un cuerpo, normalmente JSON. 2xx significa éxito, 4xx un error del cliente y 5xx un fallo del servidor. Los datos suelen estar en una base de datos relacional: aprende SELECT, WHERE, ORDER BY, un JOIN sencillo e INSERT/UPDATE/DELETE.",
+          "langs": [
+            ["Python", "httpx o requests para HTTP; el módulo json o response.json() para los datos."],
+            ["TypeScript", "fetch() viene integrado en navegadores y Node; comprueba siempre response.ok."],
+            ["Java / C#", "java.net.http.HttpClient y HttpClient de .NET; convierte el JSON en clases o records."],
+            ["SQL", "Practica con SQLite o PostgreSQL; las mismas consultas básicas funcionan casi en todas partes."]
+          ],
+          "code": "intern-http"
+        }
+      ],
+      "langContext": [
+        ["Python", "El comienzo más rápido. Habitual en prácticas de automatización, datos, QA y backend."],
+        ["TypeScript / JavaScript", "La web: frontend y Node.js. El mayor número de ofertas de empleo."],
+        ["Java / C#", "Frecuentes en prácticas en grandes empresas. El tipado estático enseña estructura desde el principio."],
+        ["SQL", "Necesario en casi todos los roles, porque toda aplicación guarda datos."]
+      ],
+      "quiz": [
+        {"q": "¿Por dónde empiezas a leer un traceback de Python?", "a": ["Por la primera línea", "Por la última línea: el tipo de excepción y el mensaje", "Por los marcos intermedios", "Solo por los nombres de archivo"], "c": 1, "e": "Python imprime la llamada más reciente al final, así que la última línea te dice qué falló."},
+        {"q": "Un campo acepta valores de 1 a 100. ¿Qué valores prueban los límites?", "a": ["Solo 50", "Solo 1 y 100", "0, 1, 100 y 101", "-100 y 1000"], "c": 2, "e": "Prueba justo por debajo, en el límite y justo por encima de cada límite."},
+        {"q": "Has encontrado un error. ¿Cuál es el primer paso?", "a": ["Reescribir la función", "Reproducirlo de forma fiable", "Pedir a otra persona que lo arregle", "Añadir logs por todas partes"], "c": 1, "e": "Sin una reproducción no puedes confirmar que tu corrección funciona."},
+        {"q": "¿Qué significa el código de estado HTTP 404?", "a": ["El servidor se ha caído", "Recurso no encontrado", "Éxito", "Demasiadas peticiones"], "c": 1, "e": "Los códigos 4xx son errores del cliente; 404 significa que el recurso solicitado no existe."},
+        {"q": "¿Dónde deben guardarse secretos como las claves de API?", "a": ["En el código fuente", "En un mensaje de commit", "En variables de entorno o un gestor de secretos", "En el README"], "c": 2, "e": "Los secretos nunca se suben al repositorio; la configuración viene del entorno o de un almacén de secretos."},
+        {"q": "¿Qué consulta devuelve los clientes de Polonia ordenados por nombre?", "a": ["SELECT * FROM customers ORDER BY country", "SELECT name FROM customers WHERE country = 'PL' ORDER BY name", "UPDATE customers SET country = 'PL'", "SELECT name FROM customers GROUP BY name"], "c": 1, "e": "WHERE filtra las filas; ORDER BY las ordena."}
+      ],
+      "exam": [
+        {"q": "¿Qué lenguaje se compila a bytecode y se ejecuta en una máquina virtual?", "a": ["C", "Java", "Bash", "HTML"], "c": 1, "e": "Java se compila a bytecode de la JVM, que la JVM ejecuta."},
+        {"q": "En JavaScript, 1 == \"1\" es true pero 1 === \"1\" es false. ¿Por qué?", "a": ["=== es más rápido", "=== compara sin conversión de tipos", "== solo funciona con cadenas", "Es un error del navegador"], "c": 1, "e": "== convierte los tipos antes de comparar; === exige el mismo tipo."},
+        {"q": "¿Qué debe ir en el .gitignore de un proyecto Node.js?", "a": ["package.json", "node_modules/", "src/", "README.md"], "c": 1, "e": "Las dependencias se reinstalan desde package.json y el archivo lock, así que node_modules/ nunca se sube al repositorio."},
+        {"q": "¿Cuál es el mejor mensaje de commit?", "a": ["fix", "changes", "Fix off-by-one error in page count", "asdf"], "c": 2, "e": "Un buen mensaje dice en pocas palabras qué cambió y por qué."},
+        {"q": "En Arrange-Act-Assert, ¿qué es el paso Act?", "a": ["Crear datos de prueba", "Llamar al código que se prueba", "Comprobar el resultado", "Borrar la prueba"], "c": 1, "e": "Arrange prepara, Act ejecuta el código y Assert comprueba el resultado."},
+        {"q": "¿Qué indica el código de estado HTTP 500?", "a": ["Un error del cliente", "Una redirección", "Un error del servidor", "Éxito"], "c": 2, "e": "Los códigos 5xx indican que el servidor falló al procesar una petición válida."},
+        {"q": "¿Qué es JSON?", "a": ["Una base de datos", "Un formato de texto para objetos, arrays, cadenas, números, booleanos y null", "Un lenguaje de programación", "Un servidor web"], "c": 1, "e": "JSON es el formato de datos más común en las API web."},
+        {"q": "¿Qué devuelve un INNER JOIN?", "a": ["Todas las filas de ambas tablas", "Solo las filas que coinciden en ambas tablas", "Solo las filas de la tabla izquierda", "Las filas sin coincidencia"], "c": 1, "e": "INNER JOIN conserva solo las filas que cumplen la condición de unión."},
+        {"q": "¿Qué es un ejemplo mínimo reproducible?", "a": ["Todo el proyecto comprimido", "El código más pequeño que todavía muestra el problema", "Una captura de pantalla del error", "Una lista de todo lo que probaste"], "c": 1, "e": "Reducir el problema suele revelar la causa y facilita que otros te ayuden."},
+        {"q": "Llevas 45 minutos atascado. ¿Qué haces?", "a": ["Seguir intentándolo en silencio todo el día", "Anotar lo que has probado y hacer una pregunta concreta", "Empezar otra tarea sin decírselo a nadie", "Copiar una respuesta cualquiera de internet"], "c": 1, "e": "Los equipos valoran a quien lo intenta primero y luego hace preguntas precisas."},
+        {"q": "En Python, ¿qué estructura es mejor para buscar valores por clave?", "a": ["list", "tuple", "dict", "string"], "c": 2, "e": "Un dict ofrece búsquedas rápidas por clave; buscar en una lista revisa cada elemento."},
+        {"q": "¿Qué archivo configura un proyecto Maven en Java?", "a": ["package.json", "pom.xml", "Cargo.toml", "go.mod"], "c": 1, "e": "Maven lee pom.xml; Gradle usa build.gradle(.kts)."}
+      ]
+    },
+    {
+      "id": "junior",
+      "name": "Junior",
+      "summary": "Responsabilízate de funcionalidades de principio a fin, escribe código idiomático y empieza a revisar el trabajo de otros.",
+      "overview": "Un desarrollador junior entrega funcionalidades pequeñas y medianas con supervisión limitada. El salto respecto a las prácticas es la responsabilidad: llevas una tarea desde un requisito poco claro hasta un código fusionado, probado y desplegado, y empiezas a revisar el trabajo de otras personas. Escribes el código como lo hace la comunidad de tu lenguaje y entiendes la base de datos, el pipeline de CI y los riesgos de seguridad más comunes.",
+      "expect": [
+        "Entregar funcionalidades de principio a fin con supervisión limitada",
+        "Escribir código idiomático en el lenguaje principal del equipo",
+        "Escribir pruebas de integración y usar mocks con criterio",
+        "Revisar pull requests y explicar las ventajas y desventajas",
+        "Trabajar con bases de datos: JOIN, transacciones y migraciones",
+        "Arreglar una build de CI rota y reconocer problemas de seguridad comunes"
+      ],
+      "tasks": [
+        "Implementar un endpoint de API con validación, persistencia y pruebas",
+        "Añadir una migración de base de datos y datos iniciales",
+        "Encontrar y corregir una prueba inestable (flaky)",
+        "Revisar el pull request de un compañero",
+        "Investigar un error a partir de logs e informes de errores"
+      ],
+      "lessons": [
+        {
+          "title": "Código idiomático",
+          "body": "El código idiomático tiene el aspecto que esperan los desarrolladores experimentados de ese lenguaje, lo que lo hace más fácil de leer, revisar y mantener. Usa el formateador y el linter oficiales, sigue las convenciones de nombres y recurre a la biblioteca estándar antes de añadir dependencias. Traducir otro lenguaje línea por línea es el error más común de un junior.",
+          "langs": [
+            ["Python", "PEP 8, comprehensions, gestores de contexto (with), dataclasses y anotaciones de tipo; ruff para lint y formato."],
+            ["TypeScript", "strict mode, tipos unión, async/await y estrechamiento de tipos; ESLint y Prettier."],
+            ["Java", "Records para datos, streams cuando son más claros que los bucles, Optional para valores de retorno que pueden faltar."],
+            ["C#", "LINQ, async en todos los niveles, nullable reference types y records."],
+            ["Go", "gofmt, errores como valores, interfaces pequeñas; acepta interfaces, devuelve structs."],
+            ["Rust", "clippy, Result con el operador ?, préstamos en lugar de clonar."]
+          ],
+          "code": "junior-idiomatic"
+        },
+        {
+          "title": "Módulos, dependencias y configuración",
+          "body": "Un gestor de paquetes instala las dependencias; un archivo lock fija las versiones exactas para que cada máquina y cada ejecución de CI obtengan la misma build. El versionado semántico (MAJOR.MINOR.PATCH) indica si una actualización puede romper algo. Mantén la configuración, como URL y credenciales, fuera del código: léela del entorno para que la misma build funcione en cualquier entorno.",
+          "langs": [
+            ["Python", "pyproject.toml con uv o pip; trabaja siempre en un entorno virtual."],
+            ["Node.js", "package.json con package-lock.json o pnpm-lock.yaml."],
+            ["Java", "Maven (pom.xml) o Gradle (build.gradle.kts)."],
+            [".NET", "Paquetes NuGet declarados en el archivo .csproj."],
+            ["Go", "go.mod y go.sum."],
+            ["Rust", "Cargo.toml y Cargo.lock."]
+          ],
+          "code": "junior-config"
+        },
+        {
+          "title": "Pruebas más allá de las unitarias",
+          "body": "La pirámide de pruebas: muchas pruebas unitarias rápidas, menos de integración y unas pocas end-to-end. Las pruebas de integración hablan con dependencias reales, como una base de datos en un contenedor. Haz mocks de lo que no controlas (API de terceros, correo), pero no de tus propias consultas a la base de datos. Las pruebas inestables suelen deberse a tiempos, al orden de las pruebas o a estado compartido; corrígelas en lugar de volver a ejecutarlas.",
+          "langs": [
+            ["Python", "Fixtures de pytest y Testcontainers para un PostgreSQL real."],
+            ["TypeScript", "Vitest con MSW para simular HTTP a nivel de red."],
+            ["Java", "JUnit 5, Mockito y Testcontainers."],
+            ["C#", "xUnit con Moq o NSubstitute; WebApplicationFactory para pruebas de API."],
+            ["Go", "Pruebas basadas en tablas: una prueba, muchos casos en un slice."]
+          ],
+          "code": "junior-table-test"
+        },
+        {
+          "title": "Bases de datos en el código de la aplicación",
+          "body": "El trabajo de un junior toca la base de datos a diario: JOIN de varias tablas, agregación con GROUP BY, transacciones, restricciones e índices. Cambia el esquema solo mediante migraciones versionadas. Los ORM ahorran tiempo, pero pueden ocultar el problema N+1: una consulta para la lista y otra más por cada elemento. Pasa siempre los valores como parámetros; nunca construyas cadenas SQL.",
+          "langs": [
+            ["Python", "SQLAlchemy para consultas, Alembic para migraciones."],
+            ["TypeScript", "Prisma o Drizzle, cada uno con sus propias migraciones."],
+            ["Java", "JPA/Hibernate con Flyway o Liquibase."],
+            ["C#", "Entity Framework Core y sus migraciones."],
+            ["Go", "database/sql con sqlc, o pgx para PostgreSQL."]
+          ],
+          "code": "junior-nplus1"
+        },
+        {
+          "title": "Fundamentos de asincronía y concurrencia",
+          "body": "Distingue el trabajo limitado por E/S (esperar a la red o al disco) del trabajo limitado por CPU (calcular). El código asíncrono permite que un solo hilo espere muchas operaciones de E/S a la vez; para cálculos realmente paralelos hacen falta hilos o procesos. El estado mutable compartido entre tareas concurrentes provoca condiciones de carrera, y bloquear un bucle de eventos detiene todas las peticiones.",
+          "langs": [
+            ["Python", "asyncio para E/S. En las builds estándar el GIL limita el paralelismo de CPU en hilos, así que usa multiprocessing para el trabajo pesado de CPU."],
+            ["JavaScript", "Un bucle de eventos de un solo hilo: usa await para la E/S, ejecuta llamadas independientes con Promise.all y nunca lo bloquees con bucles largos de CPU."],
+            ["Java", "Hilos, ExecutorService e hilos virtuales (Java 21) para muchas tareas concurrentes de E/S."],
+            ["C#", "Task y async/await; evita .Result y .Wait(), que pueden provocar interbloqueos."],
+            ["Go", "Goroutines y canales; sync.WaitGroup para esperar a un grupo de goroutines."]
+          ],
+          "code": "junior-async"
+        },
+        {
+          "title": "Revisión de código, CI/CD y seguridad básica",
+          "body": "Al revisar, comprueba primero la corrección, luego las pruebas y después la legibilidad; mantén tus propios pull requests pequeños y centrados. Un pipeline de CI ejecuta el linter, las pruebas y la build en cada push, y una build en rojo se arregla antes que cualquier otra cosa. Conoce lo básico del OWASP Top 10: inyección, control de acceso roto, filtración de secretos y dependencias vulnerables.",
+          "langs": [
+            ["Python", "pip-audit para paquetes vulnerables."],
+            ["Node.js", "npm audit; Dependabot o Renovate para las actualizaciones."],
+            ["Java", "OWASP Dependency-Check o sus equivalentes para Gradle/Maven."],
+            [".NET", "dotnet list package --vulnerable."],
+            ["Go / Rust", "govulncheck y cargo audit."]
+          ],
+          "code": "junior-ci"
+        }
+      ],
+      "langContext": [
+        ["Python", "Django o FastAPI, PostgreSQL y pytest: equipos de backend, datos y automatización."],
+        ["TypeScript", "React o Next.js en el frontend, Node.js o NestJS en el backend."],
+        ["Java / Kotlin", "Spring Boot, JPA y JUnit: grandes sistemas empresariales y bancarios."],
+        ["C#", "ASP.NET Core, Entity Framework Core y xUnit: empresa, nube y Azure."],
+        ["Go", "net/http o chi, sqlc y el paquete testing: servicios en la nube y herramientas."],
+        ["SQL", "JOIN, agregaciones, transacciones y migraciones pasan a ser trabajo diario."]
+      ],
+      "quiz": [
+        {"q": "¿Para qué sirve un archivo lock?", "a": ["Para cifrar el código", "Para instalaciones reproducibles con versiones exactas de las dependencias", "Para impedir que otros desarrolladores editen", "Para acelerar el compilador"], "c": 1, "e": "El archivo lock fija la versión de cada dependencia para que todas las máquinas instalen lo mismo."},
+        {"q": "¿Qué es el problema de las consultas N+1?", "a": ["Un índice que falta", "Una consulta para la lista más una consulta extra por cada elemento", "Un error de sintaxis en SQL", "Demasiadas conexiones a la base de datos"], "c": 1, "e": "Corrígelo con un JOIN o con la carga anticipada (eager loading) del ORM."},
+        {"q": "Un servidor Node.js ejecuta un bucle de CPU de 5 segundos dentro de un manejador de peticiones. ¿Qué ocurre?", "a": ["Solo se ralentiza esa petición", "Todas las peticiones se detienen hasta que termina el bucle", "Node lo mueve automáticamente a otro hilo", "Nada"], "c": 1, "e": "El bucle de eventos es de un solo hilo; bloquearlo bloquea a todos."},
+        {"q": "¿Cuándo es un mock la opción correcta?", "a": ["Para tus propias consultas a la base de datos", "Para servicios de terceros que no controlas", "Para todas las dependencias", "Nunca"], "c": 1, "e": "Simula lo que no es tuyo; prueba tu código de base de datos contra una base de datos real."},
+        {"q": "Una actualización pasa de 2.3.1 a 3.0.0. ¿Qué te dice el versionado semántico?", "a": ["Solo correcciones de errores", "Nuevas funciones, totalmente compatibles", "Puede haber cambios incompatibles", "Nada"], "c": 2, "e": "Un cambio de versión MAJOR indica cambios incompatibles en la API."},
+        {"q": "¿Por qué envolver dos UPDATE relacionados en una transacción?", "a": ["Para que sean más rápidos", "Para que se apliquen juntos o no se aplique ninguno", "Para saltarse las restricciones", "Para no necesitar un índice"], "c": 1, "e": "La atomicidad evita cambios a medias."}
+      ],
+      "exam": [
+        {"q": "¿Cuál es la forma idiomática en Python de asegurarse de que un archivo se cierra?", "a": ["Llamar a close() al final", "with open(...) as f:", "Dejar que lo gestione el recolector de basura", "try/except sin finally"], "c": 1, "e": "Un gestor de contexto cierra el archivo incluso si se lanza una excepción."},
+        {"q": "En C#, ¿qué riesgo tiene llamar a .Result en una Task sin terminar?", "a": ["Ninguno", "Puede bloquear el hilo y provocar interbloqueos", "Hace el código más rápido", "Convierte la tarea en un hilo"], "c": 1, "e": "Usa async/await en todos los niveles en lugar de bloquear."},
+        {"q": "¿Cuál es la convención de Go para los errores?", "a": ["Lanzar excepciones", "Devolver el error como último valor y comprobarlo", "Registrarlo e ignorarlo", "Usar solo variables de error globales"], "c": 1, "e": "if err != nil { ... } es Go idiomático."},
+        {"q": "¿Para qué está pensado Optional en Java?", "a": ["Campos de clase", "Parámetros de métodos", "Valores de retorno que pueden faltar", "Colecciones"], "c": 2, "e": "Optional indica «puede que no haya resultado»; no está pensado para campos ni parámetros."},
+        {"q": "¿Cuál es una causa habitual de las pruebas inestables?", "a": ["Demasiadas aserciones", "Tiempos, orden de las pruebas o estado compartido", "Nombres de prueba descriptivos", "Usar un framework de pruebas"], "c": 1, "e": "Haz que las pruebas sean independientes y deterministas."},
+        {"q": "¿Qué hace bueno a un pull request?", "a": ["Que sea lo más grande posible", "Que sea pequeño, con un único propósito y una descripción clara", "Que no necesite descripción", "Que junte muchos cambios sin relación"], "c": 1, "e": "Los PR pequeños reciben revisiones más rápidas y mejores."},
+        {"q": "¿Dónde debe estar la contraseña de la base de datos de producción?", "a": ["En el código", "En una variable de entorno o un gestor de secretos", "En el historial de Git", "En un comentario"], "c": 1, "e": "La configuración viene del entorno; los secretos nunca entran en el repositorio."},
+        {"q": "¿Cuál es el coste de añadir un índice?", "a": ["Lecturas más rápidas, escrituras más lentas y más almacenamiento", "Escrituras más rápidas, lecturas más lentas", "No tiene coste", "Elimina filas duplicadas"], "c": 0, "e": "Indexa las columnas por las que filtras y unes, no todas."},
+        {"q": "¿Cuál es un ejemplo de control de acceso roto?", "a": ["Una página lenta", "Un usuario ve el pedido de otro cambiando el ID en la URL", "Una errata en una etiqueta", "Falta el favicon"], "c": 1, "e": "Cada petición debe comprobar que el usuario puede acceder a ese recurso concreto."},
+        {"q": "¿Cuándo debe fallar un pipeline de CI?", "a": ["Nunca", "Cuando fallan el linter o las pruebas", "Solo los viernes", "Cuando la build es demasiado rápida"], "c": 1, "e": "Un control fallido impide que el código roto se fusione."},
+        {"q": "¿Qué es una migración de base de datos?", "a": ["Cambiarse a otro proveedor de base de datos", "Un cambio de esquema versionado y revisado que se aplica igual en todos los entornos", "Una copia de seguridad", "Una edición manual de SQL en producción"], "c": 1, "e": "Las migraciones hacen que los cambios de esquema sean repetibles y revisables."},
+        {"q": "¿Qué recomienda la pirámide de pruebas?", "a": ["Sobre todo pruebas end-to-end", "Muchas pruebas unitarias, menos de integración y pocas end-to-end", "Solo pruebas manuales", "La misma cantidad de cada tipo"], "c": 1, "e": "Pruebas rápidas y concretas en la base; unas pocas lentas y amplias en la cima."}
+      ]
+    },
+    {
+      "id": "mid",
+      "name": "Mid",
+      "summary": "Responsabilízate de componentes, haz explícitas las decisiones, mantén sistemas fiables y ayuda a crecer a otros.",
+      "overview": "Un desarrollador de nivel mid es responsable de componentes, no solo de tareas. Diseñas interfaces y modelos de datos, haces explícitas las ventajas y desventajas de cada decisión, mantienes los sistemas observables y fiables en producción y elevas el nivel de las personas que te rodean. Entiendes cómo se comporta el entorno de ejecución de tu lenguaje bajo carga y sabes elegir la herramienta adecuada, o el segundo lenguaje adecuado, para cada problema.",
+      "expect": [
+        "Diseñar componentes con responsabilidades y límites claros",
+        "Razonar sobre rendimiento, memoria y concurrencia",
+        "Liderar la depuración de incidentes en producción",
+        "Diseñar estrategias de pruebas, no solo pruebas individuales",
+        "Modelar datos y optimizar consultas",
+        "Mentorizar a juniors y evaluar herramientas, incluidos los asistentes de IA"
+      ],
+      "tasks": [
+        "Diseñar un módulo o servicio nuevo y registrar la decisión en un ADR",
+        "Liderar la investigación de un incidente y un postmortem sin culpables",
+        "Reducir la latencia p95 de un endpoint lento",
+        "Planificar una migración de esquema compatible con versiones anteriores",
+        "Acompañar a un desarrollador junior durante una funcionalidad"
+      ],
+      "lessons": [
+        {
+          "title": "Diseño y arquitectura",
+          "body": "Un buen diseño mantiene junto el código relacionado (alta cohesión) y tiene pocas dependencias, apuntando hacia dentro (bajo acoplamiento). Coloca interfaces en los límites, como el almacenamiento, la mensajería y las API externas, para que los detalles puedan cambiar sin reescribir el núcleo. Registra las decisiones importantes en Architecture Decision Records, prefiere decisiones reversibles y empieza con un monolito modular antes de dividirlo en servicios.",
+          "langs": [
+            ["Java / C#", "Interfaces explícitas con inyección de dependencias (Spring, DI de ASP.NET Core)."],
+            ["Go", "Interfaces pequeñas definidas por el consumidor; las implementaciones las cumplen de forma implícita."],
+            ["Rust", "Traits para el comportamiento; el sistema de propiedad obliga a un flujo de datos claro en el diseño."],
+            ["TypeScript", "Tipos estructurales y límites de módulo claros; evita las importaciones circulares."],
+            ["Python", "typing.Protocol describe interfaces con tipado de pato que los verificadores de tipos comprueban."]
+          ],
+          "code": "mid-interface"
+        },
+        {
+          "title": "Comportamiento en tiempo de ejecución y memoria",
+          "body": "En el nivel mid explicas por qué un servicio se ralentiza o se queda sin memoria. En los lenguajes con recolector de basura, las fugas son objetos que siguen referenciados: cachés sin límite, listeners de eventos olvidados, colecciones estáticas. Una tasa alta de asignaciones presiona al GC. Los compiladores JIT necesitan calentamiento, así que haz benchmarks realistas. Usa perfiladores y volcados de heap en lugar de adivinar.",
+          "langs": [
+            ["Java", "G1 es el GC por defecto y ZGC busca baja latencia; volcados de heap y JDK Flight Recorder."],
+            ["C#", "Modos de GC de .NET; dotnet-counters y dotnet-trace."],
+            ["Go", "Un GC concurrente ajustable con GOGC y GOMEMLIMIT; pprof para CPU y memoria."],
+            ["Python", "Conteo de referencias más un recolector de ciclos; tracemalloc y py-spy."],
+            ["JavaScript", "Instantáneas del heap de V8 en DevTools; los closures pueden mantener vivos objetos grandes."],
+            ["Rust", "Sin GC; la memoria se libera mediante la propiedad. Vigila los ciclos de referencias con Rc."]
+          ],
+          "code": "mid-leak"
+        },
+        {
+          "title": "Concurrencia y consistencia",
+          "body": "Los sistemas distribuidos fallan de forma parcial, así que diseña para ello: pon timeouts a cada llamada, reintenta con espera exponencial y jitter, y haz que las operaciones sean idempotentes para que un reintento no cobre dos veces a un cliente. Entiende las condiciones de carrera y los interbloqueos, los niveles de aislamiento de la base de datos y el bloqueo optimista frente al pesimista.",
+          "langs": [
+            ["Java", "java.util.concurrent e hilos virtuales; CompletableFuture para componer."],
+            ["C#", "async con SemaphoreSlim y Channels; CancellationToken en todas partes."],
+            ["Go", "context para cancelaciones y plazos; ejecuta las pruebas con -race para detectar carreras de datos."],
+            ["Rust", "Los traits Send y Sync rechazan las carreras de datos en tiempo de compilación."],
+            ["Python", "asyncio para E/S; multiprocessing o extensiones nativas para el trabajo de CPU."],
+            ["SQL", "Niveles de aislamiento, SELECT … FOR UPDATE y columnas de versión para el bloqueo optimista."]
+          ],
+          "code": "mid-optimistic"
+        },
+        {
+          "title": "Rendimiento y observabilidad",
+          "body": "Mide antes de optimizar. Sigue la latencia en percentiles (p50, p95, p99), no en medias. Perfila para saber dónde se va realmente el tiempo y corrige el coste mayor, que a menudo es una consulta o una llamada de red y no el propio código. Instrumenta los servicios con logs, métricas y trazas, idealmente con OpenTelemetry, y define SLO para saber cuándo se ven afectados los usuarios.",
+          "langs": [
+            ["Java", "JDK Flight Recorder y async-profiler."],
+            [".NET", "dotnet-trace, dotnet-counters y PerfView."],
+            ["Go", "pprof y el trazador de ejecución integrado."],
+            ["Python", "py-spy y cProfile."],
+            ["Node.js", "La opción --cpu-prof y Chrome DevTools."],
+            ["SQL", "EXPLAIN ANALYZE para leer los planes de ejecución reales."]
+          ],
+          "code": "mid-explain"
+        },
+        {
+          "title": "Estrategia de pruebas y calidad",
+          "body": "Una estrategia de pruebas decide qué probar, a qué nivel y cuánto, según el riesgo. Usa pruebas de contrato entre servicios para que un equipo no pueda romper a otro sin darse cuenta, pruebas basadas en propiedades para explorar muchas entradas automáticamente, y datos de prueba realistas y versionados. En producción, los feature flags y los despliegues canary limitan el daño de un cambio defectuoso.",
+          "langs": [
+            ["Python", "Hypothesis para pruebas basadas en propiedades."],
+            ["TypeScript", "fast-check."],
+            ["Java", "jqwik; Pact para pruebas de contrato."],
+            [".NET", "FsCheck; PactNet."],
+            ["Go", "Fuzzing integrado con go test -fuzz."],
+            ["Rust", "proptest y cargo-fuzz."]
+          ],
+          "code": "mid-property"
+        },
+        {
+          "title": "Liderazgo, mentoría y herramientas de IA",
+          "body": "Los ingenieros de nivel mid multiplican la capacidad del equipo. Revisa el código de forma que enseñe, escribe documentos de diseño breves antes de los cambios grandes, estima con rangos y explica tus suposiciones, y dirige postmortems sin culpables que arreglen sistemas en lugar de señalar a personas. Evalúa los asistentes de IA con espíritu crítico: aceleran el código repetitivo y las pruebas, pero añaden carga de revisión, y las decisiones de seguridad y licencias siguen siendo tuyas.",
+          "langs": [
+            ["Go", "Un buen segundo lenguaje para servicios, infraestructura y herramientas de línea de comandos."],
+            ["Rust", "Para componentes críticos en rendimiento o seguridad."],
+            ["Kotlin", "Para servicios en la JVM y Android, con interoperabilidad total con Java."],
+            ["TypeScript", "Para trabajo full-stack de producto con un solo lenguaje en cliente y servidor."]
+          ],
+          "code": "mid-adr"
+        }
+      ],
+      "langContext": [
+        ["Java / Kotlin", "Servicios grandes con mucha lógica de dominio; ajuste de la JVM y concurrencia a escala."],
+        ["C#", "Sistemas empresariales y en la nube sobre .NET; API de alto rendimiento."],
+        ["Go", "Infraestructura en la nube, servicios de red y herramientas de línea de comandos."],
+        ["Rust", "Componentes críticos en rendimiento y seguridad; programación de sistemas."],
+        ["Python", "Plataformas de datos y ML, automatización y herramientas internas."],
+        ["TypeScript", "Desarrollo de producto full-stack en web y servidor."],
+        ["SQL", "Modelado de datos, optimización de consultas y consistencia en cualquier stack."]
+      ],
+      "quiz": [
+        {"q": "¿Qué significa una latencia p99 de 800 ms?", "a": ["La media es de 800 ms", "El 99% de las peticiones termina en 800 ms o menos", "La petición más rápida tardó 800 ms", "99 peticiones tardaron 800 ms"], "c": 1, "e": "Los percentiles muestran la cola que las medias ocultan."},
+        {"q": "¿Qué hace que una operación sea idempotente?", "a": ["Que se ejecute rápido", "Que repetirla tenga el mismo efecto que hacerla una vez", "Que nunca falle", "Que use una transacción"], "c": 1, "e": "La idempotencia hace que los reintentos sean seguros."},
+        {"q": "¿Cuál es una fuga de memoria típica en Java, C# o JavaScript?", "a": ["Olvidar llamar a free()", "Objetos que siguen referenciados, por ejemplo una caché sin límite", "Usar demasiados hilos", "Un desbordamiento de pila"], "c": 1, "e": "El recolector de basura no puede liberar objetos que siguen siendo alcanzables."},
+        {"q": "¿Cómo se detectan carreras de datos en Go?", "a": ["Solo con go vet", "go test -race", "gofmt", "No es posible"], "c": 1, "e": "El detector de carreras instrumenta los accesos a memoria en tiempo de ejecución."},
+        {"q": "¿Qué es un ADR?", "a": ["Una herramienta de despliegue automático", "Un registro de una decisión, su contexto y sus consecuencias", "Un tipo de base de datos", "Un informe de pruebas"], "c": 1, "e": "Los Architecture Decision Records explican por qué un sistema es como es."},
+        {"q": "Un endpoint es lento. ¿Qué haces primero?", "a": ["Reescribirlo en Rust", "Medir y perfilar para encontrar el coste real", "Añadir caché en todas partes", "Aumentar el tamaño del servidor"], "c": 1, "e": "Optimiza lo que muestran los datos, no lo que supones."}
+      ],
+      "exam": [
+        {"q": "¿Qué puede pasar si muchos clientes reintentan de inmediato, sin espera exponencial ni jitter?", "a": ["Nada", "Una tormenta de reintentos que sobrecarga al servicio que ya tiene problemas", "Una recuperación más rápida", "Escalado automático"], "c": 1, "e": "La espera exponencial con jitter reparte los reintentos en el tiempo."},
+        {"q": "¿Cómo funciona el bloqueo optimista?", "a": ["Bloqueando cada fila al leerla", "Con una columna de versión; la actualización falla si la versión cambió", "Desactivando las transacciones", "Con un mutex global"], "c": 1, "e": "Los conflictos se detectan al escribir, lo que encaja con datos con poca contención."},
+        {"q": "¿Qué verifica una prueba de contrato?", "a": ["La disposición de la interfaz", "Que un proveedor y un consumidor coinciden en la API", "El rendimiento de la base de datos", "El estilo del código"], "c": 1, "e": "Las pruebas de contrato detectan cambios incompatibles en la API antes del despliegue."},
+        {"q": "¿Cómo evita Rust las carreras de datos?", "a": ["Con un recolector de basura", "Con los traits Send y Sync y el borrow checker en tiempo de compilación", "Con bloqueos en tiempo de ejecución en cada variable", "No las evita"], "c": 1, "e": "Compartir datos de forma insegura entre hilos no compila."},
+        {"q": "¿En qué se centra un postmortem sin culpables?", "a": ["En quién cometió el error", "En las causas del sistema y en mejoras concretas", "En los castigos", "Solo en la cronología"], "c": 1, "e": "Las personas actúan de forma razonable con la información que tienen; arregla el sistema."},
+        {"q": "¿Qué son las pruebas basadas en propiedades?", "a": ["Probar solo las propiedades de los objetos", "Generar muchas entradas para comprobar invariantes que siempre deben cumplirse", "Pruebas exploratorias manuales", "Probar el CSS"], "c": 1, "e": "El framework busca entradas que rompan la propiedad que has definido."},
+        {"q": "¿Qué recolector de basura de la JVM está diseñado para pausas muy cortas?", "a": ["Serial", "ZGC", "Parallel", "Ninguno"], "c": 1, "e": "ZGC busca pausas de alrededor de un milisegundo, incluso con heaps grandes."},
+        {"q": "¿Cuál es una forma segura de renombrar una columna en un sistema en producción?", "a": ["Renombrarla y desplegar de golpe", "Expandir y contraer: añadir la nueva columna, escribir en ambas, migrar y después eliminar la antigua", "Borrar la tabla", "Renombrarla de noche"], "c": 1, "e": "Los pasos compatibles con versiones anteriores permiten que el código antiguo y el nuevo convivan."},
+        {"q": "¿Qué es el logging estructurado?", "a": ["Registrar en varios archivos", "Logs como campos clave-valor o JSON que las herramientas pueden buscar y filtrar", "Registrar solo errores", "Imprimir trazas de pila"], "c": 1, "e": "Los logs estructurados permiten consultar por usuario, ID de petición o latencia."},
+        {"q": "¿Qué muestra el trazado distribuido?", "a": ["La temperatura de la CPU", "El recorrido y los tiempos de una petición a través de los servicios", "El historial de Git", "El número de pruebas"], "c": 1, "e": "Las trazas revelan qué salto es lento o falla."},
+        {"q": "¿Por qué Go prefiere interfaces pequeñas definidas por el consumidor?", "a": ["Solo para compilar más rápido", "Desacoplan los paquetes y facilitan las pruebas", "Go no tiene interfaces", "Lo exige el compilador"], "c": 1, "e": "El consumidor pide solo el comportamiento que necesita."},
+        {"q": "¿Cuál es un buen uso de un asistente de IA en el nivel mid?", "a": ["Fusionar su resultado sin revisarlo", "Redactar borradores de pruebas y código repetitivo y luego revisarlos con cuidado", "Dejar que decida el diseño de seguridad", "Pegar secretos de producción como contexto"], "c": 1, "e": "Los asistentes aceleran el trabajo rutinario; la responsabilidad sobre la corrección y la seguridad sigue siendo tuya."}
+      ]
+    }
+  ]
+}

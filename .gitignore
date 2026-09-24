@@ -1,0 +1,12 @@
+# Windows folder metadata
+desktop.ini
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+
+# Local backups and editor files
+*.bak
+.vscode/
+.idea/

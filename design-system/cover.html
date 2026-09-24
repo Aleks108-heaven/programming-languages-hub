@@ -1,0 +1,28 @@
+<!-- @dsCard height=300 -->
+<style>
+body{margin:0;background:var(--paper)}
+.c{position:relative;width:960px;height:300px;font-family:"Bricolage Grotesque",system-ui,sans-serif}
+.b{fill:var(--brand)}.j{fill:var(--junior)}.m{fill:var(--mid)}.k{fill:var(--code-bg)}.t{fill:var(--brand-tint)}.p{fill:var(--paper)}
+.n{position:absolute;left:32px;bottom:64px;margin:0;font-size:52px;line-height:.95;font-weight:700;color:var(--ink)}
+.g{position:absolute;left:32px;bottom:32px;margin:0;font:14px "Source Sans 3",system-ui,sans-serif;color:var(--muted)}
+</style>
+<div class="c">
+<svg width="960" height="120" viewBox="0 0 960 120">
+<!-- blocks: code-bg 400x120, brand 240x120, junior 176x120, mid 96x120, brand-tint 48x120 (widths from space-12/space-4 multiples)
+     arrangement: full-width top band of unequal strips, like stages of a pipeline, left to right = Intern→Junior→Mid
+     pattern: square dot grid at space-4 pitch on the code block — technical, mono, 4px grid ("engineering notebook")
+     scales: space-4 16px pitch, radius-sm dots, radius 0 blocks -->
+<rect class="k" x="0" y="0" width="400" height="120"/>
+<rect class="b" x="400" y="0" width="240" height="120"/>
+<rect class="j" x="640" y="0" width="176" height="120"/>
+<rect class="m" x="816" y="0" width="96" height="120"/>
+<rect class="t" x="912" y="0" width="48" height="120"/>
+<g class="b">
+<rect x="32" y="32" width="4" height="4"/><rect x="64" y="32" width="4" height="4"/><rect x="96" y="32" width="4" height="4"/><rect x="128" y="32" width="4" height="4"/><rect x="160" y="32" width="4" height="4"/><rect x="192" y="32" width="4" height="4"/>
+<rect x="32" y="64" width="4" height="4"/><rect x="64" y="64" width="4" height="4"/><rect x="96" y="64" width="4" height="4"/><rect x="128" y="64" width="4" height="4"/>
+<rect x="32" y="96" width="4" height="4"/><rect x="64" y="96" width="4" height="4"/>
+</g>
+</svg>
+<p class="n">Programming Languages Hub</p>
+<p class="g">Intern → Junior → Mid: fundamentals that transfer between languages.</p>
+</div>
