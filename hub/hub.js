@@ -142,6 +142,7 @@
     rows('#t-tools', D.tools); rows('#t-concepts', D.concepts); rows('#t-types', D.types); rows('#t-mem', D.memory);
     rows('#t-goals', D.goals.map(g => [g[0], g[1].join(' / '), g[2]]));
     rows('#t-sql', D.sqlSkills); rows('#t-dialects', D.dialects);
+    rows('#t-bigo', D.bigO); rows('#t-gitcmds', D.gitCmds); rows('#t-http', D.httpCodes); rows('#t-regex', D.regexPatterns);
     rows('#t-proj', D.projects.map(r => ['<span class="pill lv-' + r[0] + '">' + lvName(r[0]) + '</span>', r[1], r[2]]));
     $('#profiles').innerHTML = D.profiles.map(p => '<details class="pr"><summary>' + p[0] + '</summary><p>' + p[1] + '</p></details>').join('');
     $('#goalTabs').setAttribute('aria-label', t('goalAria'));

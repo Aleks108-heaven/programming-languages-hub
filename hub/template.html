@@ -127,6 +127,21 @@ pre.code{margin:0;background:var(--code-bg);color:var(--code-ink);border-radius:
 .sqllv>div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:12px 8px 8px;display:grid;gap:4px}
 .sqllv .pill{margin-left:12px;justify-self:start}
 .sqllv .checks label{font-size:15px}
+.herocta{display:flex;flex-wrap:wrap;gap:10px}
+.ctabtn{font:600 14px var(--sans);color:var(--surface);background:var(--brand);border:1px solid var(--brand);border-radius:8px;padding:10px 16px;text-decoration:none}
+.ctabtn:hover{opacity:.92}
+.ctabtn.ghost{color:var(--brand);background:transparent}
+section,#hub-hero{scroll-margin-top:calc(env(safe-area-inset-top,0px) + 88px)}
+html{scroll-behavior:smooth}
+.toTop{position:fixed;right:20px;bottom:20px;z-index:6;font:600 13px var(--mono);color:var(--surface);background:var(--ink);border:0;border-radius:999px;width:44px;height:44px;display:grid;place-items:center;cursor:pointer;opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .15s,transform .15s;box-shadow:0 4px 14px #0003}
+.toTop.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.readbar{position:fixed;top:0;left:0;height:3px;background:var(--brand);width:0;z-index:7;transition:width .1s linear}
+nav.toc summary{cursor:pointer;list-style:none;display:flex;align-items:center;justify-content:space-between}
+nav.toc summary::-webkit-details-marker{display:none}
+nav.toc summary::after{content:"▾";color:var(--muted);font-size:11px}
+nav.toc details[open] summary::after{content:"▴"}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@media print{.herocta,.toTop,.readbar{display:none!important}}
 @media print{
 body{background:#fff;padding:0;font-size:11pt}
 .wrap{display:block;max-width:none;padding:0}
@@ -143,7 +158,7 @@ pre.code{white-space:pre-wrap}
 
 <div id="hub-root">
 <div class="wrap">
-<nav class="toc" aria-labelledby="tocLabel"><div class="label" id="tocLabel" style="padding:0 8px 8px"></div><input type="search" id="search" class="search" autocomplete="off"><div class="count search-msg" id="searchMsg" aria-live="polite"></div><ol id="toc"></ol></nav>
+<nav class="toc" aria-labelledby="tocLabel"><details open><summary class="label" id="tocLabel" style="padding:0 8px 8px"></summary><input type="search" id="search" class="search" autocomplete="off"><div class="count search-msg" id="searchMsg" aria-live="polite"></div><ol id="toc"></ol></details></nav>
 <main>
 <header class="hero" id="hub-hero"></header>
 <div id="hub-sections"></div>

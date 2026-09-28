@@ -26,8 +26,13 @@ from pathlib import Path
 ROOT = Path(__file__).parent
 LANGS = ["en", "uk", "pl", "es"]
 LANG_LABELS = {"en": ("EN", "English"), "uk": ("UA", "Українська"), "pl": ("PL", "Polski"), "es": ("ES", "Español")}
+FAVICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E"
+           "%3Crect width='32' height='32' rx='7' fill='%230e6b5c'/%3E"
+           "%3Ctext x='16' y='22' font-family='monospace' font-size='16' font-weight='700' "
+           "text-anchor='middle' fill='%23dcefe9'%3E%3C/%3E%3C/text%3E%3C/svg%3E")
 HEAD = ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
-        '<meta name="viewport" content="width=device-width,initial-scale=1">\n')
+        '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
+        f'<link rel="icon" href="{FAVICON}">\n')
 
 # Strings that must stay identical to English (they are keys, links or code)
 LOCKED = [re.compile(p) for p in (
@@ -185,10 +190,12 @@ nav.toc{top:calc(env(safe-area-inset-top,0px) + 72px);max-height:calc(100vh - 88
 def shell_markup():
     langs = "".join(f'<button type="button" data-l="{l}" lang="{l}" title="{name}" aria-label="{name}">{short}</button>'
                     for l, (short, name) in LANG_LABELS.items())
-    return ('<header class="appbar"><a class="brand" href="#hub" id="ab-brand"></a>'
+    return ('<div class="readbar" id="readbar" aria-hidden="true"></div>\n'
+            '<header class="appbar"><a class="brand" href="#hub" id="ab-brand"></a>'
             '<nav class="seg" id="ab-views"><a href="#hub" id="vb-hub"></a><a href="#roles" id="vb-roles"></a></nav>'
             f'<div class="seg" role="group" id="ab-langs">{langs}</div>'
-            '<button type="button" class="theme" id="themeBtn"></button></header>\n')
+            '<button type="button" class="theme" id="themeBtn"></button></header>\n'
+            '<button type="button" class="toTop" id="toTop">↑</button>\n')
 
 
 SHELL_JS = """<script>
@@ -220,6 +227,7 @@ SHELL_JS = """<script>
     $('vb-roles').textContent = t('viewRoles');
     $('ab-langs').setAttribute('aria-label', t('language'));
     $('ab-langs').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
+    $('toTop').setAttribute('aria-label', t('backToTop'));
     applyTheme();
   }
   function showView() {
@@ -244,6 +252,15 @@ SHELL_JS = """<script>
   addEventListener('beforeprint', () => { root.setAttribute('data-theme', 'light'); closed = [...document.querySelectorAll('details:not([open])')]; closed.forEach(d => d.open = true) });
   addEventListener('afterprint', () => { applyTheme(); closed.forEach(d => d.open = false) });
   addEventListener('hashchange', showView);
+
+  const toTop = $('toTop'), readbar = $('readbar');
+  toTop.addEventListener('click', () => scrollTo({top: 0, behavior: 'smooth'}));
+  addEventListener('scroll', () => {
+    const y = scrollY, max = document.documentElement.scrollHeight - innerHeight;
+    toTop.classList.toggle('show', y > 600);
+    readbar.style.width = (max > 0 ? Math.min(y / max, 1) * 100 : 0) + '%';
+  }, {passive: true});
+
   applyLang(); showView();
 })();
 </script>"""

@@ -53,7 +53,7 @@ design-system/                                  colour tokens, type and page pat
 
 ### Study hub view
 
-About 30 sections in six parts, each part followed by a quiz:
+About 31 sections in six parts, each part followed by a quiz:
 
 1. **Foundations**: what a language is; language vs. runtime, library and framework; how code gets executed (AOT, bytecode + VM, interpreters and JIT, transpilation).
 2. **Concepts that transfer**: core concepts, type systems, memory models, and **Same task, six languages**, which shows 4 everyday tasks in Python, TypeScript, Java, C#, Go and Rust.
@@ -62,12 +62,16 @@ About 30 sections in six parts, each part followed by a quiz:
 5. **AI-assisted development**: how to work with coding assistants responsibly.
 6. **Career stages**: internship, junior and mid-level checklists; how deep to go at each stage; choosing a language; the QA perspective (including why ISTQB certifications are tool- and language-agnostic); a **five-phase structured learning path** with goals, builds and "done when" criteria; the learning sequence; project progression; common mistakes.
 
+A **Quick reference** section closes the hub with four cheat sheets: Big-O complexity at a glance, everyday Git commands, HTTP status codes and common regex patterns.
+
 Study tools:
 
 - A **quiz after each part** (6 quizzes), a **self-check**, and a scored **final exam** (17 questions, pass mark 70%).
 - **Review my mistakes** collects every missed question until you answer it correctly.
 - **Progress summary** in the header, **search** across all sections, a **theme** toggle (auto, light, dark), and a print layout (Ctrl+P when opened locally).
-- A **Practice** list of free sites checked in September 2026: freeCodeCamp, The Odin Project, Codewars, Advent of Code, Go by Example, Rust by Example, Learn Git Branching, SQLBolt, PostgreSQL Exercises, Use The Index, Luke and roadmap.sh.
+- The hero has quick links straight to the fundamentals, the final exam and Role Modules. A **reading-progress bar** and a **back-to-top** button appear as you scroll, and the section list collapses into a tap-to-open menu on narrow screens.
+- A **Practice** list of free sites checked in September 2026: freeCodeCamp, The Odin Project, Codewars, Advent of Code, Go by Example, Rust by Example, Learn Git Branching, SQLBolt, PostgreSQL Exercises, Use The Index Luke, roadmap.sh, Exercism, LeetCode, SQL Murder Mystery and Frontend Mentor.
+- A **Docs** list of official references and guides, including the Pro Git book, Refactoring Guru's design patterns, The System Design Primer, Real Python and The Twelve-Factor App, alongside the per-language official docs.
 
 ### Role Modules view
 
@@ -119,10 +123,10 @@ Checklist ticks, quiz and exam scores, the review list and the chosen theme and 
 
 ## Verification and security
 
-- The page scripts were exercised in a headless browser (jsdom) in all four languages: every section renders, switching language keeps progress, quizzes and exams score correctly, and there are no script errors.
+- The page scripts were exercised in a headless browser (jsdom) in all four languages: every section renders (including the new Quick reference cheat sheets), switching language keeps progress and section structure, quizzes score correctly, and there are no script errors.
 - Code examples: the Python, TypeScript, Java (21) and C# (.NET 10) snippets in the hub were run and produce the expected output. The SQL examples were run against SQLite. The Go and Rust snippets, and the code examples in Role Modules, were reviewed but not compiled.
-- All external links returned HTTP 200 in September 2026.
-- Security review: no secrets in the repository; no `eval` or other dynamic code; all external links use `rel="noopener"`; the only external resource loaded is Google Fonts. All displayed content comes from the pages' own data. Values read back from `localStorage` are validated (whole numbers only) before they reach the page, so tampered storage cannot inject HTML.
+- All external links returned HTTP 200 in September 2026, including the newly added ones, except exercism.org and leetcode.com, which return an automated-request block (HTTP 403) to a plain `curl` request but are live, well-known services when opened in a browser.
+- Security review: no secrets in the repository; no `eval` or other dynamic code; all external links use `rel="noopener"`; the only external resource loaded is Google Fonts. All displayed content comes from the pages' own data. Values read back from `localStorage` are validated (whole numbers only) before they reach the page, so tampered storage cannot inject HTML. The September 2026 UI/UX update (Quick reference tables, hero CTAs, back-to-top button, reading-progress bar, collapsible TOC, favicon) was diff-reviewed for new attack surface: no new `localStorage` reads, URL/hash parsing, `eval`, or external resources were introduced, and the new data tables render through the same build-time, translator-authored (non-user-input) content path already used by every other table on the page. No findings.
 - The local server binds to 127.0.0.1, serves only `/` and `/index.html` (source files, folders and `.git` return 404), and sends `Cache-Control: no-store` and `X-Content-Type-Options: nosniff`.
 - Translations were written with AI assistance; a native-speaker review is recommended before wide sharing.
 - The Aikido security scan was not run, because it requires signing in to Aikido.

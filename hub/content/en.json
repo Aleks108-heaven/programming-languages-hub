@@ -63,9 +63,13 @@
   "phase": "Phase {i}",
   "learn": "Learn",
   "build": "Build",
-  "doneWhen": "Done when"
+  "doneWhen": "Done when",
+  "heroCtaStart": "Start with the fundamentals",
+  "heroCtaExam": "Take the final exam",
+  "heroCtaRoles": "Explore Role Modules",
+  "backToTop": "Back to top"
  },
- "hero": "<div class=\"label\">Study hub · Intern → Junior → Mid · Expanded edition, September 2026</div>\r\n<h1>Programming Languages Hub</h1>\r\n<p class=\"lede\">What programming languages are, how source code becomes behaviour, which ecosystems matter in 2026, how SQL fits alongside them, and what to know at each career stage. Fundamentals that transfer, not one language memorised. Follow the structured path from first program to mid-level engineer, and check yourself with a quiz after every part.</p>\r\n<div class=\"pipe\" aria-label=\"Mental model\"><b>human intent</b><i>→</i><b>source code</b><i>→</i><b>parser / compiler / runtime</b><i>→</i><b>machine instructions + libraries</b><i>→</i><b>OS / hardware</b><i>→</i><b>observable behaviour</b></div>\r\n<div class=\"progress\" id=\"progress\"></div>\r\n<div class=\"stats\" id=\"summary\"></div>",
+ "hero": "<div class=\"label\">Study hub · Intern → Junior → Mid · Expanded edition, September 2026</div>\r\n<h1>Programming Languages Hub</h1>\r\n<p class=\"lede\">What programming languages are, how source code becomes behaviour, which ecosystems matter in 2026, how SQL fits alongside them, and what to know at each career stage. Fundamentals that transfer, not one language memorised. Follow the structured path from first program to mid-level engineer, and check yourself with a quiz after every part.</p>\r\n<div class=\"herocta noprint\"><a class=\"ctabtn\" href=\"#what\">Start with the fundamentals</a><a class=\"ctabtn ghost\" href=\"#exam\">Take the final exam</a><a class=\"ctabtn ghost\" href=\"#roles\">Explore Role Modules</a></div>\r\n<div class=\"pipe\" aria-label=\"Mental model\"><b>human intent</b><i>→</i><b>source code</b><i>→</i><b>parser / compiler / runtime</b><i>→</i><b>machine instructions + libraries</b><i>→</i><b>OS / hardware</b><i>→</i><b>observable behaviour</b></div>\r\n<div class=\"progress\" id=\"progress\"></div>\r\n<div class=\"stats\" id=\"summary\"></div>",
  "sections": {
   "what": "<h2>What is a programming language?</h2>\r\n<p>A formal system for expressing algorithms, data manipulation, rules and interactions with computers. Code follows the language's <strong>syntax</strong> (how valid code is written) and <strong>semantics</strong> (what it means). A compiler, interpreter, virtual machine, runtime, or a mix of these then executes or translates it into operations the computer can perform.</p>\r\n<p class=\"tip\"><b>Career lens</b>Languages are the most visible skill on a CV, but employers hire for the fundamentals a language carries: problem decomposition, debugging discipline, testing and system thinking. Treat a language as a vehicle for fundamentals.</p>",
   "tools": "<h2>Language vs. tools vs. framework</h2>\r\n<div class=\"tw\"><table><thead><tr><th>Thing</th><th>What it is</th><th>Examples</th></tr></thead><tbody id=\"t-tools\"></tbody></table></div>\r\n<p class=\"tip\"><b>Interview check</b>Library vs framework is \"who calls whom\": your code calls a library; a framework calls your code. Also be ready to separate a language from its runtime.</p>",
@@ -96,7 +100,8 @@
   "selfcheck": "<h2>Self-check</h2>\r\n<p>The guide's QA-style verification checklist, as questions. Answer out loud first, then reveal a hint.</p><div class=\"quiz\" id=\"quiz\"></div>",
   "exam": "<div class=\"lvhead\"><h2>Final exam</h2><span class=\"count\" id=\"examBest\"></span></div>\r\n<p id=\"examIntro\"></p>\r\n<div class=\"quiz\" id=\"examQ\"></div>\r\n<div class=\"examfoot\"><button type=\"button\" class=\"act\" id=\"examSubmit\">Submit answers</button><span class=\"count\" id=\"examMsg\" aria-live=\"polite\"></span></div>\r\n<p class=\"note\" id=\"examResult\" aria-live=\"polite\" hidden></p>",
   "review": "<div class=\"lvhead\"><h2>Review my mistakes</h2><span class=\"count\" id=\"reviewCount\"></span></div>\r\n<p>Every question you miss in a part quiz or the final exam lands here. Answer it correctly to clear it from the list.</p>\r\n<div class=\"quiz\" id=\"reviewQ\"></div><p class=\"note\" id=\"reviewEmpty\" hidden>Nothing to review. Missed questions from the quizzes and the exam will appear here.</p>\r\n<button type=\"button\" class=\"reset\" id=\"reviewRefresh\">Refresh list</button>",
-  "refs-s": "<h2>Reference map</h2>\r\n<h3>Official documentation</h3><ul class=\"refs\" id=\"refs\"></ul>\r\n<h3>Practice</h3><ul class=\"refs\" id=\"practice\"></ul>\r\n<h3>Companion app</h3>\r\n<p class=\"tip\"><b>Role Modules</b>Internship, junior and mid-level modules with detailed lessons, language-specific notes, code examples, a quiz and an exam for each role, in English, Ukrainian, Polish and Spanish. <a href=\"#roles\">Open Role Modules →</a></p>\r\n<p class=\"note\"><strong>Sources.</strong> Official docs (Python, MDN, TypeScript, Dev.java, Microsoft Learn, Go, Kotlin) checked September 2026. Landscape data: Stack Overflow Developer Survey 2025, GitHub Octoverse 2025, TIOBE (Feb 2026), PYPL, and 2026 salary roundups (Stack Overflow, DICE, US labour statistics). Treat any single ranking as one signal, not ground truth.</p>\r\n<p class=\"bottom\"><strong>Bottom line.</strong> Learn one language deeply enough to understand the fundamentals, then learn more by comparing type systems, execution models, memory models, concurrency models, tooling and ecosystems. For a QA-oriented path, TypeScript/JavaScript and Python are strong starting points; Java, C#, Go, Rust and C++ show you different engineering models. In 2026, add two habits: verify AI-generated code like code you didn't write, and let data (surveys, commit activity, local job listings), not hype, guide your language choices.</p>\r\n<button class=\"reset\" id=\"reset\" type=\"button\">Clear my progress on this device</button>"
+  "refs-s": "<h2>Reference map</h2>\r\n<h3>Official documentation</h3><ul class=\"refs\" id=\"refs\"></ul>\r\n<h3>Practice</h3><ul class=\"refs\" id=\"practice\"></ul>\r\n<h3>Companion app</h3>\r\n<p class=\"tip\"><b>Role Modules</b>Internship, junior and mid-level modules with detailed lessons, language-specific notes, code examples, a quiz and an exam for each role, in English, Ukrainian, Polish and Spanish. <a href=\"#roles\">Open Role Modules →</a></p>\r\n<p class=\"note\"><strong>Sources.</strong> Official docs (Python, MDN, TypeScript, Dev.java, Microsoft Learn, Go, Kotlin) checked September 2026. Landscape data: Stack Overflow Developer Survey 2025, GitHub Octoverse 2025, TIOBE (Feb 2026), PYPL, and 2026 salary roundups (Stack Overflow, DICE, US labour statistics). Treat any single ranking as one signal, not ground truth.</p>\r\n<p class=\"bottom\"><strong>Bottom line.</strong> Learn one language deeply enough to understand the fundamentals, then learn more by comparing type systems, execution models, memory models, concurrency models, tooling and ecosystems. For a QA-oriented path, TypeScript/JavaScript and Python are strong starting points; Java, C#, Go, Rust and C++ show you different engineering models. In 2026, add two habits: verify AI-generated code like code you didn't write, and let data (surveys, commit activity, local job listings), not hype, guide your language choices.</p>\r\n<button class=\"reset\" id=\"reset\" type=\"button\">Clear my progress on this device</button>",
+  "quickref": "<h2>Quick reference</h2>\r\n<p>Four cheat sheets worth bookmarking: algorithmic complexity, everyday Git commands, HTTP status codes and common regex patterns.</p>\r\n<h3>Big-O complexity, at a glance</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Operation</th><th>Complexity</th><th>Where you'll see it</th></tr></thead><tbody id=\"t-bigo\"></tbody></table></div>\r\n<h3>Everyday Git commands</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody id=\"t-gitcmds\"></tbody></table></div>\r\n<h3>HTTP status codes</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Code</th><th>Meaning</th><th>Typical use</th></tr></thead><tbody id=\"t-http\"></tbody></table></div>\r\n<h3>Common regex patterns</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Pattern</th><th>Matches</th></tr></thead><tbody id=\"t-regex\"></tbody></table></div>\r\n<p class=\"note\"><strong>Use references, don't memorise:</strong> knowing that these exist and where to look them up is worth more than reciting exact syntax. Interviewers care more about whether you reach for the right tool than whether you recall it from memory.</p>"
  },
  "data": {
   "tools": [
@@ -1215,6 +1220,31 @@
     "SQL",
     "PostgreSQL Tutorial",
     "https://www.postgresql.org/docs/current/tutorial.html"
+   ],
+   [
+    "Git",
+    "Pro Git (free book)",
+    "https://git-scm.com/book/en/v2"
+   ],
+   [
+    "Design",
+    "Refactoring Guru: Design Patterns",
+    "https://refactoring.guru/design-patterns"
+   ],
+   [
+    "System design",
+    "The System Design Primer",
+    "https://github.com/donnemartin/system-design-primer"
+   ],
+   [
+    "Python",
+    "Real Python Tutorials",
+    "https://realpython.com/"
+   ],
+   [
+    "General",
+    "The Twelve-Factor App",
+    "https://12factor.net/"
    ]
   ],
   "practice": [
@@ -1272,6 +1302,26 @@
     "roadmap.sh",
     "Role-based learning roadmaps",
     "https://roadmap.sh/"
+   ],
+   [
+    "Exercism",
+    "Mentored practice with exercises in 60+ languages",
+    "https://exercism.org/"
+   ],
+   [
+    "LeetCode",
+    "Algorithm and data-structure interview practice",
+    "https://leetcode.com/"
+   ],
+   [
+    "SQL Murder Mystery",
+    "Solve a mystery by writing SQL queries",
+    "https://mystery.knightlab.com/"
+   ],
+   [
+    "Frontend Mentor",
+    "Real-world front-end challenges built from designs",
+    "https://www.frontendmentor.io/"
    ]
   ],
   "path": [
@@ -1535,6 +1585,191 @@
      "Rust": "use std::thread;\nuse std::time::Duration;\n\nfn fetch(name: &str) -> String {\n    thread::sleep(Duration::from_secs(1)); // stands in for a network call\n    format!(\"{name} done\")\n}\n\nfn main() {\n    let (users, orders) = thread::scope(|s| {\n        let a = s.spawn(|| fetch(\"users\"));\n        let b = s.spawn(|| fetch(\"orders\"));\n        (a.join().unwrap(), b.join().unwrap())\n    });\n    println!(\"{users}, {orders}\"); // ~1 s total\n}"
     }
    }
+  ],
+  "bigO": [
+   [
+    "Array/list index access",
+    "O(1)",
+    "Direct offset into memory"
+   ],
+   [
+    "Linear search (unsorted)",
+    "O(n)",
+    "Scans every element once"
+   ],
+   [
+    "Binary search (sorted array)",
+    "O(log n)",
+    "Halves the search space each step"
+   ],
+   [
+    "Hash map/set get or put",
+    "O(1) average, O(n) worst",
+    "Worst case comes from hash collisions"
+   ],
+   [
+    "Balanced tree get/put (e.g. TreeMap)",
+    "O(log n)",
+    "Keeps keys in sorted order"
+   ],
+   [
+    "Stack or queue push/pop",
+    "O(1)",
+    "Works at one end only"
+   ],
+   [
+    "Insert/remove at the start of an array",
+    "O(n)",
+    "Every later element shifts"
+   ],
+   [
+    "Comparison sort (merge, quick, heap)",
+    "O(n log n) average",
+    "Quicksort's worst case is O(n²)"
+   ],
+   [
+    "Nested loop over two collections",
+    "O(n·m)",
+    "A common accidental O(n²)"
+   ],
+   [
+    "Graph traversal (BFS/DFS)",
+    "O(V + E)",
+    "Visits every vertex and edge once"
+   ]
+  ],
+  "gitCmds": [
+   [
+    "git status",
+    "Lists changed, staged and untracked files"
+   ],
+   [
+    "git diff",
+    "Shows unstaged changes (add --staged for staged ones)"
+   ],
+   [
+    "git add &lt;file&gt;",
+    "Stages a file for the next commit"
+   ],
+   [
+    "git commit -m \"…\"",
+    "Records a snapshot of staged changes"
+   ],
+   [
+    "git log --oneline",
+    "Compact commit history"
+   ],
+   [
+    "git switch -c &lt;name&gt;",
+    "Creates a branch and switches to it"
+   ],
+   [
+    "git merge &lt;branch&gt;",
+    "Merges another branch into the current one"
+   ],
+   [
+    "git stash / git stash pop",
+    "Sets aside uncommitted changes, then restores them"
+   ],
+   [
+    "git revert &lt;commit&gt;",
+    "Undoes a commit by creating a new, opposite commit"
+   ],
+   [
+    "git fetch / git pull",
+    "Downloads remote changes; pull also merges them in"
+   ]
+  ],
+  "httpCodes": [
+   [
+    "200 OK",
+    "Success",
+    "A successful GET or PUT"
+   ],
+   [
+    "201 Created",
+    "Resource created",
+    "A successful POST"
+   ],
+   [
+    "204 No Content",
+    "Success, nothing to return",
+    "A successful DELETE"
+   ],
+   [
+    "301 Moved Permanently",
+    "Permanent redirect",
+    "The URL has changed for good"
+   ],
+   [
+    "304 Not Modified",
+    "Cached copy is still valid",
+    "A conditional GET"
+   ],
+   [
+    "400 Bad Request",
+    "The client sent invalid data",
+    "Failed input validation"
+   ],
+   [
+    "401 Unauthorized",
+    "Missing or invalid credentials",
+    "Authentication is required"
+   ],
+   [
+    "403 Forbidden",
+    "Authenticated but not allowed",
+    "A permissions check failed"
+   ],
+   [
+    "404 Not Found",
+    "The resource doesn't exist",
+    "Wrong URL or id"
+   ],
+   [
+    "429 Too Many Requests",
+    "Rate limit exceeded",
+    "The client is being throttled"
+   ],
+   [
+    "500 Internal Server Error",
+    "Unhandled failure on the server",
+    "A bug or crash in the handler"
+   ]
+  ],
+  "regexPatterns": [
+   [
+    "^...$",
+    "Anchors the match to the whole string"
+   ],
+   [
+    "\\d+",
+    "One or more digits"
+   ],
+   [
+    "\\w+",
+    "One or more word characters (letters, digits, underscore)"
+   ],
+   [
+    "\\s+",
+    "One or more whitespace characters"
+   ],
+   [
+    ".*?",
+    "A lazy match: as few characters as possible"
+   ],
+   [
+    "[a-zA-Z0-9_-]+",
+    "Typical \"slug\" or identifier characters"
+   ],
+   [
+    "(?:...)",
+    "A non-capturing group"
+   ],
+   [
+    "\\b",
+    "A word boundary"
+   ]
   ]
  }
 }

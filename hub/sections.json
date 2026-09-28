@@ -116,6 +116,10 @@
   "attrs": "id=\"review\""
  },
  {
+  "id": "quickref",
+  "attrs": "id=\"quickref\""
+ },
+ {
   "id": "refs-s",
   "attrs": "id=\"refs-s\""
  }
