@@ -12,17 +12,12 @@ a{color:var(--brand)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 <style id="rm-app">
-.rm-root.rm-wrap{max-width:1040px;margin:0 auto;padding-block:32px 64px;display:grid;gap:8px}
-.rm-root h1,.rm-root h2,.rm-root h3,.rm-root h4{font-family:var(--display);text-wrap:balance;margin:0}
-.rm-root h1{font-size:clamp(34px,6vw,54px);line-height:1.02;font-weight:700;letter-spacing:-.01em}
-.rm-root h2{font-size:28px;line-height:1.2;font-weight:650}
-.rm-root h3{font-size:21px;font-weight:600;line-height:1.25}
-.rm-root h4{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.rm-root{display:grid;gap:20px}
+.rm-root h3,.rm-root h4{font-family:var(--display);text-wrap:balance;margin:0}
+.rm-root h3{font-size:22px;font-weight:650;line-height:1.25}
+.rm-root h4{font-size:19px;font-weight:600;line-height:1.25}
 .rm-root p{margin:0;max-width:68ch}
 .rm-root .label{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.rm-root .lede{font-size:19px;color:var(--muted)}
-.rm-root header.hero{display:grid;gap:18px;padding-bottom:24px}
-.rm-root .topbar{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between}
 .rm-root .lvl-intern{--lv:var(--brand)}.rm-root .lvl-junior{--lv:var(--junior)}.rm-root .lvl-mid{--lv:var(--mid)}
 .rm-root .pill{display:inline-block;font:500 12px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--lv);border:1px solid var(--lv);border-radius:999px;padding:1px 8px}
 .rm-root .chips{display:flex;flex-wrap:wrap;gap:6px}
@@ -35,7 +30,7 @@ a{color:var(--brand)}
 .rm-root .role strong{font:600 20px var(--display)}
 .rm-root .role .sum{font-size:15px;color:var(--muted)}
 .rm-root .role .scores{display:flex;gap:14px;font:500 12px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
-.rm-root section{display:grid;gap:18px;padding-block:36px;border-top:1px solid var(--line)}
+.rm-root .rm-sec{display:grid;gap:18px;padding-block:32px 8px;border-top:1px solid var(--line)}
 .rm-root .two{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
 .rm-root .box{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:grid;gap:8px;align-content:start}
 .rm-root .box ul{margin:0;padding-left:20px;display:grid;gap:4px;font-size:16px}
@@ -71,20 +66,11 @@ a{color:var(--brand)}
 .rm-root .foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .rm-root .note{border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:15px;color:var(--muted);max-width:none}
 .rm-root .note strong{color:var(--ink)}
+@media print{.rm-root .roles,#rm-quiz,#rm-exam,#rm-reset{display:none!important}}
 @media (max-width:760px){.rm-root .roles{grid-template-columns:1fr}.rm-root .notes div{grid-template-columns:1fr}}
 </style>
 
-<div class="rm-root rm-wrap">
-<header class="hero">
-<div class="label" id="rm-eyebrow"></div>
-<h1 id="rm-title"></h1>
-<p class="lede" id="rm-lede"></p>
-<div class="roles" id="rm-roles" role="group"></div>
-</header>
-<main id="rm-main"></main>
-<p class="note" id="rm-codeNote"></p>
-<button type="button" class="linkbtn" id="rm-reset"></button>
-</div>
+<!-- Container markup (#rm-roles, #rm-main, ...) lives in the hub 'roles' section; see hub/content/<lang>.json -->
 
 <script type="text/plain" id="code-intern-fundamentals" data-lang="Python">
 # Count how often each word appears, ignoring case
@@ -341,7 +327,7 @@ const cleanScores = v => {
 let scores = cleanScores(load('roles-scores', null));
 let lang = window.APP.lang;   // the app bar owns the language; see the 'app:lang' listener below
 const roleIds = I18N.en.roles.map(r => r.id);
-let role = roleIds.includes(location.hash.slice(1)) ? location.hash.slice(1) : load('roles-role', 'intern');
+let role = load('roles-role', 'intern');
 if (!roleIds.includes(role)) role = 'intern';
 
 const T = () => I18N[lang];
@@ -351,9 +337,6 @@ const passMark = n => Math.ceil(n * 0.7);
 
 function renderHeader() {
   document.documentElement.lang = T().ui.htmlLang;
-  $('#rm-eyebrow').textContent = t('eyebrow');
-  $('#rm-title').textContent = t('title');
-  $('#rm-lede').textContent = t('lede');
   $('#rm-codeNote').textContent = t('codeNote');
   $('#rm-reset').textContent = t('reset');
   $('#rm-roles').setAttribute('aria-label', t('roles'));
@@ -386,18 +369,18 @@ function reveal(card, q, pick) {
 
 function renderRole() {
   const r = R();
-  const lessons = r.lessons.map((l, i) => '<article class="lesson lvl-' + r.id + '"><span class="n">' + t('lesson') + ' ' + (i + 1) + '</span><h3>' + esc(l.title) + '</h3><p>' + esc(l.body) + '</p>' +
-    '<h4>' + t('inLanguages') + '</h4><dl class="notes">' + l.langs.map(([n, d]) => '<div><dt>' + esc(n) + '</dt><dd>' + esc(d) + '</dd></div>').join('') + '</dl>' + codeBlock(l.code) + '</article>').join('');
+  const lessons = r.lessons.map((l, i) => '<article class="lesson lvl-' + r.id + '"><span class="n">' + t('lesson') + ' ' + (i + 1) + '</span><h4>' + esc(l.title) + '</h4><p>' + esc(l.body) + '</p>' +
+    '<div class="label">' + t('inLanguages') + '</div><dl class="notes">' + l.langs.map(([n, d]) => '<div><dt>' + esc(n) + '</dt><dd>' + esc(d) + '</dd></div>').join('') + '</dl>' + codeBlock(l.code) + '</article>').join('');
   $('#rm-main').innerHTML =
-    '<section id="rm-overview"><div class="sechead"><h2>' + esc(r.name) + '</h2><span class="pill lvl-' + r.id + '">' + t('overview') + '</span></div><p>' + esc(r.overview) + '</p>' +
-    '<div class="two"><div class="box"><h4>' + t('expect') + '</h4><ul>' + r.expect.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' +
-    '<div class="box"><h4>' + t('tasks') + '</h4><ul>' + r.tasks.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div></div></section>' +
-    '<section id="rm-lessons"><h2>' + t('lessons') + '</h2><div class="lessons">' + lessons + '</div></section>' +
-    '<section id="rm-languages"><h2>' + t('langContext') + '</h2><div class="tw"><table><thead><tr><th>' + t('langCol') + '</th><th>' + t('whyCol') + '</th></tr></thead><tbody>' +
-    r.langContext.map(([n, d]) => '<tr><td>' + esc(n) + '</td><td>' + esc(d) + '</td></tr>').join('') + '</tbody></table></div></section>' +
-    '<section id="rm-quiz"><div class="sechead"><h2>' + t('quiz') + ' · ' + esc(r.name) + '</h2><span class="count" id="rm-quizScore"></span></div><p>' + t('quizIntro') + '</p><div class="quiz" id="rm-quizQ"></div><button type="button" class="linkbtn" id="rm-quizRetry">' + t('retakeQuiz') + '</button></section>' +
-    '<section id="rm-exam"><div class="sechead"><h2>' + t('exam') + ' · ' + esc(r.name) + '</h2><span class="count" id="rm-examBest"></span></div><p>' + t('examIntro', {n: r.exam.length, p: passMark(r.exam.length)}) + '</p><div class="quiz" id="rm-examQ"></div>' +
-    '<div class="foot"><button type="button" class="act" id="rm-examSubmit"></button><span class="count" id="rm-examMsg" aria-live="polite"></span></div><p class="note" id="rm-examResult" aria-live="polite" hidden></p></section>';
+    '<div class="rm-sec" id="rm-overview"><div class="sechead"><h3>' + esc(r.name) + '</h3><span class="pill lvl-' + r.id + '">' + t('overview') + '</span></div><p>' + esc(r.overview) + '</p>' +
+    '<div class="two"><div class="box"><div class="label">' + t('expect') + '</div><ul>' + r.expect.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div>' +
+    '<div class="box"><div class="label">' + t('tasks') + '</div><ul>' + r.tasks.map(x => '<li>' + esc(x) + '</li>').join('') + '</ul></div></div></div>' +
+    '<div class="rm-sec" id="rm-lessons"><h3>' + t('lessons') + '</h3><div class="lessons">' + lessons + '</div></div>' +
+    '<div class="rm-sec" id="rm-languages"><h3>' + t('langContext') + '</h3><div class="tw"><table><thead><tr><th>' + t('langCol') + '</th><th>' + t('whyCol') + '</th></tr></thead><tbody>' +
+    r.langContext.map(([n, d]) => '<tr><td>' + esc(n) + '</td><td>' + esc(d) + '</td></tr>').join('') + '</tbody></table></div></div>' +
+    '<div class="rm-sec" id="rm-quiz"><div class="sechead"><h3>' + t('quiz') + ' · ' + esc(r.name) + '</h3><span class="count" id="rm-quizScore"></span></div><p>' + t('quizIntro') + '</p><div class="quiz" id="rm-quizQ"></div><button type="button" class="linkbtn" id="rm-quizRetry">' + t('retakeQuiz') + '</button></div>' +
+    '<div class="rm-sec" id="rm-exam"><div class="sechead"><h3>' + t('exam') + ' · ' + esc(r.name) + '</h3><span class="count" id="rm-examBest"></span></div><p>' + t('examIntro', {n: r.exam.length, p: passMark(r.exam.length)}) + '</p><div class="quiz" id="rm-examQ"></div>' +
+    '<div class="foot"><button type="button" class="act" id="rm-examSubmit"></button><span class="count" id="rm-examMsg" aria-live="polite"></span></div><p class="note" id="rm-examResult" aria-live="polite" hidden></p></div>';
   drawQuiz(); drawExam();
 }
 
@@ -420,9 +403,10 @@ function drawExam() {
 
 function render() { renderHeader(); renderRole() }
 
-document.querySelector('.rm-root').addEventListener('click', e => {
+document.addEventListener('click', e => {
+  if (!e.target.closest('.rm-root')) return;
   const rb = e.target.closest('#rm-roles button');
-  if (rb) { role = rb.dataset.r; store('roles-role', role); history.replaceState(null, '', '#' + role); render(); $('#rm-main').scrollIntoView(); return }
+  if (rb) { role = rb.dataset.r; store('roles-role', role); render(); return }
   const cp = e.target.closest('.copy');
   if (cp) {
     const text = document.getElementById('code-' + cp.dataset.code).textContent.replace(/^\n/, '').replace(/\s+$/, '');
@@ -464,7 +448,6 @@ document.querySelector('.rm-root').addEventListener('click', e => {
   if (e.target.closest('#rm-reset')) { scores = {quiz: {}, exam: {}}; store('roles-scores', scores); render() }
 });
 document.addEventListener('app:lang', e => { lang = e.detail; render() });
-addEventListener('hashchange', () => { const h = location.hash.slice(1); if (roleIds.includes(h) && h !== role) { role = h; render() } });
 render();
 })();
 </script>

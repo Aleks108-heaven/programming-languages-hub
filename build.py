@@ -1,4 +1,4 @@
-"""Build index.html: one app with two views (Study hub, Role modules) in four languages.
+"""Build index.html: one app, the Study hub modules page (Role modules is one of its sections), in four languages.
 
 Usage:
     python build.py                 # writes index.html
@@ -8,7 +8,7 @@ Sources:
     hub/template.html, hub/hub.js       Study hub styles, markup and logic
     hub/sections.json                   Study hub section order and attributes
     hub/content/<lang>.json             Study hub text: ui strings, hero, sections (HTML) and data
-    role-modules/template.html          Role Modules styles, markup, code examples and logic
+    role-modules/template.html          Role modules styles, code examples and logic (mounted in the hub's "roles" section)
     role-modules/content/<lang>.json    Role Modules text
 
 Translations are checked against English before anything is written:
@@ -168,7 +168,7 @@ def role_parts(errors):
     tpl = tpl.replace("/*__DATA__*/null", js_blob(content))
     s = tpl.index('<style id="rm-app">')
     style = tpl[s + len('<style id="rm-app">'):tpl.index("</style>", s)]
-    markup = tpl[tpl.index('<div class="rm-root'):tpl.index("<script>\n(() => {")]
+    markup = tpl[tpl.index('<script type="text/plain"'):tpl.index("<script>\n(() => {")]
     script = tpl[tpl.index("<script>\n(() => {"):tpl.rindex("</script>") + len("</script>")]
     return style, markup, script
 
@@ -177,13 +177,13 @@ SHELL_CSS = """
 /* ---- app bar ---- */
 .appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin-inline:-16px;padding:8px 16px;background:var(--paper);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
 .appbar .brand{font:650 17px var(--display);color:var(--ink);text-decoration:none;margin-right:auto}
-.appbar .seg{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
-.appbar .seg a,.appbar .seg button{font:500 13px var(--mono);letter-spacing:.03em;color:var(--ink);background:none;border:0;border-radius:999px;padding:5px 12px;text-decoration:none;cursor:pointer}
-.appbar .seg [aria-current="page"],.appbar .seg [aria-pressed="true"]{background:var(--brand-tint);color:var(--brand)}
+.appbar .langs{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
+.appbar .langs button{font:500 13px var(--mono);letter-spacing:.03em;color:var(--ink);background:none;border:0;border-radius:999px;padding:5px 12px;text-decoration:none;cursor:pointer}
+.appbar .langs [aria-pressed="true"]{background:var(--brand-tint);color:var(--brand)}
 .appbar .theme{font:500 12px var(--mono);color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
 nav.toc{top:calc(env(safe-area-inset-top,0px) + 72px);max-height:calc(100vh - 88px)}
 @media (max-width:640px){.appbar .brand{flex-basis:100%}}
-@media print{.appbar,#view-roles{display:none!important}}
+@media print{.appbar{display:none!important}}
 """
 
 
@@ -191,17 +191,16 @@ def shell_markup():
     langs = "".join(f'<button type="button" data-l="{l}" lang="{l}" title="{name}" aria-label="{name}">{short}</button>'
                     for l, (short, name) in LANG_LABELS.items())
     return ('<div class="readbar" id="readbar" aria-hidden="true"></div>\n'
-            '<header class="appbar"><a class="brand" href="#hub" id="ab-brand"></a>'
-            '<nav class="seg" id="ab-views"><a href="#hub" id="vb-hub"></a><a href="#roles" id="vb-roles"></a></nav>'
-            f'<div class="seg" role="group" id="ab-langs">{langs}</div>'
+            '<header class="appbar"><a class="brand" href="#hub-hero" id="ab-brand"></a>'
+            f'<div class="langs" role="group" id="ab-langs">{langs}</div>'
             '<button type="button" class="theme" id="themeBtn"></button></header>\n'
             '<button type="button" class="toTop" id="toTop">↑</button>\n')
 
 
 SHELL_JS = """<script>
-/* ---- app shell: language, theme and view for the whole page ---- */
+/* ---- app shell: language and theme for the whole page ---- */
 (() => {
-  const LANGS = ['en', 'uk', 'pl', 'es'], ROLE_HASHES = ['roles', 'intern', 'junior', 'mid'], THEMES = ['auto', 'light', 'dark'];
+  const LANGS = ['en', 'uk', 'pl', 'es'], THEMES = ['auto', 'light', 'dark'];
   const read = k => { try { return JSON.parse(localStorage.getItem(k)) } catch (e) { return null } };
   const write = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch (e) {} };
   let lang = read('app-lang') ?? read('roles-lang');
@@ -222,20 +221,10 @@ SHELL_JS = """<script>
   function applyLang() {
     root.lang = lang;
     $('ab-brand').textContent = t('appName');
-    $('ab-views').setAttribute('aria-label', t('viewsAria'));
-    $('vb-hub').textContent = t('viewHub');
-    $('vb-roles').textContent = t('viewRoles');
     $('ab-langs').setAttribute('aria-label', t('language'));
     $('ab-langs').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
     $('toTop').setAttribute('aria-label', t('backToTop'));
     applyTheme();
-  }
-  function showView() {
-    const h = location.hash.slice(1), inRoles = ROLE_HASHES.includes(h);
-    $('view-hub').hidden = inRoles; $('view-roles').hidden = !inRoles;
-    $('vb-hub').setAttribute('aria-current', inRoles ? 'false' : 'page');
-    $('vb-roles').setAttribute('aria-current', inRoles ? 'page' : 'false');
-    if (h === 'hub' || h === 'roles') scrollTo(0, 0);
   }
   $('ab-langs').addEventListener('click', e => {
     const b = e.target.closest('button[data-l]');
@@ -251,7 +240,6 @@ SHELL_JS = """<script>
   let closed = [];
   addEventListener('beforeprint', () => { root.setAttribute('data-theme', 'light'); closed = [...document.querySelectorAll('details:not([open])')]; closed.forEach(d => d.open = true) });
   addEventListener('afterprint', () => { applyTheme(); closed.forEach(d => d.open = false) });
-  addEventListener('hashchange', showView);
 
   const toTop = $('toTop'), readbar = $('readbar');
   toTop.addEventListener('click', () => scrollTo({top: 0, behavior: 'smooth'}));
@@ -261,7 +249,7 @@ SHELL_JS = """<script>
     readbar.style.width = (max > 0 ? Math.min(y / max, 1) * 100 : 0) + '%';
   }, {passive: true});
 
-  applyLang(); showView();
+  applyLang();
 })();
 </script>"""
 
@@ -274,10 +262,9 @@ def main():
         shown = errors[:60]
         sys.exit("Build failed:\n  " + "\n  ".join(shown) + (f"\n  ... and {len(errors) - 60} more" if len(errors) > 60 else ""))
 
-    page = (hub_head + "\n/* ---- Role Modules ---- */\n" + rm_style + SHELL_CSS + "</style>\n"
+    page = (hub_head + "\n/* ---- Role modules (section of the hub) ---- */\n" + rm_style + SHELL_CSS + "</style>\n"
             + shell_markup()
-            + '<div id="view-hub">' + hub_markup + "</div>\n"
-            + '<div id="view-roles" hidden>\n' + rm_markup + "</div>\n"
+            + hub_markup + "\n" + rm_markup + "\n"
             + hub_data + "\n" + SHELL_JS + "\n" + hub_script + "\n" + rm_script + "\n")
     out = ROOT / "index.html"
     out.write_text(HEAD + page + "</html>\n", encoding="utf-8")

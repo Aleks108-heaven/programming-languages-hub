@@ -104,6 +104,10 @@
   "attrs": "id=\"quiz-5\" data-quiz=\"p5\""
  },
  {
+  "id": "roles",
+  "attrs": "id=\"roles\""
+ },
+ {
   "id": "selfcheck",
   "attrs": "id=\"selfcheck\""
  },

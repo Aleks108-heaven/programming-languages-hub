@@ -1,12 +1,12 @@
 # Programming Languages Hub
 
-A study hub that takes a learner from **internship** to **junior** to **mid-level** developer. It covers how programming languages work, the 2026 language landscape, SQL and databases, a structured learning path, and a quiz after every part. A second view, **Role Modules**, goes deeper into each career level. Both live in one page, `index.html`, and **the whole app is available in English, Ukrainian, Polish and Spanish**.
+A study hub that takes a learner from **internship** to **junior** to **mid-level** developer. It covers how programming languages work, the 2026 language landscape, SQL and databases, a structured learning path, and a quiz after every part. **Role modules**, a section near the end of the page, go deeper into each career level. Everything lives in one page, `index.html`, and **the whole app is available in English, Ukrainian, Polish and Spanish**.
 
 Everything runs in the browser as plain HTML, CSS and JavaScript. There is no framework, no server and nothing to install.
 
 ## Run it
 
-**Online:** https://claude.ai/artifact/4MAQg6U7GzJAtDMjrtQH5C (private until the owner shares it).
+**Online:** <https://claude.ai/artifact/4MAQg6U7GzJAtDMjrtQH5C> (private until the owner shares it).
 
 **Locally**, you need Python 3.9 or newer:
 
@@ -14,10 +14,10 @@ Everything runs in the browser as plain HTML, CSS and JavaScript. There is no fr
 python serve.py
 ```
 
-This rebuilds `index.html`, starts a server at http://127.0.0.1:8000/ and opens it in your browser. Press Ctrl+C to stop it.
+This rebuilds `index.html`, starts a server at <http://127.0.0.1:8000/> and opens it in your browser. Press Ctrl+C to stop it.
 
 | Option | Effect |
-|---|---|
+| --- | --- |
 | `--port 9000` | Use another port |
 | `--no-build` | Serve the existing `index.html` without rebuilding |
 | `--no-open` | Don't open a browser tab |
@@ -27,8 +27,8 @@ The server listens on `127.0.0.1` only, so other machines can't reach it, and it
 **The app bar** stays at the top of the page and controls everything:
 
 | Control | What it does |
-|---|---|
-| **Study hub / Role modules** | Switches the view. Links can open a view directly: `#roles`, `#intern`, `#junior`, `#mid`, or any hub section such as `#sql`. |
+| --- | --- |
+| **Programming Languages Hub** (brand) | Jumps back to the top. Links can open any section directly, such as `#sql` or `#roles`. |
 | **EN · UA · PL · ES** | Switches the language of the whole app: every section, table, checklist, quiz, exam and role module. Your ticks, scores and review list are kept. |
 | **Theme** | Cycles auto, light and dark. |
 
@@ -37,7 +37,7 @@ On first visit the language follows the browser's language if it's one of the fo
 ## What's inside
 
 ```
-index.html                                      the app: hub + Role Modules (generated, do not edit by hand)
+index.html                                      the app: Study hub modules, including Role modules (generated, do not edit by hand)
 build.py                                        validates the translations and builds index.html (with the app bar)
 serve.py                                        builds, then serves the app on 127.0.0.1
 hub/
@@ -51,7 +51,7 @@ Programming-Languages-Learning-Map-Expanded.md  the full guide as a Markdown doc
 design-system/                                  colour tokens, type and page patterns (PL Hub)
 ```
 
-### Study hub view
+### Study hub sections
 
 About 31 sections in six parts, each part followed by a quiz:
 
@@ -73,7 +73,7 @@ Study tools:
 - A **Practice** list of free sites checked in September 2026: freeCodeCamp, The Odin Project, Codewars, Advent of Code, Go by Example, Rust by Example, Learn Git Branching, SQLBolt, PostgreSQL Exercises, Use The Index Luke, roadmap.sh, Exercism, LeetCode, SQL Murder Mystery and Frontend Mentor.
 - A **Docs** list of official references and guides, including the Pro Git book, Refactoring Guru's design patterns, The System Design Primer, Real Python and The Twelve-Factor App, alongside the per-language official docs.
 
-### Role Modules view
+### Role modules section (section 27 of the hub)
 
 Three role tracks: **Internship**, **Junior** and **Mid-level**. Each track has:
 
@@ -89,7 +89,7 @@ Code and code comments stay in English in every language, as in real codebases.
 All text lives in JSON, one file per language:
 
 - **Study hub:** `hub/content/<lang>.json` has `ui` (buttons and labels), `hero`, `sections` (each section's HTML) and `data` (tables, checklists, the learning path, quizzes, the exam, code notes and links).
-- **Role Modules:** `role-modules/content/<lang>.json`.
+- **Role modules:** `role-modules/content/<lang>.json`. The section's heading and intro come from its `ui.title` and `ui.lede`, copied into the hub's `roles` section in `hub/content/<lang>.json`.
 
 `en.json` is the reference. Source code and URLs exist only there; the other languages leave out `code` keys and use `null` for URLs and numbers, and the build fills them in from English. A hub quiz or exam row looks like this:
 
