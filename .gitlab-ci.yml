@@ -1,0 +1,42 @@
+# GitLab CI for the Programming Languages Hub.
+# Jobs: (1) rebuild index.html and fail if the committed copy is stale or a translation drifted,
+#       (2) run the jsdom smoke test against the built page.
+# No deployment job on purpose: add one (for example GitLab Pages) once you decide who may see the app.
+
+stages:
+  - build
+  - test
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH
+
+build-and-verify:
+  stage: build
+  image: python:3.12-slim
+  script:
+    # build.py exits non-zero if any translation differs from English in structure
+    - python build.py
+    # index.html is generated and committed: the committed copy must match the sources
+    - |
+      if ! git diff --exit-code --stat -- index.html; then
+        echo "index.html is out of date. Run 'python build.py' and commit the result."
+        exit 1
+      fi
+  artifacts:
+    paths:
+      - index.html
+    expire_in: 1 week
+
+smoke-test:
+  stage: test
+  image: node:22-slim
+  needs: ["build-and-verify"]
+  cache:
+    key: npm-jsdom
+    paths:
+      - .npm/
+  script:
+    - npm install --no-save --no-audit --no-fund --cache .npm --prefer-offline jsdom
+    - node tests/smoke.js index.html

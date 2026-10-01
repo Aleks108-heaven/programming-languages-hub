@@ -177,10 +177,11 @@ SHELL_CSS = """
 /* ---- app bar ---- */
 .appbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;margin-inline:-16px;padding:8px 16px;background:var(--paper);border-bottom:1px solid var(--line);display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px}
 .appbar .brand{font:650 17px var(--display);color:var(--ink);text-decoration:none;margin-right:auto}
-.appbar .langs{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border:1px solid var(--line);border-radius:999px;background:var(--surface)}
-.appbar .langs button{font:500 13px var(--mono);letter-spacing:.03em;color:var(--ink);background:none;border:0;border-radius:999px;padding:5px 12px;text-decoration:none;cursor:pointer}
+.appbar .langs{display:flex;flex-wrap:wrap;gap:4px;padding:3px;border:1px solid var(--control);border-radius:999px;background:var(--surface)}
+.appbar .langs button{font:500 13px var(--mono);letter-spacing:.03em;color:var(--ink);background:none;border:0;border-radius:999px;padding:5px 12px;min-height:34px;text-decoration:none;cursor:pointer}
 .appbar .langs [aria-pressed="true"]{background:var(--brand-tint);color:var(--brand)}
-.appbar .theme{font:500 12px var(--mono);color:var(--muted);background:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.appbar .theme{font:500 12px var(--mono);color:var(--muted);background:none;border:1px solid var(--control);border-radius:999px;padding:6px 12px;min-height:40px;cursor:pointer}
+@media (pointer:coarse){.appbar .langs button{min-height:44px;min-width:44px}.appbar .theme{min-height:44px}}
 nav.toc{top:calc(env(safe-area-inset-top,0px) + 72px);max-height:calc(100vh - 88px)}
 @media (max-width:640px){.appbar .brand{flex-basis:100%}}
 @media print{.appbar{display:none!important}}
@@ -190,7 +191,8 @@ nav.toc{top:calc(env(safe-area-inset-top,0px) + 72px);max-height:calc(100vh - 88
 def shell_markup():
     langs = "".join(f'<button type="button" data-l="{l}" lang="{l}" title="{name}" aria-label="{name}">{short}</button>'
                     for l, (short, name) in LANG_LABELS.items())
-    return ('<div class="readbar" id="readbar" aria-hidden="true"></div>\n'
+    return ('<a class="skip" href="#main" id="ab-skip"></a>\n'
+            '<div class="readbar" id="readbar" aria-hidden="true"></div>\n'
             '<header class="appbar"><a class="brand" href="#hub-hero" id="ab-brand"></a>'
             f'<div class="langs" role="group" id="ab-langs">{langs}</div>'
             '<button type="button" class="theme" id="themeBtn"></button></header>\n'
@@ -224,6 +226,7 @@ SHELL_JS = """<script>
     $('ab-langs').setAttribute('aria-label', t('language'));
     $('ab-langs').querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.l === lang)));
     $('toTop').setAttribute('aria-label', t('backToTop'));
+    $('ab-skip').textContent = t('skipLink');
     applyTheme();
   }
   $('ab-langs').addEventListener('click', e => {
@@ -248,6 +251,14 @@ SHELL_JS = """<script>
     toTop.classList.toggle('show', y > 600);
     readbar.style.width = (max > 0 ? Math.min(y / max, 1) * 100 : 0) + '%';
   }, {passive: true});
+
+  /* Scrollable tables must be reachable by keyboard: focusable only while they actually overflow */
+  window.markScrollable = () => document.querySelectorAll('.tw').forEach(e => {
+    if (e.scrollWidth > e.clientWidth + 1) e.tabIndex = 0; else e.removeAttribute('tabindex');
+  });
+  addEventListener('resize', window.markScrollable);
+  document.addEventListener('app:lang', () => setTimeout(window.markScrollable));
+  addEventListener('load', window.markScrollable);
 
   applyLang();
 })();

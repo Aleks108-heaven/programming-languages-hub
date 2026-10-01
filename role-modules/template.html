@@ -1,10 +1,10 @@
 <title>Role Modules</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..700&family=Manrope:wght@600..800&family=JetBrains+Mono:wght@400;500&family=Source+Sans+3:wght@400;600&display=swap">
 <style>
-:root{--paper:#f3f5f4;--surface:#fff;--ink:#15201e;--muted:#56635f;--line:#d5dcd9;--brand:#0e6b5c;--brand-tint:#dcefe9;--junior:#3a4ea0;--mid:#a24a00;--code-bg:#15201e;--code-ink:#cfe9e1;
---display:"Bricolage Grotesque",system-ui,sans-serif;--sans:"Source Sans 3",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--paper:#0f1513;--surface:#17201d;--ink:#e6eeeb;--muted:#9aa9a4;--line:#2a3632;--brand:#4fc3a9;--brand-tint:#15332c;--junior:#9aa8ff;--mid:#f0a358;--code-bg:#0a0f0d}}
-:root[data-theme="dark"]{color-scheme:dark;--paper:#0f1513;--surface:#17201d;--ink:#e6eeeb;--muted:#9aa9a4;--line:#2a3632;--brand:#4fc3a9;--brand-tint:#15332c;--junior:#9aa8ff;--mid:#f0a358;--code-bg:#0a0f0d}
+:root{--paper:#f3f5f4;--surface:#fff;--ink:#15201e;--muted:#56635f;--line:#d5dcd9;--control:#76847f;--brand:#0e6b5c;--brand-tint:#dcefe9;--junior:#3a4ea0;--mid:#a24a00;--code-bg:#15201e;--code-ink:#cfe9e1;
+--display:"Bricolage Grotesque","Manrope",system-ui,sans-serif;--sans:"Source Sans 3",system-ui,sans-serif;--mono:"JetBrains Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--paper:#0f1513;--surface:#17201d;--ink:#e6eeeb;--muted:#9aa9a4;--line:#2a3632;--control:#6b7b75;--brand:#4fc3a9;--brand-tint:#15332c;--junior:#9aa8ff;--mid:#f0a358;--code-bg:#0a0f0d}}
+:root[data-theme="dark"]{color-scheme:dark;--paper:#0f1513;--surface:#17201d;--ink:#e6eeeb;--muted:#9aa9a4;--line:#2a3632;--control:#6b7b75;--brand:#4fc3a9;--brand-tint:#15332c;--junior:#9aa8ff;--mid:#f0a358;--code-bg:#0a0f0d}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:17px/1.6 var(--sans);padding-inline:16px}
 a{color:var(--brand)}
@@ -21,10 +21,10 @@ a{color:var(--brand)}
 .rm-root .lvl-intern{--lv:var(--brand)}.rm-root .lvl-junior{--lv:var(--junior)}.rm-root .lvl-mid{--lv:var(--mid)}
 .rm-root .pill{display:inline-block;font:500 12px var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--lv);border:1px solid var(--lv);border-radius:999px;padding:1px 8px}
 .rm-root .chips{display:flex;flex-wrap:wrap;gap:6px}
-.rm-root .chips button{font:500 13px var(--mono);border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.rm-root .chips button{font:500 13px var(--mono);border:1px solid var(--control);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
 .rm-root .chips button[aria-pressed="true"]{background:var(--brand-tint);border-color:var(--brand);color:var(--brand)}
 .rm-root .roles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
-.rm-root .role{text-align:left;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:8px;align-content:start;cursor:pointer}
+.rm-root .role{text-align:left;font:inherit;color:inherit;background:var(--surface);border:1px solid var(--control);border-radius:10px;padding:14px 16px;display:grid;gap:8px;align-content:start;cursor:pointer}
 .rm-root .role:hover{border-color:var(--lv)}
 .rm-root .role[aria-pressed="true"]{border-color:var(--lv);box-shadow:inset 0 0 0 1px var(--lv)}
 .rm-root .role strong{font:600 20px var(--display)}
@@ -42,19 +42,19 @@ a{color:var(--brand)}
 .rm-root .notes dt{font-weight:600}.rm-root .notes dd{margin:0;color:var(--muted)}
 .rm-root .codehead{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px}
 .rm-root pre.code{margin:0;background:var(--code-bg);color:var(--code-ink);border-radius:8px;padding:16px;overflow-x:auto;font:13.5px/1.6 var(--mono);tab-size:4}
-.rm-root .tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:var(--surface)}
+.rm-root .tw{overflow-x:auto;border:1px solid var(--line);border-radius:8px;background:linear-gradient(to right,var(--surface) 30%,#0000) left/40px 100% no-repeat local,linear-gradient(to left,var(--surface) 30%,#0000) right/40px 100% no-repeat local,linear-gradient(to right,color-mix(in srgb,var(--control) 45%,transparent),#0000) left/10px 100% no-repeat scroll,linear-gradient(to left,color-mix(in srgb,var(--control) 45%,transparent),#0000) right/10px 100% no-repeat scroll,var(--surface)}
 .rm-root table{border-collapse:collapse;width:100%;font-size:15px;line-height:1.45}
 .rm-root th,.rm-root td{text-align:left;vertical-align:top;padding:10px 14px;border-bottom:1px solid var(--line)}
 .rm-root tr:last-child td{border-bottom:0}
 .rm-root th{font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
-.rm-root td:first-child{font-weight:600;white-space:nowrap}
+.rm-root td:first-child{font-weight:600}
 .rm-root .linkbtn{font:500 12px var(--mono);background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;padding:0;justify-self:start}
 .rm-root .sechead{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:baseline;justify-content:space-between}
 .rm-root .count{font:500 13px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
 .rm-root .quiz{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
 .rm-root .card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:16px;display:grid;gap:10px;align-content:start}
 .rm-root .opts{display:grid;gap:6px}
-.rm-root .opt{text-align:left;font:15px/1.4 var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:6px;padding:8px 12px;cursor:pointer}
+.rm-root .opt{text-align:left;font:15px/1.4 var(--sans);color:var(--ink);background:var(--paper);border:1px solid var(--control);border-radius:6px;padding:8px 12px;cursor:pointer}
 .rm-root .opt:hover:not(:disabled){border-color:var(--brand)}
 .rm-root .opt[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-tint)}
 .rm-root .opt:disabled{cursor:default}
@@ -66,6 +66,8 @@ a{color:var(--brand)}
 .rm-root .foot{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
 .rm-root .note{border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:15px;color:var(--muted);max-width:none}
 .rm-root .note strong{color:var(--ink)}
+.rm-root .chips button,.rm-root .opt,.rm-root .act{min-height:36px}
+@media (pointer:coarse){.rm-root .chips button,.rm-root .opt,.rm-root .act,.rm-root .linkbtn{min-height:44px}}
 @media print{.rm-root .roles,#rm-quiz,#rm-exam,#rm-reset{display:none!important}}
 @media (max-width:760px){.rm-root .roles{grid-template-columns:1fr}.rm-root .notes div{grid-template-columns:1fr}}
 </style>
@@ -384,15 +386,15 @@ function renderRole() {
   drawQuiz(); drawExam();
 }
 
-let qDone = 0, qGot = 0;
+let qDone = 0, qGot = 0, quizAns = {}, examDone = false;
 function drawQuiz() {
-  const list = R().quiz; qDone = qGot = 0;
+  const list = R().quiz; qDone = qGot = 0; quizAns = {};
   $('#rm-quizQ').innerHTML = mcqHTML(list);
   $('#rm-quizScore').textContent = t('answered', {d: 0, n: list.length});
 }
 let picks = {};
 function drawExam() {
-  const list = R().exam; picks = {};
+  const list = R().exam; picks = {}; examDone = false;
   $('#rm-examQ').innerHTML = mcqHTML(list);
   $('#rm-examResult').hidden = true;
   $('#rm-examSubmit').textContent = t('submit'); $('#rm-examSubmit').dataset.m = 'submit';
@@ -401,7 +403,36 @@ function drawExam() {
   $('#rm-examBest').textContent = b == null ? t('notAttempted') : t('best', {s: b, n: list.length});
 }
 
-function render() { renderHeader(); renderRole() }
+function gradeExam(record) {
+  const list = R().exam, btn = $('#rm-examSubmit');
+  let s = 0;
+  $('#rm-examQ').querySelectorAll('.card').forEach(c => { const i = +c.dataset.i; if (picks[i] === list[i].c) s++; reveal(c, list[i], picks[i]) });
+  const pass = s >= passMark(list.length);
+  if (record) { scores.exam[role] = Math.max(scores.exam[role] ?? 0, s); store('roles-scores', scores); renderHeader() }
+  $('#rm-examBest').textContent = t('best', {s: scores.exam[role], n: list.length});
+  const res = $('#rm-examResult'); res.hidden = false;
+  res.innerHTML = '<strong>' + s + ' / ' + list.length + ' (' + Math.round(s / list.length * 100) + '%): ' + (pass ? t('passed') : t('notPassed')) + '.</strong> ' + (pass ? t('passedMsg') : t('failedMsg'));
+  $('#rm-examMsg').textContent = ''; btn.textContent = t('retakeExam'); btn.dataset.m = 'retake';
+  examDone = true;
+}
+// Language switch: re-render, then put the answers given so far back on the new cards (no re-scoring)
+function restore(prev) {
+  const list = R().quiz;
+  for (const [i, j] of Object.entries(prev.quizAns)) {
+    const card = $('#rm-quizQ .card[data-i="' + i + '"]');
+    if (!card) continue;
+    reveal(card, list[+i], j); quizAns[i] = j; qDone++; if (j === list[+i].c) qGot++;
+  }
+  if (qDone) $('#rm-quizScore').textContent = qDone === list.length ? t('score', {s: qGot, n: list.length}) : t('answered', {d: qDone, n: list.length});
+  picks = prev.picks;
+  if (prev.examDone) gradeExam(false);
+  else {
+    for (const [i, j] of Object.entries(picks)) { const b = $('#rm-examQ .card[data-i="' + i + '"] .opt[data-j="' + j + '"]'); if (b) b.setAttribute('aria-pressed', 'true') }
+    if (Object.keys(picks).length) $('#rm-examMsg').textContent = t('answered', {d: Object.keys(picks).length, n: R().exam.length});
+  }
+}
+
+function render() { renderHeader(); renderRole(); if (window.markScrollable) window.markScrollable() }
 
 document.addEventListener('click', e => {
   if (!e.target.closest('.rm-root')) return;
@@ -419,7 +450,7 @@ document.addEventListener('click', e => {
     const card = opt.closest('.card'), i = +card.dataset.i, j = +opt.dataset.j;
     if (card.closest('#rm-quizQ')) {
       const list = R().quiz, q = list[i];
-      reveal(card, q, j); qDone++; if (j === q.c) qGot++;
+      reveal(card, q, j); quizAns[i] = j; qDone++; if (j === q.c) qGot++;
       if (qDone === list.length) {
         scores.quiz[role] = Math.max(scores.quiz[role] ?? 0, qGot); store('roles-scores', scores); renderHeader();
         $('#rm-quizScore').textContent = t('score', {s: qGot, n: list.length});
@@ -435,19 +466,12 @@ document.addEventListener('click', e => {
     if (btn.dataset.m === 'retake') { drawExam(); $('#rm-exam').scrollIntoView(); return }
     const n = Object.keys(picks).length;
     if (n < list.length) { $('#rm-examMsg').textContent = t('answerAll', {n: list.length, d: n}); return }
-    let s = 0;
-    $('#rm-examQ').querySelectorAll('.card').forEach(c => { const i = +c.dataset.i; if (picks[i] === list[i].c) s++; reveal(c, list[i], picks[i]) });
-    const pass = s >= passMark(list.length);
-    scores.exam[role] = Math.max(scores.exam[role] ?? 0, s); store('roles-scores', scores); renderHeader();
-    $('#rm-examBest').textContent = t('best', {s: scores.exam[role], n: list.length});
-    const res = $('#rm-examResult'); res.hidden = false;
-    res.innerHTML = '<strong>' + s + ' / ' + list.length + ' (' + Math.round(s / list.length * 100) + '%): ' + (pass ? t('passed') : t('notPassed')) + '.</strong> ' + (pass ? t('passedMsg') : t('failedMsg'));
-    $('#rm-examMsg').textContent = ''; btn.textContent = t('retakeExam'); btn.dataset.m = 'retake';
+    gradeExam(true);
     return;
   }
   if (e.target.closest('#rm-reset')) { scores = {quiz: {}, exam: {}}; store('roles-scores', scores); render() }
 });
-document.addEventListener('app:lang', e => { lang = e.detail; render() });
+document.addEventListener('app:lang', e => { const prev = {quizAns, picks, examDone}; lang = e.detail; render(); restore(prev) });
 render();
 })();
 </script>

@@ -10,3 +10,7 @@ __pycache__/
 *.bak
 .vscode/
 .idea/
+
+# Node (CI installs jsdom on the fly)
+node_modules/
+.npm/

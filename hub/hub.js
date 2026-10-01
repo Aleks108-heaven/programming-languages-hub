@@ -5,6 +5,7 @@
   const root = document.getElementById('hub-root');
   const $ = s => root.querySelector(s);
   let lang = window.APP.lang, U, D;
+  const narrow = matchMedia('(max-width:860px)');
   const t = (k, v = {}) => U[k].replace(/\{(\w+)\}/g, (_, x) => v[x]);
 
   /* ---- saved progress (untrusted: keep only the expected shapes) ---- */
@@ -113,14 +114,49 @@
     mcq(box.querySelector('.quiz'), list);
     box.querySelector('.score').textContent = t('answered', {d: 0, n: list.length});
   }
-  let picks = {};
+  let picks = {}, examDone = false;
+  const ans = {};   // answered part-quiz questions ('p1-0' -> chosen option), kept across a language switch
   function drawExam() {
-    picks = {};
+    picks = {}; examDone = false;
     mcq($('#examQ'), D.exam);
     $('#examResult').hidden = true;
     const b = $('#examSubmit'); b.textContent = t('submit'); b.dataset.m = 'submit';
     $('#examMsg').textContent = t('answered', {d: 0, n: D.exam.length});
     $('#examBest').textContent = st.examBest != null ? t('best', {s: Math.min(st.examBest, D.exam.length), n: D.exam.length}) : t('notAttempted');
+  }
+
+  function gradeExam(record) {
+    const btn = $('#examSubmit'), EX = D.exam;
+    let s = 0;
+    $('#examQ').querySelectorAll('.card').forEach(c => { const i = +c.dataset.i, ok = picks[i] === EX[i][2]; if (ok) s++; reveal(c, EX[i], picks[i]); if (record) track('ex-' + i, ok) });
+    const pass = s >= passMark();
+    if (record) { st.examBest = Math.max(st.examBest || 0, s); save() }
+    $('#examBest').textContent = t('best', {s: Math.min(st.examBest, EX.length), n: EX.length});
+    const r = $('#examResult'); r.hidden = false;
+    r.innerHTML = '<strong>' + t('examResult', {s, n: EX.length, p: Math.round(s / EX.length * 100), v: pass ? t('passed') : t('notPassed')}) + '</strong> ' + (pass ? t('passedMsg') : t('failedMsg'));
+    $('#examMsg').textContent = ''; btn.textContent = t('retakeExam'); btn.dataset.m = 'retake';
+    examDone = true;
+  }
+  /* Put answers given before a language switch back on the freshly rendered cards (no re-scoring) */
+  function restore(prev) {
+    for (const [key, j] of Object.entries(prev.ans)) {
+      const [k, i] = key.split('-'), box = root.querySelector('[data-quiz="' + k + '"]');
+      const c = box && box.querySelector('.card[data-i="' + i + '"]'), q = (D.quizzes[k] || [])[+i];
+      if (!c || !q) continue;
+      reveal(c, q, j); ans[key] = j;
+      const ps = partState[k]; ps.done++; if (j === q[2]) ps.got++;
+      const n = D.quizzes[k].length;
+      box.querySelector('.score').textContent = ps.done < n ? t('answered', {d: ps.done, n}) : t('score', {s: ps.got, n});
+    }
+    picks = prev.picks;
+    if (prev.examDone) gradeExam(false);
+    else {
+      for (const [i, j] of Object.entries(picks)) {
+        const b = root.querySelector('#examQ .card[data-i="' + i + '"] .opt[data-j="' + j + '"]');
+        if (b) b.setAttribute('aria-pressed', 'true');
+      }
+      if (Object.keys(picks).length) $('#examMsg').textContent = t('answered', {d: Object.keys(picks).length, n: D.exam.length});
+    }
   }
 
   /* ---- table of contents and search ---- */
@@ -135,6 +171,8 @@
 
   /* ---- render everything for the current language ---- */
   function render() {
+    const prev = {ans: {...ans}, picks, examDone};
+    for (const k of Object.keys(ans)) delete ans[k];
     const L = HUB[lang]; U = L.ui; D = L.data;
     $('#hub-hero').innerHTML = L.hero;
     $('#hub-sections').innerHTML = ORDER.map(s => '<section ' + s.attrs + '>' + L.sections[s.id] + '</section>').join('');
@@ -150,7 +188,7 @@
     if (!D.goals.some(g => g[0] === goal)) goal = null;
     drawLangs();
     const X = v => (v - 100) / 110 * 100;
-    $('#sal').innerHTML = D.salaries.map(r => '<div class="srow"><span class="nm">' + r[0] + '</span><div class="track"><i class="' + (r[4] ? 'alt' : '') + '" style="left:' + X(r[1]) + '%;width:' + Math.max(X(r[2]) - X(r[1]), 0) + '%"></i></div><span class="amt">' + r[3] + '</span></div>').join('');
+    $('#sal').innerHTML = D.salaries.map(r => '<div class="srow"><span class="nm">' + r[0] + '</span><div class="track" aria-hidden="true"><i class="' + (r[4] ? 'alt' : '') + '" style="left:' + X(r[1]) + '%;width:' + Math.max(X(r[2]) - X(r[1]), 0) + '%"></i></div><span class="amt">' + r[3] + '</span></div>').join('');
 
     root.querySelectorAll('.checks[data-lv]').forEach(ul => { const lv = ul.dataset.lv; ul.innerHTML = D.checklists[lv].map((x, i) => checkbox(lv + '-' + i, x)).join('') });
     $('#seq').innerHTML = D.sequence.map((x, i) => checkbox('seq-' + i, x, '<span class="k">' + String(i + 1).padStart(2, '0') + '</span>')).join('');
@@ -162,7 +200,9 @@
     $('#quiz').innerHTML = D.selfCheck.map((q, i) => '<div class="card"><div class="label">' + t('check', {i: i + 1, n: D.selfCheck.length}) + '</div><p>' + q[0] + '</p><button type="button" aria-expanded="false">' + t('showHint') + '</button><p class="a" hidden>' + q[1] + '</p></div>').join('');
     root.querySelectorAll('[data-quiz]').forEach(drawPart);
     $('#examIntro').textContent = t('examIntro', {n: D.exam.length, p: passMark()});
-    drawExam(); refreshStudy();
+    drawExam();
+    const axis = root.querySelector('.sal .axis'); if (axis) axis.setAttribute('aria-hidden', 'true');   // the rows carry the figures as text
+    restore(prev); refreshStudy();
     $('#taskTabs').setAttribute('aria-label', t('taskAria')); $('#langTabs').setAttribute('aria-label', t('langAria')); $('#sqlTabs').setAttribute('aria-label', t('sqlAria'));
     drawCode(); drawSql();
 
@@ -177,6 +217,7 @@
     search.placeholder = t('searchPh'); search.setAttribute('aria-label', t('searchAria'));
     document.getElementById('toc').innerHTML = secs.map((s, i) => '<li><a href="#' + s.id + '"><span>' + String(i + 1).padStart(2, '0') + '</span>' + s.querySelector('h2').lastChild.textContent.trim() + '</a></li>').join('');
     runSearch();
+    if (window.markScrollable) window.markScrollable();
   }
 
   /* ---- one set of event handlers for the whole view ---- */
@@ -188,10 +229,15 @@
       const a = b.nextElementSibling; a.hidden = !a.hidden;
       b.textContent = a.hidden ? t('showHint') : t('hideHint'); b.setAttribute('aria-expanded', String(!a.hidden)); return;
     }
-    if ((b = el.closest('[data-quiz] .retry'))) { drawPart(b.closest('[data-quiz]')); return }
+    if ((b = el.closest('nav.toc a')) && narrow.matches) { b.closest('details').open = false; return }
+    if ((b = el.closest('[data-quiz] .retry'))) {
+      const box = b.closest('[data-quiz]');
+      for (const k of Object.keys(ans)) if (k.startsWith(box.dataset.quiz + '-')) delete ans[k];
+      drawPart(box); return;
+    }
     if ((b = el.closest('[data-quiz] .opt')) && !b.disabled) {
       const box = b.closest('[data-quiz]'), k = box.dataset.quiz, list = D.quizzes[k], c = b.closest('.card'), q = list[+c.dataset.i], j = +b.dataset.j, ps = partState[k];
-      reveal(c, q, j); track(k + '-' + c.dataset.i, j === q[2]); ps.done++; if (j === q[2]) ps.got++;
+      reveal(c, q, j); track(k + '-' + c.dataset.i, j === q[2]); ans[k + '-' + c.dataset.i] = j; ps.done++; if (j === q[2]) ps.got++;
       if (ps.done === list.length) { st.qbest[k] = Math.max(st.qbest[k] || 0, ps.got); save() }
       box.querySelector('.score').textContent = ps.done < list.length ? t('answered', {d: ps.done, n: list.length}) : t('score', {s: ps.got, n: list.length});
       refreshStudy(); return;
@@ -206,14 +252,7 @@
       if (btn.dataset.m === 'retake') { drawExam(); $('#exam').scrollIntoView(); return }
       const n = Object.keys(picks).length;
       if (n < EX.length) { $('#examMsg').textContent = t('answerAll', {n: EX.length, d: n}); return }
-      let s = 0;
-      $('#examQ').querySelectorAll('.card').forEach(c => { const i = +c.dataset.i, ok = picks[i] === EX[i][2]; if (ok) s++; reveal(c, EX[i], picks[i]); track('ex-' + i, ok) });
-      const pass = s >= passMark();
-      st.examBest = Math.max(st.examBest || 0, s); save();
-      $('#examBest').textContent = t('best', {s: st.examBest, n: EX.length});
-      const r = $('#examResult'); r.hidden = false;
-      r.innerHTML = '<strong>' + t('examResult', {s, n: EX.length, p: Math.round(s / EX.length * 100), v: pass ? t('passed') : t('notPassed')}) + '</strong> ' + (pass ? t('passedMsg') : t('failedMsg'));
-      $('#examMsg').textContent = ''; btn.textContent = t('retakeExam'); btn.dataset.m = 'retake';
+      gradeExam(true);
       refreshStudy(); return;
     }
     if ((b = el.closest('#reviewQ .opt')) && !b.disabled) {
@@ -230,6 +269,7 @@
     if ((b = el.closest('#sqlCopy'))) { copy(b, D.sqlExamples[sqlI].code); return }
     if (el.closest('#reset')) {
       st = {}; clean(); save();
+      for (const k of Object.keys(ans)) delete ans[k];
       root.querySelectorAll('input[type=checkbox]').forEach(x => x.checked = false);
       prog(); root.querySelectorAll('[data-quiz]').forEach(drawPart); drawExam(); refreshStudy();
     }
@@ -250,6 +290,7 @@
 
   document.addEventListener('app:lang', e => { lang = e.detail; render() });
   render();
+  if (narrow.matches) $('nav.toc details').open = false;   // on phones the contents list starts collapsed
   // Sections are rendered by script, so jump to a section link (e.g. #sql) once they exist
   const target = location.hash.slice(1) && document.getElementById(location.hash.slice(1));
   if (target && root.contains(target)) target.scrollIntoView();
