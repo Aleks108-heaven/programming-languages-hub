@@ -36,6 +36,14 @@
   "attrs": "id=\"quiz-2\" data-quiz=\"p2\""
  },
  {
+  "id": "pitfalls",
+  "attrs": "id=\"pitfalls\""
+ },
+ {
+  "id": "quiz-sec",
+  "attrs": "id=\"quiz-sec\" data-quiz=\"sec\""
+ },
+ {
   "id": "sql",
   "attrs": "id=\"sql\""
  },
@@ -82,6 +90,14 @@
  {
   "id": "qa",
   "attrs": "id=\"qa\""
+ },
+ {
+  "id": "testing",
+  "attrs": "id=\"testing\""
+ },
+ {
+  "id": "quiz-test",
+  "attrs": "id=\"quiz-test\" data-quiz=\"test\""
  },
  {
   "id": "path",

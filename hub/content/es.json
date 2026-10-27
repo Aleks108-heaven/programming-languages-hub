@@ -65,7 +65,19 @@
   "heroCtaExam": "Haz el examen final",
   "heroCtaRoles": "Explora los Módulos de rol",
   "backToTop": "Volver arriba",
-  "skipLink": "Saltar al contenido"
+  "skipLink": "Saltar al contenido",
+  "pairAria": "Ejemplo",
+  "secGroup": "Seguridad",
+  "relGroup": "Fiabilidad",
+  "toolsGroup": "Herramientas",
+  "riskyLabel": "Arriesgado",
+  "saferLabel": "Más seguro",
+  "bvaOk": "Aceptado",
+  "bvaNo": "Rechazado",
+  "bvaBad": "Introduce números enteros, con el mínimo por debajo del máximo.",
+  "bvaParts": "Clases de equivalencia: por debajo de {min} (no válidas), de {min} a {max} (válidas), por encima de {max} (no válidas), más la entrada vacía y la no numérica.",
+  "sevOut": "Impacto {i} × probabilidad {l} = {s}: {band}",
+  "copyTpl": "Copiar plantilla"
  },
  "hero": "<div class=\"label\">Módulos del centro de estudio · Prácticas → Junior → Mid · Edición ampliada, septiembre de 2026</div>\n<h1>Programming Languages Hub</h1>\n<p class=\"lede\">Qué son los lenguajes de programación, cómo el código fuente se convierte en comportamiento, qué ecosistemas importan en 2026, qué lugar ocupa SQL junto a ellos y qué necesitas saber en cada etapa de tu carrera. Fundamentos que se trasladan de un lenguaje a otro, no un único lenguaje memorizado. Sigue el camino estructurado desde tu primer programa hasta ingeniero de nivel mid y ponte a prueba con un cuestionario después de cada parte.</p>\n<div class=\"herocta noprint\"><a class=\"ctabtn\" href=\"#what\">Empieza por los fundamentos</a><a class=\"ctabtn ghost\" href=\"#exam\">Haz el examen final</a><a class=\"ctabtn ghost\" href=\"#roles\">Explora los Módulos de rol</a></div>\r\n<div class=\"pipe\" aria-label=\"Modelo mental\"><b>intención humana</b><i>→</i><b>código fuente</b><i>→</i><b>parser / compilador / entorno de ejecución</b><i>→</i><b>instrucciones máquina + bibliotecas</b><i>→</i><b>SO / hardware</b><i>→</i><b>comportamiento observable</b></div>\n<div class=\"progress\" id=\"progress\"></div>\n<div class=\"stats\" id=\"summary\"></div>",
  "sections": {
@@ -100,7 +112,11 @@
   "exam": "<div class=\"lvhead\"><h2>Examen final</h2><span class=\"count\" id=\"examBest\"></span></div>\n<p id=\"examIntro\"></p>\n<div class=\"quiz\" id=\"examQ\"></div>\n<div class=\"examfoot\"><button type=\"button\" class=\"act\" id=\"examSubmit\">Enviar respuestas</button><span class=\"count\" id=\"examMsg\" aria-live=\"polite\"></span></div>\n<p class=\"note\" id=\"examResult\" aria-live=\"polite\" hidden></p>",
   "review": "<div class=\"lvhead\"><h2>Repasar mis errores</h2><span class=\"count\" id=\"reviewCount\"></span></div>\n<p>Cada pregunta que falles en un cuestionario de sección o en el examen final aparece aquí. Respóndela bien para quitarla de la lista.</p>\n<div class=\"quiz\" id=\"reviewQ\"></div><p class=\"note\" id=\"reviewEmpty\" hidden>No hay nada que repasar. Aquí aparecerán las preguntas que falles en los cuestionarios y en el examen.</p>\n<button type=\"button\" class=\"reset\" id=\"reviewRefresh\">Actualizar lista</button>",
   "refs-s": "<h2>Mapa de referencias</h2>\n<h3>Documentación oficial</h3><ul class=\"refs\" id=\"refs\"></ul>\n<h3>Práctica</h3><ul class=\"refs\" id=\"practice\"></ul>\n<h3>Módulos por rol</h3>\n<p class=\"tip\"><b>Módulos por rol</b>Módulos para prácticas, junior y mid con lecciones detalladas, notas por lenguaje, ejemplos de código, un cuestionario y un examen para cada rol. <a href=\"#roles\">Abrir los módulos por rol →</a></p>\n<p class=\"note\"><strong>Fuentes.</strong> Documentación oficial (Python, MDN, TypeScript, Dev.java, Microsoft Learn, Go, Kotlin) consultada en septiembre de 2026. Datos del mercado: Stack Overflow Developer Survey 2025, GitHub Octoverse 2025, TIOBE (febrero de 2026), PYPL y resúmenes salariales de 2026 (Stack Overflow, DICE, estadísticas laborales de EE. UU.). Considera cada ranking como una señal más, no como la verdad absoluta.</p>\n<p class=\"bottom\"><strong>En resumen.</strong> Aprende un lenguaje lo bastante a fondo como para entender los fundamentos y luego aprende otros comparando sistemas de tipos, modelos de ejecución, modelos de memoria, modelos de concurrencia, herramientas y ecosistemas. Para un camino orientado a QA, TypeScript/JavaScript y Python son buenos puntos de partida; Java, C#, Go, Rust y C++ te muestran otros modelos de ingeniería. En 2026, suma dos hábitos: verifica el código generado por IA como si no lo hubieras escrito tú y deja que los datos (encuestas, actividad de commits, ofertas de empleo locales), y no las modas, guíen tu elección de lenguajes.</p>\n<button class=\"reset\" id=\"reset\" type=\"button\">Borrar mi progreso en este dispositivo</button>",
-  "quickref": "<h2>Referencia rápida</h2>\r\n<p>Cuatro chuletas que vale la pena guardar: complejidad algorítmica, comandos de Git del día a día, códigos de estado HTTP y patrones de regex habituales.</p>\r\n<h3>Complejidad Big-O de un vistazo</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Operación</th><th>Complejidad</th><th>Dónde aparece</th></tr></thead><tbody id=\"t-bigo\"></tbody></table></div>\r\n<h3>Comandos de Git del día a día</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Comando</th><th>Qué hace</th></tr></thead><tbody id=\"t-gitcmds\"></tbody></table></div>\r\n<h3>Códigos de estado HTTP</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Código</th><th>Significado</th><th>Uso típico</th></tr></thead><tbody id=\"t-http\"></tbody></table></div>\r\n<h3>Patrones de regex habituales</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Patrón</th><th>Qué coincide</th></tr></thead><tbody id=\"t-regex\"></tbody></table></div>\r\n<p class=\"note\"><strong>Es una referencia, no una lista para memorizar:</strong> saber que esto existe y dónde buscarlo vale más que memorizar la sintaxis exacta. En una entrevista importa más recurrir a la herramienta correcta que recitarla de memoria.</p>"
+  "quickref": "<h2>Referencia rápida</h2>\r\n<p>Cinco chuletas que vale la pena guardar: complejidad algorítmica, comandos de Git del día a día, códigos de estado HTTP, patrones de regex habituales y comprobaciones de terminal de solo lectura.</p>\n<h3>Complejidad Big-O de un vistazo</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Operación</th><th>Complejidad</th><th>Dónde aparece</th></tr></thead><tbody id=\"t-bigo\"></tbody></table></div>\r\n<h3>Comandos de Git del día a día</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Comando</th><th>Qué hace</th></tr></thead><tbody id=\"t-gitcmds\"></tbody></table></div>\r\n<h3>Códigos de estado HTTP</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Código</th><th>Significado</th><th>Uso típico</th></tr></thead><tbody id=\"t-http\"></tbody></table></div>\r\n<h3>Patrones de regex habituales</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Patrón</th><th>Qué coincide</th></tr></thead><tbody id=\"t-regex\"></tbody></table></div>\r\n<h3>Comprobaciones de terminal para un primer vistazo a una máquina</h3>\n<div class=\"tw\"><table><thead><tr><th>Comprobación</th><th>Linux</th><th>Windows (PowerShell)</th><th>macOS</th></tr></thead><tbody id=\"t-term\"></tbody></table></div>\n<p class=\"note\"><strong>Solo lectura, pero no inofensivo.</strong> Estos comandos solo inspeccionan el estado, pero su salida puede contener nombres de equipos y de usuarios, rutas y a veces secretos, así que anonimízala antes de compartirla. Algunos necesitan privilegios elevados (una salida ausente significa «no comprobado», no «sano»), y <code>softwareupdate -l</code> contacta con los servidores de Apple. Ejecútalos uno a uno y solo en máquinas tuyas o que tengas permiso para inspeccionar. Un servicio caído o un código de salida distinto de cero es una pista, no un veredicto: primero considera las explicaciones inocuas y luego puntúa lo que quede con la <a href=\"#testing\">escala de gravedad</a>. Si ves indicios de una intrusión real (persistencia desconocida, conexiones salientes sin explicación), no limpies: conserva las pruebas e implica a quien gestione los incidentes. Un guion significa que no hay un comando equivalente que listar.</p>\n<p class=\"note\"><strong>Es una referencia, no una lista para memorizar:</strong> saber que esto existe y dónde buscarlo vale más que memorizar la sintaxis exacta. En una entrevista importa más recurrir a la herramienta correcta que recitarla de memoria.</p>",
+  "pitfalls": "<h2>Errores típicos por lenguaje</h2>\n<p class=\"lede\">Cada lenguaje tiene sus propias formas favoritas de fallar. Conocerlas te permite revisar con más ojo tu propio código y el que te escribe un asistente de IA.</p>\n<p class=\"note\"><strong>Son lugares donde mirar, no hallazgos.</strong> Cada punto es una pista para una revisión de código. Antes de llamarlo error, confírmalo en el código real (archivo y línea) y comprueba si tu framework o tu linter ya lo evitan.</p>\n<h3>Hábitos que valen para cualquier lenguaje</h3>\n<p>Marca lo que ya haces por defecto. Tus marcas se guardan en este navegador.</p>\n<ul class=\"checks\" data-lv=\"secure\"></ul>\n<h3>Errores típicos en tu lenguaje</h3>\n<div class=\"tabs\" id=\"pitTabs\" role=\"group\" aria-label=\"Lenguaje\"></div>\n<div class=\"pitcols\" id=\"pitPanel\"></div>\n<p class=\"tip\"><b>Automatiza la primera pasada</b>Cada pestaña enumera los linters y escáneres que detectan la mayoría de estos fallos. Ejecútalos en CI para que la comprobación no dependa de que alguien se acuerde.</p>\n<h3>Arriesgado frente a más seguro: seis ejemplos que puedes ejecutar</h3>\n<p>Cada pareja se ejecutó y se comporta como describen sus comentarios. Elige un lenguaje para compararlos.</p>\n<div class=\"tabs\" id=\"pcTabs\" role=\"group\" aria-label=\"Ejemplo\"></div>\n<div class=\"pc\" id=\"pcBox\"></div>\n<p class=\"note\" id=\"pcNote\"></p>",
+  "quiz-sec": "<div class=\"lvhead\"><h2>Cuestionario: Código más seguro</h2><span class=\"count score\"></span></div>\n<p>Cinco preguntas sobre los errores anteriores. Elige una respuesta para ver si es correcta y por qué.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Repetir cuestionario</button>",
+  "testing": "<h2>Diseño de pruebas en la práctica</h2>\n<p class=\"lede\">No se puede probar todo, así que los testers eligen el pequeño conjunto de entradas con más probabilidad de revelar un defecto. Lo hacen con las técnicas que se enseñan en los cursos al estilo ISTQB.</p>\n<h3>Técnicas que usarás cada semana</h3>\n<div class=\"tw\"><table><thead><tr><th>Técnica</th><th>Idea</th><th>Ejemplo</th></tr></thead><tbody id=\"t-tech\"></tbody></table></div>\n<h3>Pruébalo: valores límite</h3>\n<p>Los errores se concentran en los bordes de un rango. Introduce el valor válido más pequeño y el más grande para ver qué seis valores probar.</p>\n<div class=\"calc\"><label>Mínimo<input type=\"number\" id=\"bvaMin\" value=\"18\" step=\"1\" inputmode=\"numeric\"></label><label>Máximo<input type=\"number\" id=\"bvaMax\" value=\"65\" step=\"1\" inputmode=\"numeric\"></label></div>\n<p class=\"note\" id=\"bvaMsg\" aria-live=\"polite\"></p>\n<div class=\"tw\"><table><thead><tr><th>Valor</th><th>Caso</th><th>Esperado</th></tr></thead><tbody id=\"t-bva\"></tbody></table></div>\n<h3>Pruébalo: ¿cómo de grave es este error?</h3>\n<p>La gravedad es el impacto por la probabilidad, cada uno puntuado de 1 a 5. Puntúa un error y mira dónde cae.</p>\n<div class=\"calc\"><label>Impacto<select id=\"sevI\"><option value=\"1\">1 · Cosmético</option><option value=\"2\">2 · Menor</option><option value=\"3\" selected>3 · Dificulta una tarea, hay alternativa</option><option value=\"4\">4 · Falla una función importante</option><option value=\"5\">5 · Pérdida de datos, brecha de seguridad o flujo bloqueado</option></select></label><label>Probabilidad<select id=\"sevL\"><option value=\"1\">1 · Rara</option><option value=\"2\">2 · Poco probable</option><option value=\"3\" selected>3 · Algunos usuarios, a veces</option><option value=\"4\">4 · La mayoría de los usuarios</option><option value=\"5\">5 · Todos los usuarios, siempre</option></select></label></div>\n<p class=\"note\" id=\"sevOut\" aria-live=\"polite\"></p>\n<div class=\"tw\"><table><thead><tr><th>Gravedad</th><th>Puntuación</th><th>Significado</th><th>Ejemplo</th></tr></thead><tbody id=\"t-sev\"></tbody></table></div>\n<p class=\"note\"><strong>Una convención, no un estándar.</strong> Cada equipo define sus propias escalas. Lo importante es usar una de forma coherente y explicar el impacto en una frase. La gravedad indica lo malo que es un defecto si llega a producción; la prioridad, es decir, cuándo corregirlo, es una decisión aparte.</p>\n<h3>Anatomía de un buen informe de error</h3>\n<p>Un desarrollador debería poder reproducir el problema sin preguntarte nada.</p>\n<div class=\"tw\"><table><thead><tr><th>Campo</th><th>Qué escribir</th></tr></thead><tbody id=\"t-bug\"></tbody></table></div>\n<div class=\"codehead\"><span class=\"label\">Plantilla (Markdown)</span><button type=\"button\" class=\"act\" id=\"bugCopy\"></button></div>\n<pre class=\"code\" id=\"bugTpl\"></pre>\n<p class=\"tip\"><b>Di qué has verificado</b>Etiqueta cada hallazgo como <strong>Confirmado</strong> (lo reproduciste y tienes pruebas), <strong>Sospecha</strong> (hay indicios, pero no está demostrado) o <strong>No probado</strong>. «No vi ningún problema» no es lo mismo que «lo comprobé y está bien», así que anota también lo que no comprobaste.</p>\n<p class=\"note\"><strong>La pirámide de pruebas.</strong> Escribe muchas pruebas unitarias rápidas para la validación y las reglas de negocio, menos pruebas de API e integración, y un conjunto pequeño de pruebas de extremo a extremo para los flujos críticos. Pon en cuarentena las pruebas inestables (flaky) con un responsable y una fecha límite en lugar de ignorarlas.</p>",
+  "quiz-test": "<div class=\"lvhead\"><h2>Cuestionario: Diseño de pruebas</h2><span class=\"count score\"></span></div>\n<p>Cinco preguntas sobre técnicas de prueba, gravedad e informes de error. Elige una respuesta para ver si es correcta y por qué.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Repetir cuestionario</button>"
  },
  "data": {
   "tools": [
@@ -554,6 +570,18 @@
     "Investigas el comportamiento asíncrono y las condiciones de carrera en sistemas distribuidos o multiusuario.",
     "Ejecutas análisis estático, linters, comprobación de dependencias y escáneres de seguridad en CI.",
     "Tratas el código de pruebas generado por IA como código de producto: compruebas que las aserciones verifican el comportamiento, no la implementación."
+   ],
+   "secure": [
+    "Ningún secreto en el código, los logs, los mensajes de error, las URL ni la configuración confirmada en el repositorio: usa variables de entorno o un almacén de secretos, y un escáner como gitleaks.",
+    "Valida la entrada en cada frontera de confianza: red, archivos, entorno, mensajes entre procesos y datos deserializados.",
+    "Pon tiempos de espera, reintentos con espera creciente (backoff) y cancelación en cada llamada de red y de subproceso.",
+    "Captura errores concretos y luego gestiónalos o vuelve a lanzarlos. Cuando algo falla, falla cerrando (fail closed): deniega el acceso en lugar de concederlo.",
+    "Limita el uso de recursos: memoria, CPU, manejadores de archivo, conexiones, profundidad de recursión y tamaño de la petición.",
+    "Usa bibliotecas criptográficas contrastadas y una fuente de aleatoriedad criptográficamente segura para tokens, ID y claves. No inventes la tuya.",
+    "Fija las dependencias con un archivo de bloqueo (lockfile) y compruébalas con una herramienta de auditoría (npm audit, pip-audit, OSV-Scanner) antes de actualizar.",
+    "Mantén al día los entornos de ejecución y las dependencias, y sabe cuándo termina el soporte de la versión de tu lenguaje.",
+    "Ejecuta los contenedores como usuario que no sea root, desde imágenes fijadas, sin secretos en las capas ni en los argumentos de construcción.",
+    "Prueba los casos negativos y límite y los caminos críticos, no solo el camino feliz."
    ]
   },
   "sequence": [
@@ -957,6 +985,120 @@
      ],
      1,
      "Atomicidad: los cambios de la transacción se aplican juntos o no se aplica ninguno."
+    ]
+   ],
+   "sec": [
+    [
+     "¿Por qué es arriesgado <code>def f(x, items=[])</code> en Python?",
+     [
+      "La lista se crea una vez y la comparten todas las llamadas que la omiten",
+      "Las listas no pueden ser valores por defecto",
+      "Hace que la función sea más lenta",
+      "Solo funciona en Python 2"
+     ],
+     0,
+     "Los valores por defecto se evalúan una sola vez, al definir la función. Usa <code>None</code> y crea la lista dentro de la función."
+    ],
+    [
+     "Hay que mostrar el nombre de un usuario en una página web. ¿Qué es lo más seguro en JavaScript?",
+     [
+      "<code>element.innerHTML = name</code>",
+      "<code>element.textContent = name</code>",
+      "<code>eval(name)</code>",
+      "<code>document.write(name)</code>"
+     ],
+     1,
+     "<code>textContent</code> trata el valor como texto plano, así que el marcado inyectado nunca se interpreta ni se ejecuta."
+    ],
+    [
+     "¿Cuál es la defensa más fiable contra la inyección SQL?",
+     [
+      "Quitar las comillas de la entrada",
+      "Ocultar los mensajes de error a los usuarios",
+      "Usar consultas parametrizadas (marcadores de posición)",
+      "Codificar toda la consulta en Base64"
+     ],
+     2,
+     "Los marcadores de posición mantienen el valor separado del texto SQL, así que la entrada nunca puede cambiar la estructura de la consulta. Eliminar caracteres es fácil de hacer mal."
+    ],
+    [
+     "Un script ejecuta <code>rm $file</code> y el archivo se llama <code>my notes.txt</code>. ¿Qué ocurre?",
+     [
+      "Borra <code>my notes.txt</code>",
+      "Pide confirmación primero",
+      "Falla de forma segura en todos los casos",
+      "La shell lo divide en dos argumentos, <code>my</code> y <code>notes.txt</code>"
+     ],
+     3,
+     "Las expansiones sin comillas se dividen por los espacios en blanco. Escribe <code>rm -- \"$file\"</code> y deja que ShellCheck señale las que se te escapen."
+    ],
+    [
+     "¿Qué hábito protege mejor de las sorpresas en la cadena de suministro?",
+     [
+      "Usar <code>latest</code> en todas las dependencias",
+      "Fijar versiones con un archivo de bloqueo y auditarlas",
+      "Copiar código de foros en lugar de instalar paquetes",
+      "Desactivar las comprobaciones del gestor de paquetes"
+     ],
+     1,
+     "Un archivo de bloqueo hace las compilaciones repetibles, y las herramientas de auditoría (npm audit, pip-audit, OSV-Scanner) avisan cuando una versión fijada tiene una vulnerabilidad conocida."
+    ]
+   ],
+   "test": [
+    [
+     "Un campo de edad acepta de 18 a 65. ¿Qué conjunto de valores prueba sus límites?",
+     [
+      "0, 30, 100",
+      "17, 18, 19, 64, 65, 66",
+      "Solo 18 y 65",
+      "Cinco números aleatorios cualesquiera"
+     ],
+     1,
+     "El análisis de valores límite prueba justo por debajo, en y justo por encima de cada borde, porque ahí se concentran los errores por uno (<code>&lt;</code> en lugar de <code>&lt;=</code>)."
+    ],
+    [
+     "¿Qué significa la partición en clases de equivalencia?",
+     [
+      "Probar todas las entradas posibles",
+      "Dividir al equipo en grupos",
+      "Probar un representante de cada clase de entradas que deberían comportarse igual",
+      "Ejecutar cada prueba dos veces"
+     ],
+     2,
+     "Si 30 y 40 se tratan igual, probar ambos aporta poco. Elige un valor por clase: por debajo, válido, por encima, vacío y no numérico."
+    ],
+    [
+     "Un error permite que cualquier usuario autenticado lea los pedidos de otro. El impacto es 5 y la probabilidad es 4. ¿Qué gravedad da la escala de este hub?",
+     [
+      "Baja",
+      "Media",
+      "Alta",
+      "Crítica"
+     ],
+     3,
+     "5 × 4 = 20, que cae en la banda Crítica (de 20 a 25), y exponer los datos de un usuario a otro es el ejemplo de manual."
+    ],
+    [
+     "¿Cuál es el mejor título para un informe de error?",
+     [
+      "El pago no funciona",
+      "No funciona",
+      "El pago devuelve HTTP 500 cuando el campo del cupón está vacío",
+      "¡¡¡URGENTE!!! arreglad ya"
+     ],
+     2,
+     "Un buen título dice qué falla y dónde, para que un desarrollador pueda encontrarlo, buscarlo y priorizarlo."
+    ],
+    [
+     "Te quedaste sin tiempo antes de probar el diseño móvil. En tu informe figura como…",
+     [
+      "Aprobado, porque nadie se quejó",
+      "No probado, anotado como una laguna",
+      "Omitido para que el informe sea más corto",
+      "Sospecha"
+     ],
+     1,
+     "La ausencia de pruebas no es prueba de ausencia. Todo lo que no verificaste se informa como No probado."
     ]
    ]
   },
@@ -1730,6 +1872,416 @@
    [
     "\\b",
     "Un límite de palabra"
+   ]
+  ],
+  "pitfalls": [
+   [
+    "Python",
+    [
+     "<code>eval</code> y <code>exec</code>; <code>pickle</code>, <code>marshal</code> o <code>yaml.load</code> con datos no confiables (usa <code>yaml.safe_load</code>)",
+     "<code>subprocess</code> con <code>shell=True</code>; SQL construido con formateo de cadenas",
+     "<code>requests</code> con <code>verify=False</code>; <code>tempfile.mktemp</code>; <code>random</code> para secretos (usa <code>secrets</code>)",
+     "XML analizado sin <code>defusedxml</code>; Flask o Django dejados en modo <code>DEBUG</code>"
+    ],
+    [
+     "Argumentos por defecto mutables; un <code>except</code> sin tipo",
+     "<code>assert</code> usado para validar (se elimina con <code>-O</code>)",
+     "Archivos y conexiones sin cerrar (usa <code>with</code>); <code>requests</code> sin tiempo de espera; llamadas bloqueantes dentro de código <code>async</code>"
+    ],
+    [
+     "Bandit",
+     "Ruff",
+     "mypy",
+     "pip-audit",
+     "Semgrep"
+    ]
+   ],
+   [
+    "JavaScript / TypeScript",
+    [
+     "Contaminación de prototipos; <code>eval</code>, <code>new Function</code> y temporizadores con cadenas",
+     "<code>innerHTML</code>, <code>document.write</code> y <code>dangerouslySetInnerHTML</code> con datos no confiables (XSS); redirecciones abiertas",
+     "<code>child_process.exec</code> con entrada del usuario; <code>Math.random</code> para tokens",
+     "Secretos en los paquetes del cliente o en los source maps; expresiones regulares con retroceso catastrófico (ReDoS); dependencias transitivas vulnerables"
+    ],
+    [
+     "Rechazos de promesas sin gestionar; un <code>await</code> olvidado; coerción de tipos con <code>==</code>",
+     "Estado mutable compartido entre peticiones; escuchadores de eventos y temporizadores que se filtran",
+     "Abuso de <code>any</code> y conversiones sin comprobar en TypeScript"
+    ],
+    [
+     "ESLint (con reglas de seguridad)",
+     "tsc --strict",
+     "npm audit",
+     "OSV-Scanner",
+     "Semgrep"
+    ]
+   ],
+   [
+    "Java y Kotlin",
+    [
+     "Deserialización con <code>ObjectInputStream</code>; XXE en analizadores XML (desactiva los DTD y las entidades externas)",
+     "SQL construido por concatenación; inyección en el lenguaje de expresiones (SpEL)",
+     "Problemas de la clase Log4Shell: datos no confiables en las búsquedas de los logs, bibliotecas de logging obsoletas",
+     "Endpoints de Spring Boot Actuator expuestos; protección CSRF desactivada sin motivo"
+    ],
+    [
+     "Recursos sin cerrar (usa try-with-resources); manejo de null",
+     "Estado compartido no seguro para hilos y colecciones sin sincronizar; un <code>InterruptedException</code> tragado"
+    ],
+    [
+     "SpotBugs con Find Security Bugs",
+     "Error Prone",
+     "OWASP Dependency-Check",
+     "Semgrep"
+    ]
+   ],
+   [
+    "C# y .NET",
+    [
+     "SQL construido por concatenación; <code>BinaryFormatter</code> y otros deserializadores inseguros",
+     "Criptografía débil (MD5, SHA-1, DES); cadenas de conexión escritas en el código",
+     "Falta de <code>[Authorize]</code> o huecos en las políticas; over-posting en el enlace de modelos"
+    ],
+    [
+     "Falta de <code>using</code>/<code>Dispose</code>; <code>async void</code>",
+     "Bloqueos mutuos con <code>.Result</code> y <code>.Wait()</code>; un servicio scoped capturado por un singleton",
+     "Advertencias de nullable ignoradas"
+    ],
+    [
+     "Analizadores de .NET (con tipos de referencia anulables activados)",
+     "dotnet list package --vulnerable",
+     "Semgrep"
+    ]
+   ],
+   [
+    "Go",
+    [
+     "<code>InsecureSkipVerify</code>; <code>math/rand</code> para secretos (usa <code>crypto/rand</code>)",
+     "SQL construido por concatenación; path traversal en rutas aportadas por el usuario; inyección en plantillas"
+    ],
+    [
+     "Errores ignorados; fugas de goroutines; condiciones de carrera",
+     "Lecturas sin límite (<code>io.ReadAll</code> con cuerpos no confiables); clientes y servidores HTTP sin tiempos de espera",
+     "<code>defer</code> dentro de bucles; escrituras en un mapa nil"
+    ],
+    [
+     "go vet",
+     "staticcheck",
+     "gosec",
+     "go test -race",
+     "govulncheck"
+    ]
+   ],
+   [
+    "PHP",
+    [
+     "<code>include</code>/<code>require</code> con entrada del usuario (LFI/RFI); <code>unserialize</code> con datos no confiables",
+     "SQL construido por concatenación; confusión de tipos con el <code>==</code> laxo",
+     "Gestión de archivos subidos; fijación de sesión; <code>display_errors</code> activado en producción"
+    ],
+    [],
+    [
+     "PHPStan o Psalm",
+     "composer audit",
+     "Semgrep"
+    ]
+   ],
+   [
+    "Ruby",
+    [
+     "<code>eval</code>, y <code>send</code>/<code>public_send</code> con entrada del usuario",
+     "Asignación masiva (usa strong parameters); <code>YAML.load</code> con datos no confiables (usa <code>YAML.safe_load</code>)",
+     "Llamadas a la shell (comillas invertidas, <code>system</code>) con entrada interpolada; fragmentos de SQL construidos con parámetros"
+    ],
+    [],
+    [
+     "Brakeman (Rails)",
+     "RuboCop",
+     "bundler-audit"
+    ]
+   ],
+   [
+    "Rust",
+    [
+     "Bloques <code>unsafe</code> sin un invariante documentado",
+     "<code>unwrap</code>, <code>expect</code> e indexación sin comprobar que pueden hacer panic con entrada no confiable (denegación de servicio); desbordamiento de enteros que da la vuelta en compilaciones release"
+    ],
+    [
+     "Llamadas bloqueantes dentro de código asíncrono; canales y colas sin límite"
+    ],
+    [
+     "Clippy",
+     "cargo-audit",
+     "cargo-deny",
+     "Miri (para código unsafe)"
+    ]
+   ],
+   [
+    "C y C++",
+    [
+     "Desbordamientos de búfer (<code>strcpy</code>, <code>gets</code>, indexación sin comprobar); use-after-free y doble liberación",
+     "Errores de cadena de formato; desbordamiento de enteros antes de reservar memoria; memoria sin inicializar",
+     "Carreras de «comprobación y uso» (TOCTOU) sobre archivos"
+    ],
+    [
+     "Comportamiento indefinido; fugas; condiciones de carrera; valores de retorno ignorados"
+    ],
+    [
+     "Advertencias del compilador (-Wall -Wextra)",
+     "clang-tidy",
+     "cppcheck",
+     "AddressSanitizer y UBSan",
+     "Fuzzing (libFuzzer, AFL++)"
+    ]
+   ],
+   [
+    "SQL y acceso a datos",
+    [
+     "SQL dinámico construido por concatenación",
+     "Cuentas de la aplicación con derechos de propietario o de DBA; columnas sensibles sin cifrar ni enmascarar en copias que no son de producción"
+    ],
+    [
+     "Falta de transacciones en torno a escrituras de varios pasos; consultas N+1",
+     "Faltan índices en las columnas de filtros y uniones; conversiones implícitas de tipo que anulan los índices; sin plan de reversión de migraciones"
+    ],
+    [
+     "SQLFluff",
+     "Los planes EXPLAIN de tu base de datos"
+    ]
+   ],
+   [
+    "Bash y PowerShell",
+    [
+     "<strong>Bash:</strong> <code>curl | sh</code>; <code>eval</code>; archivos temporales predecibles o con escritura para todos (usa <code>mktemp</code>)",
+     "<strong>PowerShell:</strong> <code>Invoke-Expression</code>; secretos en texto plano y conversiones con <code>-AsPlainText</code>"
+    ],
+    [
+     "<strong>Bash:</strong> variables sin comillas; falta de <code>set -euo pipefail</code>; analizar la salida de <code>ls</code>; <code>rm -rf</code> con una variable sin comprobar",
+     "<strong>PowerShell:</strong> <code>-ExecutionPolicy Bypass</code> por costumbre; falta de <code>-ErrorAction Stop</code> con <code>try</code>/<code>catch</code>; rutas sin validar"
+    ],
+    [
+     "ShellCheck",
+     "PSScriptAnalyzer"
+    ]
+   ],
+   [
+    "Infraestructura como código y CI",
+    [
+     "<strong>Dockerfile:</strong> ejecutar como root; imágenes base con <code>latest</code> o sin fijar; secretos en las capas o en los argumentos de construcción; <code>curl | sh</code>; <code>ADD</code> desde URL remotas",
+     "<strong>Terraform y nube:</strong> buckets públicos; IAM con comodines; secretos en el estado o en archivos de variables; almacenamiento sin cifrar; grupos de seguridad abiertos",
+     "<strong>GitHub Actions y otros CI:</strong> acciones de terceros sin fijar (fíjalas al SHA del commit); <code>pull_request_target</code> ejecutando código no confiable; valores de eventos no confiables interpolados en scripts <code>run:</code>; permisos del token demasiado amplios; secretos mostrados en los logs"
+    ],
+    [],
+    [
+     "hadolint",
+     "Trivy",
+     "Checkov",
+     "actionlint"
+    ]
+   ]
+  ],
+  "pitfallCode": [
+   {
+    "lang": "Python",
+    "task": "Argumento por defecto mutable",
+    "note": "Los valores por defecto se evalúan una sola vez, al definir la función, así que todas las llamadas que omiten <code>tags</code> comparten la misma lista. Usa <code>None</code> como valor por defecto y crea la lista dentro."
+   },
+   {
+    "lang": "JavaScript",
+    "task": "Texto no confiable en innerHTML (XSS)",
+    "note": "Con <code>innerHTML</code> el navegador construye un elemento <code>img</code> a partir del texto y ejecuta su manejador <code>onerror</code>; <code>textContent</code> trata la misma cadena como texto plano. Si tienes que insertar HTML, sanéalo antes (por ejemplo con DOMPurify)."
+   },
+   {
+    "lang": "Java",
+    "task": "InterruptedException tragado",
+    "note": "Capturar <code>InterruptedException</code> borra la marca de interrupción del hilo. Si lo tragas, la petición de detenerse se pierde; restablece la marca o vuelve a lanzar la excepción, para que quien llama y los pools de hilos puedan cerrarse limpiamente."
+   },
+   {
+    "lang": "C#",
+    "task": "async void",
+    "note": "Reserva <code>async void</code> para los manejadores de eventos. En cualquier otro sitio devuelve <code>Task</code>, para que los errores lleguen a quien llama. Escrito como instrucciones de nivel superior (.NET 10)."
+   },
+   {
+    "lang": "SQL",
+    "task": "SQL construido con entrada del usuario",
+    "note": "Mostrado con <code>sqlite3</code> de Python sobre una tabla de tres usuarios: la consulta concatenada devolvió los tres, la parametrizada no devolvió ninguno. Todos los controladores de bases de datos ofrecen marcadores de posición; úsalos en lugar de construir texto SQL."
+   },
+   {
+    "lang": "Bash",
+    "task": "Variable sin comillas",
+    "note": "Sin comillas, la shell divide el valor en el espacio y pasa dos argumentos. En la carpeta de prueba borró un archivo sin relación llamado <code>my</code> y dejó <code>my notes.txt</code> en su sitio. Pon comillas a cada expansión y deja que ShellCheck detecte las que se te escapen."
+   }
+  ],
+  "techniques": [
+   [
+    "Partición en clases de equivalencia",
+    "Divide las entradas en clases válidas e inválidas y prueba un valor de cada una.",
+    "Un campo de edad que acepta de 18 a 65: menos de 18, de 18 a 65, más de 65, no es un número, vacío. Cinco pruebas en lugar de cincuenta."
+   ],
+   [
+    "Análisis de valores límite",
+    "Prueba justo por debajo, en y justo por encima de cada borde de un rango.",
+    "17, 18, 19 y 64, 65, 66. También cadenas muy largas, años bisiestos y límites de tamaño."
+   ],
+   [
+    "Tabla de decisión",
+    "Enumera todas las combinaciones de condiciones con su resultado esperado.",
+    "Socio, cupón y pedido de más de 100 dan 8 combinaciones; une las que tienen el mismo resultado."
+   ],
+   [
+    "Pruebas de transición de estados",
+    "Prueba los movimientos permitidos y los prohibidos entre estados.",
+    "Un pedido puede pasar de borrador → enviado → aprobado; aprobado → borrador debe rechazarse."
+   ],
+   [
+    "Pruebas por pares (pairwise)",
+    "Cubre cada par de valores de parámetros en lugar de todas las combinaciones.",
+    "Navegador × SO × configuración regional: una herramienta como PICT construye el conjunto más pequeño; añade a mano las combinaciones más arriesgadas."
+   ],
+   [
+    "Adivinación de errores",
+    "Sondea los lugares donde la experiencia dice que las cosas se rompen.",
+    "Doble clic en enviar, el botón atrás tras enviar, un texto enorme pegado, un token caducado."
+   ],
+   [
+    "Sesión exploratoria (charter)",
+    "Una misión con tiempo limitado y notas sobre lo que encuentres.",
+    "Explorar el pago con tarjetas caducadas para descubrir cómo se muestran los errores (30 a 60 minutos)."
+   ],
+   [
+    "Pruebas basadas en propiedades y fuzzing",
+    "Enuncia una regla que siempre debe cumplirse y deja que una herramienta genere las entradas.",
+    "Ordenar nunca cambia el número de elementos: Hypothesis, fast-check o <code>go test -fuzz</code> prueban miles de listas."
+   ]
+  ],
+  "severity": [
+   [
+    "Crítica",
+    "20–25",
+    "Pérdida o corrupción de datos, una brecha de seguridad o un flujo esencial imposible sin alternativa.",
+    "Cualquier usuario autenticado puede leer los pedidos de otro."
+   ],
+   [
+    "Alta",
+    "12–19",
+    "Falla una función importante o existe una debilidad seria, y la alternativa es difícil o arriesgada.",
+    "El pago falla con un método de pago."
+   ],
+   [
+    "Media",
+    "6–11",
+    "Pérdida parcial de función, o una debilidad real con alternativa o exposición limitada.",
+    "Un filtro ignora un criterio."
+   ],
+   [
+    "Baja",
+    "2–5",
+    "Un defecto menor con impacto despreciable.",
+    "Una etiqueta está desalineada."
+   ],
+   [
+    "Informativa",
+    "0–1",
+    "Una observación o una mejora, no un defecto.",
+    "Falta una cabecera de respuesta opcional."
+   ]
+  ],
+  "bugFields": [
+   [
+    "Título",
+    "Una línea: qué falla y dónde. «El pago devuelve HTTP 500 cuando el campo del cupón está vacío»."
+   ],
+   [
+    "Entorno",
+    "Navegador o SO y versión, versión de la aplicación, la cuenta de prueba y los datos que usaste."
+   ],
+   [
+    "Pasos",
+    "Numerados y exactos, partiendo de un estado conocido. Cualquiera debería poder seguirlos."
+   ],
+   [
+    "Esperado y real",
+    "Qué debería haber ocurrido y qué ocurrió, lado a lado."
+   ],
+   [
+    "Evidencia",
+    "Logs, peticiones y respuestas o capturas reales. Anonimiza los secretos y los datos personales."
+   ],
+   [
+    "Gravedad e impacto",
+    "Un nivel más una frase sobre por qué importa: «un usuario autenticado puede leer los pedidos de otro»."
+   ],
+   [
+    "Reproducible",
+    "Siempre, intermitente o no reproducido. Si es intermitente, indica con qué frecuencia."
+   ],
+   [
+    "Prueba de regresión",
+    "La prueba que debería impedir que el error vuelva."
+   ]
+  ],
+  "bugTemplate": "## QA-001: <título>\n\n- **Estado:** Confirmado | Sospecha\n- **Gravedad:** Crítica | Alta | Media | Baja | Informativa, más una línea sobre el impacto\n- **Entorno:** navegador/SO y versión, versión de la aplicación\n- **Pasos:**\n  1. ...\n  2. ...\n- **Esperado:** ...\n- **Real:** ...\n- **Evidencia:** logs, petición/respuesta, capturas (secretos anonimizados)\n- **Reproducible:** Siempre | Intermitente | No reproducido\n- **Prueba de regresión:** ...",
+  "terminal": [
+   [
+    "Servicios con fallo",
+    "systemctl --failed",
+    "Get-Service | Where-Object { $_.Status -eq 'Stopped' -and $_.StartType -eq 'Automatic' }",
+    "launchctl list | awk '$2 != 0'"
+   ],
+   [
+    "Mayores consumidores de CPU",
+    "ps aux --sort=-%cpu | head -10",
+    "Get-Process | Sort-Object CPU -Descending | Select-Object -First 10 Name, Id, CPU",
+    "ps aux -r | head -10"
+   ],
+   [
+    "Memoria",
+    "free -h",
+    "Get-CimInstance Win32_OperatingSystem | Select-Object FreePhysicalMemory, TotalVisibleMemorySize",
+    "vm_stat"
+   ],
+   [
+    "Espacio en disco",
+    "df -h",
+    "Get-PSDrive -PSProvider FileSystem",
+    "df -h"
+   ],
+   [
+    "Puertos a la escucha",
+    "ss -tulpn",
+    "Get-NetTCPConnection -State Listen | Sort-Object LocalPort",
+    "lsof -iTCP -sTCP:LISTEN -n -P"
+   ],
+   [
+    "Cortafuegos",
+    "sudo ufw status",
+    "Get-NetFirewallProfile | Select-Object Name, Enabled",
+    "/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate"
+   ],
+   [
+    "Errores recientes en los logs",
+    "journalctl -p err --since \"24 hours ago\" --no-pager | tail -50",
+    "Get-WinEvent -FilterHashtable @{ LogName = 'System','Application'; Level = 1,2; StartTime = (Get-Date).AddDays(-1) } -MaxEvents 50",
+    "log show --last 24h --predicate 'messageType == error' | tail -50"
+   ],
+   [
+    "Actualizaciones pendientes",
+    "apt list --upgradable 2>/dev/null | head",
+    "—",
+    "softwareupdate -l"
+   ],
+   [
+    "Protección del sistema",
+    "—",
+    "Get-MpComputerStatus",
+    "csrutil status; spctl --status"
+   ],
+   [
+    "Versiones de los entornos de ejecución",
+    "python3 --version; node -v",
+    "python --version; node -v",
+    "python3 --version; node -v"
    ]
   ]
  }

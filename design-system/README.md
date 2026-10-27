@@ -22,7 +22,7 @@ The visual language of the **Programming Languages Hub**: a study guide that tak
 
 ## Iconography
 
-No icon set. Structure is carried by mono labels, level pills and section numbers (the guide's own 1–17 numbering). No emoji.
+No icon set. Structure is carried by mono labels, level pills and section numbers (the hub numbers its sections automatically, 01 onwards). No emoji.
 
 ## Page patterns (Hub)
 
@@ -32,3 +32,8 @@ No icon set. Structure is carried by mono labels, level pills and section number
 - **Stat tiles**: `surface` panels with a mono label and a display-face value; used for the 2026 landscape only.
 - **Range bars**: salary ranges on one linear scale; `brand` for base ranges, `mid` for a specialisation premium.
 - **Level pills**: outlined in the level colour (`brand` Intern, `junior`, `mid`).
+- **Pitfall panel**: three `surface` cards (Security, Reliability, Tools) under a row of language tabs; each card has a mono label and a short bullet list. Omit a card when a language has nothing to list.
+- **Risky / safer pair**: two `code-bg` blocks side by side, stacking below 420px each. The labels carry the meaning as text; colour (`mid` for risky, `brand` for safer) only reinforces it.
+- **Calculator**: mono uppercase labels over native inputs and selects with a `control` border, at least 40px tall (44px on coarse pointers). The result is plain text in a live region; the matching table row gets a `brand-tint` ground and `aria-current`, never colour alone.
+- **Command and pattern columns** (Git, regex, terminal): set in the mono face. Inline `code` uses the mono face at 0.9em.
+- **Layout rule**: sections use `minmax(0, 1fr)` columns, so a wide child scrolls or shrinks and never widens the page.

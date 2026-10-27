@@ -23,6 +23,8 @@
   const save = () => { try { localStorage.setItem('plhub', JSON.stringify(st)) } catch (e) {} };
 
   const rows = (sel, data) => { $(sel).innerHTML = data.map(r => '<tr>' + r.map(c => '<td>' + c + '</td>').join('') + '</tr>').join('') };
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  const rescan = () => { if (window.markScrollable) window.markScrollable() };
   const lvName = lv => U['lv' + lv[0].toUpperCase() + lv.slice(1)];
   const lvlName = lv => U['lvl' + lv[0].toUpperCase() + lv.slice(1)];
 
@@ -32,7 +34,7 @@
       q[1].map((o, j) => [Math.random(), j]).sort((x, y) => x[0] - y[0]).map(([, j]) => '<button type="button" class="opt" data-j="' + j + '" aria-pressed="false">' + q[1][j] + '</button>').join('') +
       '</div><p class="a" hidden></p></div>').join('');
   }
-  function reveal(card, q, pick) {
+  function reveal(card, q, pick, focus) {
     card.querySelectorAll('.opt').forEach(b => {
       const j = +b.dataset.j; b.disabled = true;
       if (j === q[2]) { b.classList.add('ok'); b.insertAdjacentText('afterbegin', '✓ ') }
@@ -40,6 +42,9 @@
     });
     const a = card.querySelector('.a'); a.hidden = false;
     a.innerHTML = '<strong>' + (pick === q[2] ? t('correct') : t('wrong')) + '</strong> ' + q[3];
+    // The button that was just pressed is now disabled and loses focus: put focus on the explanation so
+    // keyboard users keep their place and screen readers read the result
+    if (focus) { a.tabIndex = -1; a.focus({preventScroll: true}) }
   }
 
   /* ---- missed questions, review list, summary ---- */
@@ -95,11 +100,51 @@
     $('#langTabs').innerHTML = LANGS.map(l => '<button type="button" data-l="' + l + '" aria-pressed="' + (l === lg) + '">' + l + '</button>').join('');
     $('#snipCap').textContent = x.task + ' · ' + lg; $('#snippet').textContent = x.code[lg]; $('#snipNote').textContent = x.note;
     $('#copyBtn').textContent = t('copy');
+    rescan();
   }
   function drawSql() {
     const SQ = D.sqlExamples;
     $('#sqlTabs').innerHTML = SQ.map((x, i) => '<button type="button" data-i="' + i + '" aria-pressed="' + (i === sqlI) + '">' + x.task + '</button>').join('');
     $('#sqlCode').textContent = SQ[sqlI].code; $('#sqlNote').textContent = SQ[sqlI].note; $('#sqlCopy').textContent = t('copy');
+    rescan();
+  }
+
+  /* ---- pitfalls by language, and risky/safer code pairs ---- */
+  let pitI = 0, pcI = 0;
+  const tabs = (list, cur) => list.map((x, i) => '<button type="button" data-i="' + i + '" aria-pressed="' + (i === cur) + '">' + x + '</button>').join('');
+  function drawPit() {
+    const x = D.pitfalls[pitI];
+    $('#pitTabs').innerHTML = tabs(D.pitfalls.map(p => p[0]), pitI);
+    const col = (title, items) => items.length ? '<div><h4 class="label">' + title + '</h4><ul>' + items.map(i => '<li>' + i + '</li>').join('') + '</ul></div>' : '';
+    $('#pitPanel').innerHTML = col(t('secGroup'), x[1]) + col(t('relGroup'), x[2]) + col(t('toolsGroup'), x[3].map(esc));
+  }
+  function drawPc() {
+    const x = D.pitfallCode[pcI];
+    $('#pcTabs').innerHTML = tabs(D.pitfallCode.map(p => p.lang), pcI);
+    $('#pcBox').innerHTML = '<div><div class="label risky">' + t('riskyLabel') + '</div><pre class="code" id="pcBad"></pre></div><div><div class="label safer">' + t('saferLabel') + '</div><pre class="code" id="pcGood"></pre></div>';
+    $('#pcBad').textContent = x.bad; $('#pcGood').textContent = x.good;
+    $('#pcNote').innerHTML = '<strong>' + x.task + '.</strong> ' + x.note;
+    rescan();
+  }
+
+  /* ---- test design: boundary values and severity ---- */
+  function drawBva() {
+    const a = $('#bvaMin').value.trim(), b = $('#bvaMax').value.trim(), lo = Number(a), hi = Number(b);
+    const ok = a !== '' && b !== '' && Number.isInteger(lo) && Number.isInteger(hi) && Math.abs(lo) <= 1e9 && Math.abs(hi) <= 1e9 && lo < hi;
+    if (!ok) { $('#bvaMsg').textContent = t('bvaBad'); $('#t-bva').innerHTML = ''; return }
+    $('#bvaMsg').textContent = t('bvaParts', {min: lo, max: hi});
+    const merged = [];   // when the range is tiny, two cases can be the same value: show it once with both labels
+    for (const [v, label] of [[lo - 1, 'min − 1'], [lo, 'min'], [lo + 1, 'min + 1'], [hi - 1, 'max − 1'], [hi, 'max'], [hi + 1, 'max + 1']]) {
+      const m = merged.find(x => x[0] === v);
+      if (m) m[1].push(label); else merged.push([v, [label]]);
+    }
+    rows('#t-bva', merged.map(([v, l]) => [String(v), l.join(' / '), v >= lo && v <= hi ? t('bvaOk') : t('bvaNo')]));
+  }
+  function drawSev() {
+    const i = +$('#sevI').value, l = +$('#sevL').value, s = i * l;
+    const k = D.severity.findIndex(r => s >= parseInt(r[1], 10));   // rows run from the highest band down; the lower bound is the first number of the range
+    $('#sevOut').textContent = t('sevOut', {i, l, s, band: D.severity[k][0]});
+    root.querySelectorAll('#t-sev tr').forEach((tr, n) => { tr.classList.toggle('hit', n === k); if (n === k) tr.setAttribute('aria-current', 'true'); else tr.removeAttribute('aria-current') });
   }
   function copy(btn, text) {
     try { navigator.clipboard.writeText(text).then(() => btn.textContent = t('copied'), () => btn.textContent = t('copyFailed')) }
@@ -135,6 +180,7 @@
     const r = $('#examResult'); r.hidden = false;
     r.innerHTML = '<strong>' + t('examResult', {s, n: EX.length, p: Math.round(s / EX.length * 100), v: pass ? t('passed') : t('notPassed')}) + '</strong> ' + (pass ? t('passedMsg') : t('failedMsg'));
     $('#examMsg').textContent = ''; btn.textContent = t('retakeExam'); btn.dataset.m = 'retake';
+    if (record) { r.tabIndex = -1; r.focus({preventScroll: true}) }   // announce the result to screen readers
     examDone = true;
   }
   /* Put answers given before a language switch back on the freshly rendered cards (no re-scoring) */
@@ -181,6 +227,9 @@
     rows('#t-goals', D.goals.map(g => [g[0], g[1].join(' / '), g[2]]));
     rows('#t-sql', D.sqlSkills); rows('#t-dialects', D.dialects);
     rows('#t-bigo', D.bigO); rows('#t-gitcmds', D.gitCmds); rows('#t-http', D.httpCodes); rows('#t-regex', D.regexPatterns);
+    rows('#t-term', D.terminal.map(r => [r[0], ...r.slice(1).map(c => c === '—' ? c : '<code>' + esc(c) + '</code>')]));
+    rows('#t-tech', D.techniques); rows('#t-sev', D.severity); rows('#t-bug', D.bugFields);
+    $('#bugTpl').textContent = D.bugTemplate; $('#bugCopy').textContent = t('copyTpl');
     rows('#t-proj', D.projects.map(r => ['<span class="pill lv-' + r[0] + '">' + lvName(r[0]) + '</span>', r[1], r[2]]));
     $('#profiles').innerHTML = D.profiles.map(p => '<details class="pr"><summary>' + p[0] + '</summary><p>' + p[1] + '</p></details>').join('');
     $('#goalTabs').setAttribute('aria-label', t('goalAria'));
@@ -204,7 +253,8 @@
     const axis = root.querySelector('.sal .axis'); if (axis) axis.setAttribute('aria-hidden', 'true');   // the rows carry the figures as text
     restore(prev); refreshStudy();
     $('#taskTabs').setAttribute('aria-label', t('taskAria')); $('#langTabs').setAttribute('aria-label', t('langAria')); $('#sqlTabs').setAttribute('aria-label', t('sqlAria'));
-    drawCode(); drawSql();
+    $('#pitTabs').setAttribute('aria-label', t('langAria')); $('#pcTabs').setAttribute('aria-label', t('pairAria'));
+    drawCode(); drawSql(); drawPit(); drawPc(); drawBva(); drawSev();
 
     const link = r => '<li><a href="' + r[2] + '" target="_blank" rel="noopener"><span>' + r[0] + '</span><small>' + r[1] + '</small></a></li>';
     $('#refs').innerHTML = D.docs.map(link).join('');
@@ -237,7 +287,7 @@
     }
     if ((b = el.closest('[data-quiz] .opt')) && !b.disabled) {
       const box = b.closest('[data-quiz]'), k = box.dataset.quiz, list = D.quizzes[k], c = b.closest('.card'), q = list[+c.dataset.i], j = +b.dataset.j, ps = partState[k];
-      reveal(c, q, j); track(k + '-' + c.dataset.i, j === q[2]); ans[k + '-' + c.dataset.i] = j; ps.done++; if (j === q[2]) ps.got++;
+      reveal(c, q, j, true); track(k + '-' + c.dataset.i, j === q[2]); ans[k + '-' + c.dataset.i] = j; ps.done++; if (j === q[2]) ps.got++;
       if (ps.done === list.length) { st.qbest[k] = Math.max(st.qbest[k] || 0, ps.got); save() }
       box.querySelector('.score').textContent = ps.done < list.length ? t('answered', {d: ps.done, n: list.length}) : t('score', {s: ps.got, n: list.length});
       refreshStudy(); return;
@@ -257,16 +307,21 @@
     }
     if ((b = el.closest('#reviewQ .opt')) && !b.disabled) {
       const c = b.closest('.card'), key = reviewKeys[+c.dataset.i], q = lookup(key), j = +b.dataset.j;
-      reveal(c, q, j);
+      reveal(c, q, j, true);
       if (j === q[2]) { track(key, true); summary(); $('#reviewCount').textContent = t('toReview', {n: Object.keys(st.missed).filter(lookup).length}) }
       return;
     }
     if (el.closest('#reviewRefresh')) { drawReview(); return }
-    if ((b = el.closest('#taskTabs button'))) { task = +b.dataset.t; drawCode(); return }
-    if ((b = el.closest('#langTabs button'))) { st.codeLang = b.dataset.l; save(); drawCode(); return }
+    // These tab groups are rebuilt on every click: put focus back on the pressed tab so keyboard users keep their place
+    const retab = (sel, draw) => { draw(); const p = root.querySelector(sel + ' [aria-pressed="true"]'); if (p) p.focus() };
+    if ((b = el.closest('#taskTabs button'))) { task = +b.dataset.t; retab('#taskTabs', drawCode); return }
+    if ((b = el.closest('#langTabs button'))) { st.codeLang = b.dataset.l; save(); retab('#langTabs', drawCode); return }
     if ((b = el.closest('#copyBtn'))) { const SN = D.snippets, LANGS = Object.keys(SN[0].code); copy(b, SN[task].code[LANGS.includes(st.codeLang) ? st.codeLang : LANGS[0]]); return }
-    if ((b = el.closest('#sqlTabs button'))) { sqlI = +b.dataset.i; drawSql(); return }
+    if ((b = el.closest('#sqlTabs button'))) { sqlI = +b.dataset.i; retab('#sqlTabs', drawSql); return }
     if ((b = el.closest('#sqlCopy'))) { copy(b, D.sqlExamples[sqlI].code); return }
+    if ((b = el.closest('#pitTabs button'))) { pitI = +b.dataset.i; retab('#pitTabs', drawPit); return }
+    if ((b = el.closest('#pcTabs button'))) { pcI = +b.dataset.i; retab('#pcTabs', drawPc); return }
+    if ((b = el.closest('#bugCopy'))) { copy(b, D.bugTemplate); return }
     if (el.closest('#reset')) {
       st = {}; clean(); save();
       for (const k of Object.keys(ans)) delete ans[k];
@@ -278,6 +333,11 @@
     const x = e.target;
     if (x.type !== 'checkbox') return;
     st[x.id] = x.checked; save(); prog();
+  });
+  root.addEventListener('input', e => {   // the two small calculators in Test design in practice
+    const id = e.target.id;
+    if (id === 'bvaMin' || id === 'bvaMax') drawBva();
+    else if (id === 'sevI' || id === 'sevL') drawSev();
   });
   const search = document.getElementById('search');
   search.addEventListener('input', runSearch);

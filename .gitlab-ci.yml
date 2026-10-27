@@ -38,5 +38,6 @@ smoke-test:
     paths:
       - .npm/
   script:
-    - npm install --no-save --no-audit --no-fund --cache .npm --prefer-offline jsdom
+    # jsdom is pinned (tested version; it needs Node ^22.22.2 or newer): an unpinned install could change what the test does between runs
+    - npm install --no-save --no-audit --no-fund --cache .npm --prefer-offline jsdom@30.1.3
     - node tests/smoke.js index.html

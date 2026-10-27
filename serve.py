@@ -30,10 +30,17 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return None
         return super().send_head()
 
+    # The page is one self-contained file: inline script and style, Google Fonts, a data: favicon. Nothing else may load,
+    # nothing may frame it, and it makes no requests of its own (no fetch, forms or workers).
+    CSP = ("default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline' https://fonts.googleapis.com; "
+           "font-src https://fonts.gstatic.com; img-src data:; base-uri 'none'; form-action 'none'; frame-ancestors 'none'")
+
     def end_headers(self):
         # Always serve the latest build while editing
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Content-Security-Policy", self.CSP)
+        self.send_header("Referrer-Policy", "no-referrer")
         super().end_headers()
 
 

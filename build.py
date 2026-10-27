@@ -14,8 +14,8 @@ Sources:
 Translations are checked against English before anything is written:
   * the same keys, list lengths, section ids and HTML structure (element ids and tag counts)
   * the same {placeholders} in every ui string
-  * numbers (such as the index of the correct answer), URLs, level keys and language names unchanged
-Hub translations may leave out "code" keys; code is shared from en.json.
+  * numbers (such as the index of the correct answer), URLs, level keys, language names and shell commands unchanged
+Hub translations may leave out source code ("code" keys, and "bad"/"good" in pitfallCode); it is shared from en.json.
 """
 import json
 import re
@@ -41,9 +41,11 @@ LOCKED = [re.compile(p) for p in (
     r"^data\.path\.\d+\.lv$",           # level keys used for colours
     r"^data\.projects\.\d+\.0$",
     r"^data\.(snippets|sqlExamples)\.\d+\.code(\.|$)",   # source code is never translated
+    r"^data\.pitfallCode\.\d+\.(lang|bad|good)$",        # language tab names and the risky/safer code
+    r"^data\.terminal\.\d+\.[123]$",                     # shell commands are never translated
 )]
 # Keys a translation may leave out (shared from English): source code only
-OMITTABLE = re.compile(r"^data\.(snippets|sqlExamples)\.\d+\.code$")
+OMITTABLE = re.compile(r"^data\.((snippets|sqlExamples)\.\d+\.code|pitfallCode\.\d+\.(bad|good))$")
 
 
 # ---------------------------------------------------------------- checks
@@ -252,8 +254,8 @@ SHELL_JS = """<script>
     readbar.style.width = (max > 0 ? Math.min(y / max, 1) * 100 : 0) + '%';
   }, {passive: true});
 
-  /* Scrollable tables must be reachable by keyboard: focusable only while they actually overflow */
-  window.markScrollable = () => document.querySelectorAll('.tw').forEach(e => {
+  /* Scrollable tables and code blocks must be reachable by keyboard: focusable only while they actually overflow */
+  window.markScrollable = () => document.querySelectorAll('.tw, pre.code').forEach(e => {
     if (e.scrollWidth > e.clientWidth + 1) e.tabIndex = 0; else e.removeAttribute('tabindex');
   });
   addEventListener('resize', window.markScrollable);

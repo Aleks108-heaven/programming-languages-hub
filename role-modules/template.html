@@ -359,7 +359,7 @@ function mcqHTML(list) {
     q.a.map((o, j) => [Math.random(), j]).sort((x, y) => x[0] - y[0]).map(([, j]) => '<button type="button" class="opt" data-j="' + j + '" aria-pressed="false">' + esc(q.a[j]) + '</button>').join('') +
     '</div><p class="a" hidden></p></div>').join('');
 }
-function reveal(card, q, pick) {
+function reveal(card, q, pick, focus) {
   card.querySelectorAll('.opt').forEach(b => {
     const j = +b.dataset.j; b.disabled = true;
     if (j === q.c) { b.classList.add('ok'); b.insertAdjacentText('afterbegin', '✓ ') }
@@ -367,6 +367,8 @@ function reveal(card, q, pick) {
   });
   const a = card.querySelector('.a'); a.hidden = false;
   a.innerHTML = '<strong>' + (pick === q.c ? t('correct') : t('wrong')) + '</strong> ' + esc(q.e);
+  // The pressed button is now disabled and loses focus: move focus to the explanation so keyboard users keep their place and screen readers read the result
+  if (focus) { a.tabIndex = -1; a.focus({preventScroll: true}) }
 }
 
 function renderRole() {
@@ -413,6 +415,7 @@ function gradeExam(record) {
   const res = $('#rm-examResult'); res.hidden = false;
   res.innerHTML = '<strong>' + s + ' / ' + list.length + ' (' + Math.round(s / list.length * 100) + '%): ' + (pass ? t('passed') : t('notPassed')) + '.</strong> ' + (pass ? t('passedMsg') : t('failedMsg'));
   $('#rm-examMsg').textContent = ''; btn.textContent = t('retakeExam'); btn.dataset.m = 'retake';
+  if (record) { res.tabIndex = -1; res.focus({preventScroll: true}) }   // announce the result to screen readers
   examDone = true;
 }
 // Language switch: re-render, then put the answers given so far back on the new cards (no re-scoring)
@@ -450,7 +453,7 @@ document.addEventListener('click', e => {
     const card = opt.closest('.card'), i = +card.dataset.i, j = +opt.dataset.j;
     if (card.closest('#rm-quizQ')) {
       const list = R().quiz, q = list[i];
-      reveal(card, q, j); quizAns[i] = j; qDone++; if (j === q.c) qGot++;
+      reveal(card, q, j, true); quizAns[i] = j; qDone++; if (j === q.c) qGot++;
       if (qDone === list.length) {
         scores.quiz[role] = Math.max(scores.quiz[role] ?? 0, qGot); store('roles-scores', scores); renderHeader();
         $('#rm-quizScore').textContent = t('score', {s: qGot, n: list.length});

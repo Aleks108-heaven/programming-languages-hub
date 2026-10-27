@@ -65,7 +65,19 @@
   "heroCtaExam": "Take the final exam",
   "heroCtaRoles": "Explore Role Modules",
   "backToTop": "Back to top",
-  "skipLink": "Skip to content"
+  "skipLink": "Skip to content",
+  "pairAria": "Example",
+  "secGroup": "Security",
+  "relGroup": "Reliability",
+  "toolsGroup": "Tools",
+  "riskyLabel": "Risky",
+  "saferLabel": "Safer",
+  "bvaOk": "Accepted",
+  "bvaNo": "Rejected",
+  "bvaBad": "Enter whole numbers, with the minimum below the maximum.",
+  "bvaParts": "Equivalence classes: below {min} (invalid), {min} to {max} (valid), above {max} (invalid), plus empty and non-numeric input.",
+  "sevOut": "Impact {i} × likelihood {l} = {s}: {band}",
+  "copyTpl": "Copy template"
  },
  "hero": "<div class=\"label\">Study hub modules · Intern → Junior → Mid · Expanded edition, September 2026</div>\r\n<h1>Programming Languages Hub</h1>\r\n<p class=\"lede\">What programming languages are, how source code becomes behaviour, which ecosystems matter in 2026, how SQL fits alongside them, and what to know at each career stage. Fundamentals that transfer, not one language memorised. Follow the structured path from first program to mid-level engineer, and check yourself with a quiz after every part.</p>\r\n<div class=\"herocta noprint\"><a class=\"ctabtn\" href=\"#what\">Start with the fundamentals</a><a class=\"ctabtn ghost\" href=\"#exam\">Take the final exam</a><a class=\"ctabtn ghost\" href=\"#roles\">Explore Role Modules</a></div>\r\n<div class=\"pipe\" aria-label=\"Mental model\"><b>human intent</b><i>→</i><b>source code</b><i>→</i><b>parser / compiler / runtime</b><i>→</i><b>machine instructions + libraries</b><i>→</i><b>OS / hardware</b><i>→</i><b>observable behaviour</b></div>\r\n<div class=\"progress\" id=\"progress\"></div>\r\n<div class=\"stats\" id=\"summary\"></div>",
  "sections": {
@@ -100,7 +112,11 @@
   "exam": "<div class=\"lvhead\"><h2>Final exam</h2><span class=\"count\" id=\"examBest\"></span></div>\r\n<p id=\"examIntro\"></p>\r\n<div class=\"quiz\" id=\"examQ\"></div>\r\n<div class=\"examfoot\"><button type=\"button\" class=\"act\" id=\"examSubmit\">Submit answers</button><span class=\"count\" id=\"examMsg\" aria-live=\"polite\"></span></div>\r\n<p class=\"note\" id=\"examResult\" aria-live=\"polite\" hidden></p>",
   "review": "<div class=\"lvhead\"><h2>Review my mistakes</h2><span class=\"count\" id=\"reviewCount\"></span></div>\r\n<p>Every question you miss in a part quiz or the final exam lands here. Answer it correctly to clear it from the list.</p>\r\n<div class=\"quiz\" id=\"reviewQ\"></div><p class=\"note\" id=\"reviewEmpty\" hidden>Nothing to review. Missed questions from the quizzes and the exam will appear here.</p>\r\n<button type=\"button\" class=\"reset\" id=\"reviewRefresh\">Refresh list</button>",
   "refs-s": "<h2>Reference map</h2>\r\n<h3>Official documentation</h3><ul class=\"refs\" id=\"refs\"></ul>\r\n<h3>Practice</h3><ul class=\"refs\" id=\"practice\"></ul>\r\n<h3>Companion app</h3>\r\n<p class=\"tip\"><b>Role Modules</b>Internship, junior and mid-level modules with detailed lessons, language-specific notes, code examples, a quiz and an exam for each role, in English, Ukrainian, Polish and Spanish. <a href=\"#roles\">Open Role Modules →</a></p>\r\n<p class=\"note\"><strong>Sources.</strong> Official docs (Python, MDN, TypeScript, Dev.java, Microsoft Learn, Go, Kotlin) checked September 2026. Landscape data: Stack Overflow Developer Survey 2025, GitHub Octoverse 2025, TIOBE (Feb 2026), PYPL, and 2026 salary roundups (Stack Overflow, DICE, US labour statistics). Treat any single ranking as one signal, not ground truth.</p>\r\n<p class=\"bottom\"><strong>Bottom line.</strong> Learn one language deeply enough to understand the fundamentals, then learn more by comparing type systems, execution models, memory models, concurrency models, tooling and ecosystems. For a QA-oriented path, TypeScript/JavaScript and Python are strong starting points; Java, C#, Go, Rust and C++ show you different engineering models. In 2026, add two habits: verify AI-generated code like code you didn't write, and let data (surveys, commit activity, local job listings), not hype, guide your language choices.</p>\r\n<button class=\"reset\" id=\"reset\" type=\"button\">Clear my progress on this device</button>",
-  "quickref": "<h2>Quick reference</h2>\r\n<p>Four cheat sheets worth bookmarking: algorithmic complexity, everyday Git commands, HTTP status codes and common regex patterns.</p>\r\n<h3>Big-O complexity, at a glance</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Operation</th><th>Complexity</th><th>Where you'll see it</th></tr></thead><tbody id=\"t-bigo\"></tbody></table></div>\r\n<h3>Everyday Git commands</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody id=\"t-gitcmds\"></tbody></table></div>\r\n<h3>HTTP status codes</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Code</th><th>Meaning</th><th>Typical use</th></tr></thead><tbody id=\"t-http\"></tbody></table></div>\r\n<h3>Common regex patterns</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Pattern</th><th>Matches</th></tr></thead><tbody id=\"t-regex\"></tbody></table></div>\r\n<p class=\"note\"><strong>Use references, don't memorise:</strong> knowing that these exist and where to look them up is worth more than reciting exact syntax. Interviewers care more about whether you reach for the right tool than whether you recall it from memory.</p>"
+  "quickref": "<h2>Quick reference</h2>\r\n<p>Five cheat sheets worth bookmarking: algorithmic complexity, everyday Git commands, HTTP status codes, common regex patterns and read-only terminal checks.</p>\n<h3>Big-O complexity, at a glance</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Operation</th><th>Complexity</th><th>Where you'll see it</th></tr></thead><tbody id=\"t-bigo\"></tbody></table></div>\r\n<h3>Everyday Git commands</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Command</th><th>What it does</th></tr></thead><tbody id=\"t-gitcmds\"></tbody></table></div>\r\n<h3>HTTP status codes</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Code</th><th>Meaning</th><th>Typical use</th></tr></thead><tbody id=\"t-http\"></tbody></table></div>\r\n<h3>Common regex patterns</h3>\r\n<div class=\"tw\"><table><thead><tr><th>Pattern</th><th>Matches</th></tr></thead><tbody id=\"t-regex\"></tbody></table></div>\r\n<h3>Terminal checks for a first look at a machine</h3>\n<div class=\"tw\"><table><thead><tr><th>Check</th><th>Linux</th><th>Windows (PowerShell)</th><th>macOS</th></tr></thead><tbody id=\"t-term\"></tbody></table></div>\n<p class=\"note\"><strong>Read-only, but not harmless.</strong> These commands only inspect state, but their output can contain host names, user names, paths and sometimes secrets, so redact it before sharing. Some need elevated rights (missing output means not checked, not healthy), and <code>softwareupdate -l</code> contacts Apple's servers. Run them one at a time, only on machines you own or may inspect. A failed service or a non-zero exit status is a lead, not a verdict: weigh benign explanations first, then rate what's left with the <a href=\"#testing\">severity scale</a>. If you see signs of a real compromise (unknown persistence, unexplained outbound connections), don't clean up: preserve the evidence and involve whoever handles incidents. A dash means there is no matching command to list.</p>\n<p class=\"note\"><strong>Use references, don't memorise:</strong> knowing that these exist and where to look them up is worth more than reciting exact syntax. Interviewers care more about whether you reach for the right tool than whether you recall it from memory.</p>",
+  "pitfalls": "<h2>Common pitfalls by language</h2>\n<p class=\"lede\">Every language has its own favourite ways to go wrong. Knowing them lets you review your own code, and code an AI assistant wrote for you, with sharper eyes.</p>\n<p class=\"note\"><strong>Places to look, not findings.</strong> Each item is a prompt for a code review. Confirm it in the actual source (file and line), and check whether your framework or linter already prevents it, before you call it a bug.</p>\n<h3>Habits that apply to every language</h3>\n<p>Tick what you already do by default. Your ticks are saved in this browser.</p>\n<ul class=\"checks\" data-lv=\"secure\"></ul>\n<h3>Pitfalls in your language</h3>\n<div class=\"tabs\" id=\"pitTabs\" role=\"group\" aria-label=\"Language\"></div>\n<div class=\"pitcols\" id=\"pitPanel\"></div>\n<p class=\"tip\"><b>Automate the first pass</b>Each tab lists the linters and scanners that catch most of these. Run them in CI so the check doesn't depend on anyone remembering.</p>\n<h3>Risky vs. safer: six examples you can run</h3>\n<p>Each pair was run and behaves as its comments describe. Pick a language to compare.</p>\n<div class=\"tabs\" id=\"pcTabs\" role=\"group\" aria-label=\"Example\"></div>\n<div class=\"pc\" id=\"pcBox\"></div>\n<p class=\"note\" id=\"pcNote\"></p>",
+  "quiz-sec": "<div class=\"lvhead\"><h2>Quiz: Writing safer code</h2><span class=\"count score\"></span></div>\n<p>Five questions on the pitfalls above. Pick an answer to see whether it's right and why.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Retake quiz</button>",
+  "testing": "<h2>Test design in practice</h2>\n<p class=\"lede\">You can't test everything, so testers choose the small set of inputs most likely to expose a defect. These techniques, taught in ISTQB-style courses, are how they choose.</p>\n<h3>Techniques you will use every week</h3>\n<div class=\"tw\"><table><thead><tr><th>Technique</th><th>Idea</th><th>Example</th></tr></thead><tbody id=\"t-tech\"></tbody></table></div>\n<h3>Try it: boundary values</h3>\n<p>Bugs cluster at the edges of a range. Enter the smallest and largest valid value to see which six values to test.</p>\n<div class=\"calc\"><label>Minimum<input type=\"number\" id=\"bvaMin\" value=\"18\" step=\"1\" inputmode=\"numeric\"></label><label>Maximum<input type=\"number\" id=\"bvaMax\" value=\"65\" step=\"1\" inputmode=\"numeric\"></label></div>\n<p class=\"note\" id=\"bvaMsg\" aria-live=\"polite\"></p>\n<div class=\"tw\"><table><thead><tr><th>Value</th><th>Case</th><th>Expected</th></tr></thead><tbody id=\"t-bva\"></tbody></table></div>\n<h3>Try it: how bad is this bug?</h3>\n<p>Severity is impact times likelihood, each scored from 1 to 5. Score a bug and see where it lands.</p>\n<div class=\"calc\"><label>Impact<select id=\"sevI\"><option value=\"1\">1 · Cosmetic</option><option value=\"2\">2 · Minor</option><option value=\"3\" selected>3 · Degrades a task, a workaround exists</option><option value=\"4\">4 · A major function fails</option><option value=\"5\">5 · Data loss, security breach or a blocked journey</option></select></label><label>Likelihood<select id=\"sevL\"><option value=\"1\">1 · Rare</option><option value=\"2\">2 · Unlikely</option><option value=\"3\" selected>3 · Some users, some of the time</option><option value=\"4\">4 · Most users</option><option value=\"5\">5 · Every user, every time</option></select></label></div>\n<p class=\"note\" id=\"sevOut\" aria-live=\"polite\"></p>\n<div class=\"tw\"><table><thead><tr><th>Severity</th><th>Score</th><th>Meaning</th><th>Example</th></tr></thead><tbody id=\"t-sev\"></tbody></table></div>\n<p class=\"note\"><strong>One convention, not a standard.</strong> Teams define their own scales. What matters is using one consistently and stating the impact in a sentence. Severity is how bad a defect is if it ships; priority, how soon to fix it, is a separate decision.</p>\n<h3>Anatomy of a good bug report</h3>\n<p>A developer should be able to reproduce the problem without asking you anything.</p>\n<div class=\"tw\"><table><thead><tr><th>Field</th><th>What to write</th></tr></thead><tbody id=\"t-bug\"></tbody></table></div>\n<div class=\"codehead\"><span class=\"label\">Template (Markdown)</span><button type=\"button\" class=\"act\" id=\"bugCopy\"></button></div>\n<pre class=\"code\" id=\"bugTpl\"></pre>\n<p class=\"tip\"><b>Say what you verified</b>Label every finding <strong>Confirmed</strong> (you reproduced it and have evidence), <strong>Suspected</strong> (there are signs, but it isn't proven) or <strong>Not tested</strong>. \"I didn't see a problem\" is not the same as \"I checked and it's fine\", so list what you didn't check as well.</p>\n<p class=\"note\"><strong>The test pyramid.</strong> Write many fast unit tests for validation and business rules, fewer API and integration tests, and a small set of end-to-end tests for the critical journeys. Quarantine flaky tests with an owner and a deadline instead of ignoring them.</p>",
+  "quiz-test": "<div class=\"lvhead\"><h2>Quiz: Test design</h2><span class=\"count score\"></span></div>\n<p>Five questions on test techniques, severity and bug reports. Pick an answer to see whether it's right and why.</p><div class=\"quiz\"></div><button type=\"button\" class=\"reset retry\">Retake quiz</button>"
  },
  "data": {
   "tools": [
@@ -554,6 +570,18 @@
     "Inspect async behaviour and race conditions in distributed or multi-user systems.",
     "Run static analysis, linters, dependency checks and security scanners in CI.",
     "Treat AI-generated test code like product code: check assertions test behaviour, not implementation."
+   ],
+   "secure": [
+    "No secrets in code, logs, error messages, URLs or committed configuration: use environment variables or a secret store, and a scanner such as gitleaks.",
+    "Validate input at every trust boundary: network, files, environment, inter-process messages and deserialized data.",
+    "Put timeouts, retries with backoff and cancellation on every network and subprocess call.",
+    "Catch specific errors, then handle or re-raise them. When something fails, fail closed: deny access rather than grant it.",
+    "Bound resource use: memory, CPU, file handles, connections, recursion depth and request size.",
+    "Use vetted libraries for cryptography and a cryptographically secure random source for tokens, IDs and keys. Never invent your own.",
+    "Pin dependencies with a lockfile and check them with an audit tool (npm audit, pip-audit, OSV-Scanner) before updating.",
+    "Keep runtimes and dependencies patched, and know when your language version reaches end of life.",
+    "Run containers as a non-root user from pinned images, with no secrets in layers or build arguments.",
+    "Test the negative and boundary cases and the critical paths, not only the happy path."
    ]
   },
   "sequence": [
@@ -957,6 +985,120 @@
      ],
      1,
      "Atomicity: the transaction's changes apply together or not at all."
+    ]
+   ],
+   "sec": [
+    [
+     "Why is <code>def f(x, items=[])</code> risky in Python?",
+     [
+      "The list is created once and shared by every call that omits it",
+      "Lists cannot be default values",
+      "It makes the function slower",
+      "It only works in Python 2"
+     ],
+     0,
+     "Default values are evaluated once, when the function is defined. Use <code>None</code> and create the list inside the function."
+    ],
+    [
+     "A user's name must be shown on a web page. Which is safest in JavaScript?",
+     [
+      "<code>element.innerHTML = name</code>",
+      "<code>element.textContent = name</code>",
+      "<code>eval(name)</code>",
+      "<code>document.write(name)</code>"
+     ],
+     1,
+     "<code>textContent</code> treats the value as plain text, so injected markup is never parsed or run."
+    ],
+    [
+     "What is the most reliable defence against SQL injection?",
+     [
+      "Remove quote characters from the input",
+      "Hide error messages from users",
+      "Use parameterised queries (placeholders)",
+      "Encode the whole query in Base64"
+     ],
+     2,
+     "Placeholders keep the value separate from the SQL text, so input can never change the structure of the query. Stripping characters is easy to get wrong."
+    ],
+    [
+     "A script runs <code>rm $file</code> and the file is called <code>my notes.txt</code>. What happens?",
+     [
+      "It deletes <code>my notes.txt</code>",
+      "It asks for confirmation first",
+      "It fails safely in every case",
+      "The shell splits it into two arguments, <code>my</code> and <code>notes.txt</code>"
+     ],
+     3,
+     "Unquoted expansions are split on whitespace. Write <code>rm -- \"$file\"</code> and let ShellCheck flag the ones you miss."
+    ],
+    [
+     "Which habit best protects you from supply-chain surprises?",
+     [
+      "Using <code>latest</code> for every dependency",
+      "Pinning versions with a lockfile and auditing them",
+      "Copying code from forums instead of installing packages",
+      "Turning off the package manager's checks"
+     ],
+     1,
+     "A lockfile makes builds repeatable, and audit tools (npm audit, pip-audit, OSV-Scanner) tell you when a pinned version has a known vulnerability."
+    ]
+   ],
+   "test": [
+    [
+     "An age field accepts 18 to 65. Which set of values tests its boundaries?",
+     [
+      "0, 30, 100",
+      "17, 18, 19, 64, 65, 66",
+      "18 and 65 only",
+      "Any five random numbers"
+     ],
+     1,
+     "Boundary value analysis tests just below, on and just above each edge, because off-by-one mistakes (<code>&lt;</code> instead of <code>&lt;=</code>) cluster there."
+    ],
+    [
+     "What does equivalence partitioning mean?",
+     [
+      "Testing every possible input",
+      "Splitting the team into groups",
+      "Testing one representative from each class of inputs that should behave the same",
+      "Running every test twice"
+     ],
+     2,
+     "If 30 and 40 are treated the same way, testing both adds little. Pick one value per class: below, valid, above, empty and non-numeric."
+    ],
+    [
+     "A bug lets any signed-in user read another user's orders. Impact is 5 and likelihood is 4. Which severity does this hub's scale give?",
+     [
+      "Low",
+      "Medium",
+      "High",
+      "Critical"
+     ],
+     3,
+     "5 × 4 = 20, which falls in the Critical band (20 to 25), and exposing one user's data to another is the textbook example."
+    ],
+    [
+     "Which is the best bug-report title?",
+     [
+      "Checkout broken",
+      "It doesn't work",
+      "Checkout returns HTTP 500 when the coupon field is empty",
+      "URGENT!!! please fix"
+     ],
+     2,
+     "A good title says what is wrong and where, so a developer can find, search for and triage it."
+    ],
+    [
+     "You ran out of time before testing the mobile layout. In your report it is…",
+     [
+      "Passed, since nobody complained",
+      "Not tested, listed as a gap",
+      "Omitted to keep the report short",
+      "Suspected"
+     ],
+     1,
+     "Absence of evidence is not evidence of absence. Anything you did not verify is reported as Not tested."
     ]
    ]
   },
@@ -1768,6 +1910,428 @@
    [
     "\\b",
     "A word boundary"
+   ]
+  ],
+  "pitfalls": [
+   [
+    "Python",
+    [
+     "<code>eval</code> and <code>exec</code>; <code>pickle</code>, <code>marshal</code> or <code>yaml.load</code> on untrusted data (use <code>yaml.safe_load</code>)",
+     "<code>subprocess</code> with <code>shell=True</code>; SQL built with string formatting",
+     "<code>requests</code> with <code>verify=False</code>; <code>tempfile.mktemp</code>; <code>random</code> for secrets (use <code>secrets</code>)",
+     "XML parsed without <code>defusedxml</code>; Flask or Django left in <code>DEBUG</code> mode"
+    ],
+    [
+     "Mutable default arguments; a bare <code>except</code>",
+     "<code>assert</code> used for validation (it is stripped under <code>-O</code>)",
+     "Files and connections not closed (use <code>with</code>); <code>requests</code> without a timeout; blocking calls inside <code>async</code> code"
+    ],
+    [
+     "Bandit",
+     "Ruff",
+     "mypy",
+     "pip-audit",
+     "Semgrep"
+    ]
+   ],
+   [
+    "JavaScript / TypeScript",
+    [
+     "Prototype pollution; <code>eval</code>, <code>new Function</code> and string timers",
+     "<code>innerHTML</code>, <code>document.write</code> and <code>dangerouslySetInnerHTML</code> with untrusted data (XSS); open redirects",
+     "<code>child_process.exec</code> with user input; <code>Math.random</code> for tokens",
+     "Secrets in client bundles or source maps; regexes that backtrack catastrophically (ReDoS); vulnerable transitive dependencies"
+    ],
+    [
+     "Unhandled promise rejections; a missing <code>await</code>; <code>==</code> coercion",
+     "Shared mutable state across requests; leaked event listeners and timers",
+     "<code>any</code> abuse and unchecked casts in TypeScript"
+    ],
+    [
+     "ESLint (with security rules)",
+     "tsc --strict",
+     "npm audit",
+     "OSV-Scanner",
+     "Semgrep"
+    ]
+   ],
+   [
+    "Java and Kotlin",
+    [
+     "Deserialization with <code>ObjectInputStream</code>; XXE in XML parsers (disable DTDs and external entities)",
+     "SQL built by concatenation; expression-language (SpEL) injection",
+     "Log4Shell-class issues: untrusted data in log lookups, outdated logging libraries",
+     "Exposed Spring Boot actuator endpoints; CSRF protection disabled without a reason"
+    ],
+    [
+     "Resources not closed (use try-with-resources); null handling",
+     "Non-thread-safe shared state and unsynchronised collections; a swallowed <code>InterruptedException</code>"
+    ],
+    [
+     "SpotBugs with Find Security Bugs",
+     "Error Prone",
+     "OWASP Dependency-Check",
+     "Semgrep"
+    ]
+   ],
+   [
+    "C# and .NET",
+    [
+     "SQL built by concatenation; <code>BinaryFormatter</code> and other unsafe deserializers",
+     "Weak crypto (MD5, SHA-1, DES); hardcoded connection strings",
+     "Missing <code>[Authorize]</code> or policy gaps; model-binding over-posting"
+    ],
+    [
+     "Missing <code>using</code>/<code>Dispose</code>; <code>async void</code>",
+     "<code>.Result</code> and <code>.Wait()</code> deadlocks; a scoped service captured by a singleton",
+     "Nullable warnings ignored"
+    ],
+    [
+     ".NET analyzers (nullable reference types on)",
+     "dotnet list package --vulnerable",
+     "Semgrep"
+    ]
+   ],
+   [
+    "Go",
+    [
+     "<code>InsecureSkipVerify</code>; <code>math/rand</code> for secrets (use <code>crypto/rand</code>)",
+     "SQL built by concatenation; path traversal on user-supplied paths; template injection"
+    ],
+    [
+     "Ignored errors; goroutine leaks; data races",
+     "Unbounded reads (<code>io.ReadAll</code> on untrusted bodies); HTTP clients and servers without timeouts",
+     "<code>defer</code> inside loops; writes to a nil map"
+    ],
+    [
+     "go vet",
+     "staticcheck",
+     "gosec",
+     "go test -race",
+     "govulncheck"
+    ]
+   ],
+   [
+    "PHP",
+    [
+     "<code>include</code>/<code>require</code> with user input (LFI/RFI); <code>unserialize</code> on untrusted data",
+     "SQL built by concatenation; type juggling with loose <code>==</code>",
+     "File-upload handling; session fixation; <code>display_errors</code> on in production"
+    ],
+    [],
+    [
+     "PHPStan or Psalm",
+     "composer audit",
+     "Semgrep"
+    ]
+   ],
+   [
+    "Ruby",
+    [
+     "<code>eval</code>, and <code>send</code>/<code>public_send</code> with user input",
+     "Mass assignment (use strong parameters); <code>YAML.load</code> on untrusted data (use <code>YAML.safe_load</code>)",
+     "Shell calls (backticks, <code>system</code>) with interpolated input; SQL fragments built from params"
+    ],
+    [],
+    [
+     "Brakeman (Rails)",
+     "RuboCop",
+     "bundler-audit"
+    ]
+   ],
+   [
+    "Rust",
+    [
+     "<code>unsafe</code> blocks without a documented invariant",
+     "<code>unwrap</code>, <code>expect</code> and unchecked indexing that can panic on untrusted input (denial of service); integer overflow that wraps in release builds"
+    ],
+    [
+     "Blocking calls inside async code; unbounded channels and queues"
+    ],
+    [
+     "Clippy",
+     "cargo-audit",
+     "cargo-deny",
+     "Miri (for unsafe code)"
+    ]
+   ],
+   [
+    "C and C++",
+    [
+     "Buffer overflows (<code>strcpy</code>, <code>gets</code>, unchecked indexing); use-after-free and double free",
+     "Format-string bugs; integer overflow before allocation; uninitialised memory",
+     "Time-of-check to time-of-use races on files"
+    ],
+    [
+     "Undefined behaviour; leaks; data races; ignored return values"
+    ],
+    [
+     "Compiler warnings (-Wall -Wextra)",
+     "clang-tidy",
+     "cppcheck",
+     "AddressSanitizer and UBSan",
+     "Fuzzing (libFuzzer, AFL++)"
+    ]
+   ],
+   [
+    "SQL and data access",
+    [
+     "Dynamic SQL built by concatenation",
+     "Application accounts with owner or DBA rights; sensitive columns unencrypted or unmasked in non-production copies"
+    ],
+    [
+     "Missing transactions around multi-step writes; N+1 queries",
+     "Missing indexes on filter and join columns; implicit type conversions that defeat indexes; no migration rollback plan"
+    ],
+    [
+     "SQLFluff",
+     "The database's EXPLAIN plans"
+    ]
+   ],
+   [
+    "Bash and PowerShell",
+    [
+     "<strong>Bash:</strong> <code>curl | sh</code>; <code>eval</code>; predictable or world-writable temp files (use <code>mktemp</code>)",
+     "<strong>PowerShell:</strong> <code>Invoke-Expression</code>; plaintext secrets and <code>-AsPlainText</code> conversions"
+    ],
+    [
+     "<strong>Bash:</strong> unquoted variables; missing <code>set -euo pipefail</code>; parsing <code>ls</code> output; <code>rm -rf</code> with an unchecked variable",
+     "<strong>PowerShell:</strong> <code>-ExecutionPolicy Bypass</code> as a habit; missing <code>-ErrorAction Stop</code> with <code>try</code>/<code>catch</code>; unvalidated path input"
+    ],
+    [
+     "ShellCheck",
+     "PSScriptAnalyzer"
+    ]
+   ],
+   [
+    "Infrastructure as code and CI",
+    [
+     "<strong>Dockerfile:</strong> running as root; <code>latest</code> or unpinned base images; secrets in layers or build arguments; <code>curl | sh</code>; <code>ADD</code> from remote URLs",
+     "<strong>Terraform and cloud:</strong> public buckets; wildcard IAM; secrets in state or variable files; unencrypted storage; open security groups",
+     "<strong>GitHub Actions and other CI:</strong> unpinned third-party actions (pin to a commit SHA); <code>pull_request_target</code> running untrusted code; untrusted event values interpolated into <code>run:</code> scripts; over-broad token permissions; secrets echoed to logs"
+    ],
+    [],
+    [
+     "hadolint",
+     "Trivy",
+     "Checkov",
+     "actionlint"
+    ]
+   ]
+  ],
+  "pitfallCode": [
+   {
+    "lang": "Python",
+    "task": "Mutable default argument",
+    "bad": "def add_tag(tag, tags=[]):        # the default list is created once, not per call\n    tags.append(tag)\n    return tags\n\nprint(add_tag(\"a\"))               # ['a']\nprint(add_tag(\"b\"))               # ['a', 'b']  <- state leaked between calls",
+    "good": "def add_tag(tag, tags=None):\n    if tags is None:\n        tags = []                 # a fresh list on every call\n    tags.append(tag)\n    return tags\n\nprint(add_tag(\"a\"))               # ['a']\nprint(add_tag(\"b\"))               # ['b']",
+    "note": "Default values are evaluated once, when the function is defined, so every call that omits <code>tags</code> shares the same list. Use <code>None</code> as the default and build the list inside."
+   },
+   {
+    "lang": "JavaScript",
+    "task": "Untrusted text in innerHTML (XSS)",
+    "bad": "const name = '<img src=x onerror=\"alert(1)\">';   // imagine it came from a URL or a form\nbox.innerHTML = 'Hello, ' + name;                // parsed as HTML: the handler runs",
+    "good": "const name = '<img src=x onerror=\"alert(1)\">';   // the same untrusted input\nbox.textContent = 'Hello, ' + name;              // shown as plain text, never parsed as HTML",
+    "note": "With <code>innerHTML</code> the browser builds an <code>img</code> element from the text and runs its <code>onerror</code> handler; <code>textContent</code> treats the same string as plain text. If you must insert HTML, sanitise it first (for example with DOMPurify)."
+   },
+   {
+    "lang": "Java",
+    "task": "Swallowed InterruptedException",
+    "bad": "Thread.currentThread().interrupt();       // simulate a shutdown request\ntry {\n    Thread.sleep(5_000);\n} catch (InterruptedException e) {\n    // swallowed: nobody learns that this thread was asked to stop\n}\nSystem.out.println(Thread.currentThread().isInterrupted());   // false",
+    "good": "Thread.currentThread().interrupt();       // simulate a shutdown request\ntry {\n    Thread.sleep(5_000);\n} catch (InterruptedException e) {\n    Thread.currentThread().interrupt();   // restore the flag so callers can react\n    return;                               // inside a void method\n}",
+    "note": "Catching <code>InterruptedException</code> clears the thread's interrupted flag. If you swallow it, the request to stop is lost; restore the flag or rethrow, so callers and thread pools can shut down cleanly."
+   },
+   {
+    "lang": "C#",
+    "task": "async void",
+    "bad": "static async void SaveAsync()               // async void: the caller can neither await it nor catch its exception\n{\n    await Task.Delay(10);\n    throw new InvalidOperationException(\"save failed\");\n}\n\ntry { SaveAsync(); }\ncatch (Exception) { Console.WriteLine(\"never printed\"); }   // the exception escapes: unhandled, the process crashes",
+    "good": "static async Task SaveAsync()               // returns a Task the caller can await\n{\n    await Task.Delay(10);\n    throw new InvalidOperationException(\"save failed\");\n}\n\ntry { await SaveAsync(); }\ncatch (InvalidOperationException e) { Console.WriteLine($\"caught: {e.Message}\"); }",
+    "note": "Reserve <code>async void</code> for event handlers. Everywhere else return <code>Task</code>, so errors travel to the caller. Written as top-level statements (.NET 10)."
+   },
+   {
+    "lang": "SQL",
+    "task": "SQL built from user input",
+    "bad": "name = \"x' OR '1'='1\"                       # attacker-controlled input\nrows = db.execute(f\"SELECT * FROM users WHERE name = '{name}'\").fetchall()   # the quote ends the string: every row comes back",
+    "good": "name = \"x' OR '1'='1\"\nrows = db.execute(\"SELECT * FROM users WHERE name = ?\", (name,)).fetchall()  # the value is data, never SQL: no rows",
+    "note": "Shown with Python's <code>sqlite3</code> on a table of three users: the concatenated query returned all three, the parameterised one returned none. Every database driver offers placeholders; use them instead of building SQL text."
+   },
+   {
+    "lang": "Bash",
+    "task": "Unquoted variable",
+    "bad": "file=\"my notes.txt\"\nrm $file            # word splitting: runs rm my notes.txt, so a different file named \"my\" is deleted",
+    "good": "file=\"my notes.txt\"\nrm -- \"$file\"       # one argument, spaces intact; -- stops a leading dash being read as an option",
+    "note": "Unquoted, the shell splits the value at the space and passes two arguments. In the test folder it deleted an unrelated file named <code>my</code> and left <code>my notes.txt</code> in place. Quote every expansion, and let ShellCheck catch the ones you miss."
+   }
+  ],
+  "techniques": [
+   [
+    "Equivalence partitioning",
+    "Split inputs into valid and invalid classes and test one value from each.",
+    "An age field that accepts 18 to 65: below 18, 18 to 65, above 65, not a number, empty. Five tests instead of fifty."
+   ],
+   [
+    "Boundary value analysis",
+    "Test just below, on and just above each edge of a range.",
+    "17, 18, 19 and 64, 65, 66. Also very long strings, leap days and size limits."
+   ],
+   [
+    "Decision table",
+    "List every combination of conditions with its expected outcome.",
+    "Member, coupon and order over 100 give 8 combinations; merge the ones with the same outcome."
+   ],
+   [
+    "State-transition testing",
+    "Test the allowed and the forbidden moves between states.",
+    "An order may go draft → submitted → approved; approved → draft must be refused."
+   ],
+   [
+    "Pairwise testing",
+    "Cover every pair of parameter values instead of every combination.",
+    "Browser × OS × locale: a tool such as PICT builds the smallest set; add the riskiest combinations by hand."
+   ],
+   [
+    "Error guessing",
+    "Probe the places where experience says things break.",
+    "Double-click on submit, the back button after submit, a huge pasted text, an expired token."
+   ],
+   [
+    "Exploratory charter",
+    "A time-boxed mission with notes on what you found.",
+    "Explore checkout with expired cards to discover how errors are shown (30 to 60 minutes)."
+   ],
+   [
+    "Property-based and fuzz testing",
+    "State a rule that must always hold and let a tool generate the inputs.",
+    "Sorting never changes the number of items: Hypothesis, fast-check or <code>go test -fuzz</code> try thousands of lists."
+   ]
+  ],
+  "severity": [
+   [
+    "Critical",
+    "20–25",
+    "Data loss or corruption, a security breach, or a core journey that is impossible with no workaround.",
+    "Any signed-in user can read another user's orders."
+   ],
+   [
+    "High",
+    "12–19",
+    "A major function fails or a serious weakness exists, and the workaround is hard or risky.",
+    "Checkout fails for one payment method."
+   ],
+   [
+    "Medium",
+    "6–11",
+    "Partial loss of function, or a real weakness with a workaround or limited exposure.",
+    "A filter ignores one criterion."
+   ],
+   [
+    "Low",
+    "2–5",
+    "A minor defect with negligible impact.",
+    "A label is misaligned."
+   ],
+   [
+    "Informational",
+    "0–1",
+    "An observation or an improvement, not a defect.",
+    "An optional response header is missing."
+   ]
+  ],
+  "bugFields": [
+   [
+    "Title",
+    "One line: what is wrong and where. \"Checkout returns HTTP 500 when the coupon field is empty\"."
+   ],
+   [
+    "Environment",
+    "Browser or OS and version, app version, the test account and data you used."
+   ],
+   [
+    "Steps",
+    "Numbered and exact, starting from a known state. Anyone should be able to follow them."
+   ],
+   [
+    "Expected vs. actual",
+    "What should have happened and what did happen, side by side."
+   ],
+   [
+    "Evidence",
+    "Real logs, requests and responses or screenshots. Mask secrets and personal data."
+   ],
+   [
+    "Severity and impact",
+    "A level plus one sentence on why it matters: \"a signed-in user can read another user's orders\"."
+   ],
+   [
+    "Reproducible",
+    "Always, intermittent or not reproduced. If intermittent, say how often."
+   ],
+   [
+    "Regression test",
+    "The test that should stop the bug coming back."
+   ]
+  ],
+  "bugTemplate": "## QA-001: <title>\n\n- **Status:** Confirmed | Suspected\n- **Severity:** Critical | High | Medium | Low | Informational, plus one line on the impact\n- **Environment:** browser/OS and version, app version\n- **Steps:**\n  1. ...\n  2. ...\n- **Expected:** ...\n- **Actual:** ...\n- **Evidence:** logs, request/response, screenshots (secrets masked)\n- **Reproducible:** Always | Intermittent | Not reproduced\n- **Regression test:** ...",
+  "terminal": [
+   [
+    "Failed services",
+    "systemctl --failed",
+    "Get-Service | Where-Object { $_.Status -eq 'Stopped' -and $_.StartType -eq 'Automatic' }",
+    "launchctl list | awk '$2 != 0'"
+   ],
+   [
+    "Top CPU consumers",
+    "ps aux --sort=-%cpu | head -10",
+    "Get-Process | Sort-Object CPU -Descending | Select-Object -First 10 Name, Id, CPU",
+    "ps aux -r | head -10"
+   ],
+   [
+    "Memory",
+    "free -h",
+    "Get-CimInstance Win32_OperatingSystem | Select-Object FreePhysicalMemory, TotalVisibleMemorySize",
+    "vm_stat"
+   ],
+   [
+    "Disk space",
+    "df -h",
+    "Get-PSDrive -PSProvider FileSystem",
+    "df -h"
+   ],
+   [
+    "Listening ports",
+    "ss -tulpn",
+    "Get-NetTCPConnection -State Listen | Sort-Object LocalPort",
+    "lsof -iTCP -sTCP:LISTEN -n -P"
+   ],
+   [
+    "Firewall",
+    "sudo ufw status",
+    "Get-NetFirewallProfile | Select-Object Name, Enabled",
+    "/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate"
+   ],
+   [
+    "Recent errors in the logs",
+    "journalctl -p err --since \"24 hours ago\" --no-pager | tail -50",
+    "Get-WinEvent -FilterHashtable @{ LogName = 'System','Application'; Level = 1,2; StartTime = (Get-Date).AddDays(-1) } -MaxEvents 50",
+    "log show --last 24h --predicate 'messageType == error' | tail -50"
+   ],
+   [
+    "Pending updates",
+    "apt list --upgradable 2>/dev/null | head",
+    "—",
+    "softwareupdate -l"
+   ],
+   [
+    "System protection",
+    "—",
+    "Get-MpComputerStatus",
+    "csrutil status; spctl --status"
+   ],
+   [
+    "Runtime versions",
+    "python3 --version; node -v",
+    "python --version; node -v",
+    "python3 --version; node -v"
    ]
   ]
  }

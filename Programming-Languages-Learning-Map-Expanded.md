@@ -389,6 +389,356 @@ Web sources checked September 2026: Python documentation; MDN JavaScript documen
 - Can they identify at least one performance, reliability and security risk in a small application?
 - Can they review AI-generated code and explain why it is (or is not) correct and safe?
 
+## 20. Common pitfalls by language
+
+Every language has its own favourite ways to go wrong. Each item below is a prompt for a code review, not a finding: confirm it in the actual source (file and line), and check whether your framework or linter already prevents it before you call it a bug.
+
+### Habits that apply to every language
+
+- [ ] No secrets in code, logs, error messages, URLs or committed configuration: use environment variables or a secret store, and a scanner such as gitleaks.
+- [ ] Validate input at every trust boundary: network, files, environment, inter-process messages and deserialized data.
+- [ ] Put timeouts, retries with backoff and cancellation on every network and subprocess call.
+- [ ] Catch specific errors, then handle or re-raise them. When something fails, fail closed: deny access rather than grant it.
+- [ ] Bound resource use: memory, CPU, file handles, connections, recursion depth and request size.
+- [ ] Use vetted libraries for cryptography and a cryptographically secure random source for tokens, IDs and keys. Never invent your own.
+- [ ] Pin dependencies with a lockfile and check them with an audit tool (npm audit, pip-audit, OSV-Scanner) before updating.
+- [ ] Keep runtimes and dependencies patched, and know when your language version reaches end of life.
+- [ ] Run containers as a non-root user from pinned images, with no secrets in layers or build arguments.
+- [ ] Test the negative and boundary cases and the critical paths, not only the happy path.
+
+### Pitfalls in your language
+
+**Python**
+
+- *Security:*
+  - `eval` and `exec`; `pickle`, `marshal` or `yaml.load` on untrusted data (use `yaml.safe_load`)
+  - `subprocess` with `shell=True`; SQL built with string formatting
+  - `requests` with `verify=False`; `tempfile.mktemp`; `random` for secrets (use `secrets`)
+  - XML parsed without `defusedxml`; Flask or Django left in `DEBUG` mode
+- *Reliability:*
+  - Mutable default arguments; a bare `except`
+  - `assert` used for validation (it is stripped under `-O`)
+  - Files and connections not closed (use `with`); `requests` without a timeout; blocking calls inside `async` code
+- *Tools:* Bandit, Ruff, mypy, pip-audit, Semgrep
+
+**JavaScript / TypeScript**
+
+- *Security:*
+  - Prototype pollution; `eval`, `new Function` and string timers
+  - `innerHTML`, `document.write` and `dangerouslySetInnerHTML` with untrusted data (XSS); open redirects
+  - `child_process.exec` with user input; `Math.random` for tokens
+  - Secrets in client bundles or source maps; regexes that backtrack catastrophically (ReDoS); vulnerable transitive dependencies
+- *Reliability:*
+  - Unhandled promise rejections; a missing `await`; `==` coercion
+  - Shared mutable state across requests; leaked event listeners and timers
+  - `any` abuse and unchecked casts in TypeScript
+- *Tools:* ESLint (with security rules), tsc --strict, npm audit, OSV-Scanner, Semgrep
+
+**Java and Kotlin**
+
+- *Security:*
+  - Deserialization with `ObjectInputStream`; XXE in XML parsers (disable DTDs and external entities)
+  - SQL built by concatenation; expression-language (SpEL) injection
+  - Log4Shell-class issues: untrusted data in log lookups, outdated logging libraries
+  - Exposed Spring Boot actuator endpoints; CSRF protection disabled without a reason
+- *Reliability:*
+  - Resources not closed (use try-with-resources); null handling
+  - Non-thread-safe shared state and unsynchronised collections; a swallowed `InterruptedException`
+- *Tools:* SpotBugs with Find Security Bugs, Error Prone, OWASP Dependency-Check, Semgrep
+
+**C# and .NET**
+
+- *Security:*
+  - SQL built by concatenation; `BinaryFormatter` and other unsafe deserializers
+  - Weak crypto (MD5, SHA-1, DES); hardcoded connection strings
+  - Missing `[Authorize]` or policy gaps; model-binding over-posting
+- *Reliability:*
+  - Missing `using`/`Dispose`; `async void`
+  - `.Result` and `.Wait()` deadlocks; a scoped service captured by a singleton
+  - Nullable warnings ignored
+- *Tools:* .NET analyzers (nullable reference types on), dotnet list package --vulnerable, Semgrep
+
+**Go**
+
+- *Security:*
+  - `InsecureSkipVerify`; `math/rand` for secrets (use `crypto/rand`)
+  - SQL built by concatenation; path traversal on user-supplied paths; template injection
+- *Reliability:*
+  - Ignored errors; goroutine leaks; data races
+  - Unbounded reads (`io.ReadAll` on untrusted bodies); HTTP clients and servers without timeouts
+  - `defer` inside loops; writes to a nil map
+- *Tools:* go vet, staticcheck, gosec, go test -race, govulncheck
+
+**PHP**
+
+- *Security:*
+  - `include`/`require` with user input (LFI/RFI); `unserialize` on untrusted data
+  - SQL built by concatenation; type juggling with loose `==`
+  - File-upload handling; session fixation; `display_errors` on in production
+- *Tools:* PHPStan or Psalm, composer audit, Semgrep
+
+**Ruby**
+
+- *Security:*
+  - `eval`, and `send`/`public_send` with user input
+  - Mass assignment (use strong parameters); `YAML.load` on untrusted data (use `YAML.safe_load`)
+  - Shell calls (backticks, `system`) with interpolated input; SQL fragments built from params
+- *Tools:* Brakeman (Rails), RuboCop, bundler-audit
+
+**Rust**
+
+- *Security:*
+  - `unsafe` blocks without a documented invariant
+  - `unwrap`, `expect` and unchecked indexing that can panic on untrusted input (denial of service); integer overflow that wraps in release builds
+- *Reliability:*
+  - Blocking calls inside async code; unbounded channels and queues
+- *Tools:* Clippy, cargo-audit, cargo-deny, Miri (for unsafe code)
+
+**C and C++**
+
+- *Security:*
+  - Buffer overflows (`strcpy`, `gets`, unchecked indexing); use-after-free and double free
+  - Format-string bugs; integer overflow before allocation; uninitialised memory
+  - Time-of-check to time-of-use races on files
+- *Reliability:*
+  - Undefined behaviour; leaks; data races; ignored return values
+- *Tools:* Compiler warnings (-Wall -Wextra), clang-tidy, cppcheck, AddressSanitizer and UBSan, Fuzzing (libFuzzer, AFL++)
+
+**SQL and data access**
+
+- *Security:*
+  - Dynamic SQL built by concatenation
+  - Application accounts with owner or DBA rights; sensitive columns unencrypted or unmasked in non-production copies
+- *Reliability:*
+  - Missing transactions around multi-step writes; N+1 queries
+  - Missing indexes on filter and join columns; implicit type conversions that defeat indexes; no migration rollback plan
+- *Tools:* SQLFluff, The database's EXPLAIN plans
+
+**Bash and PowerShell**
+
+- *Security:*
+  - **Bash:** `curl \| sh`; `eval`; predictable or world-writable temp files (use `mktemp`)
+  - **PowerShell:** `Invoke-Expression`; plaintext secrets and `-AsPlainText` conversions
+- *Reliability:*
+  - **Bash:** unquoted variables; missing `set -euo pipefail`; parsing `ls` output; `rm -rf` with an unchecked variable
+  - **PowerShell:** `-ExecutionPolicy Bypass` as a habit; missing `-ErrorAction Stop` with `try`/`catch`; unvalidated path input
+- *Tools:* ShellCheck, PSScriptAnalyzer
+
+**Infrastructure as code and CI**
+
+- *Security:*
+  - **Dockerfile:** running as root; `latest` or unpinned base images; secrets in layers or build arguments; `curl \| sh`; `ADD` from remote URLs
+  - **Terraform and cloud:** public buckets; wildcard IAM; secrets in state or variable files; unencrypted storage; open security groups
+  - **GitHub Actions and other CI:** unpinned third-party actions (pin to a commit SHA); `pull_request_target` running untrusted code; untrusted event values interpolated into `run:` scripts; over-broad token permissions; secrets echoed to logs
+- *Tools:* hadolint, Trivy, Checkov, actionlint
+
+### Risky vs. safer: six examples that were run
+
+**Python: Mutable default argument.** Default values are evaluated once, when the function is defined, so every call that omits `tags` shares the same list. Use `None` as the default and build the list inside.
+
+Risky:
+
+```python
+def add_tag(tag, tags=[]):        # the default list is created once, not per call
+    tags.append(tag)
+    return tags
+
+print(add_tag("a"))               # ['a']
+print(add_tag("b"))               # ['a', 'b']  <- state leaked between calls
+```
+
+Safer:
+
+```python
+def add_tag(tag, tags=None):
+    if tags is None:
+        tags = []                 # a fresh list on every call
+    tags.append(tag)
+    return tags
+
+print(add_tag("a"))               # ['a']
+print(add_tag("b"))               # ['b']
+```
+
+**JavaScript: Untrusted text in innerHTML (XSS).** With `innerHTML` the browser builds an `img` element from the text and runs its `onerror` handler; `textContent` treats the same string as plain text. If you must insert HTML, sanitise it first (for example with DOMPurify).
+
+Risky:
+
+```js
+const name = '<img src=x onerror="alert(1)">';   // imagine it came from a URL or a form
+box.innerHTML = 'Hello, ' + name;                // parsed as HTML: the handler runs
+```
+
+Safer:
+
+```js
+const name = '<img src=x onerror="alert(1)">';   // the same untrusted input
+box.textContent = 'Hello, ' + name;              // shown as plain text, never parsed as HTML
+```
+
+**Java: Swallowed InterruptedException.** Catching `InterruptedException` clears the thread's interrupted flag. If you swallow it, the request to stop is lost; restore the flag or rethrow, so callers and thread pools can shut down cleanly.
+
+Risky:
+
+```java
+Thread.currentThread().interrupt();       // simulate a shutdown request
+try {
+    Thread.sleep(5_000);
+} catch (InterruptedException e) {
+    // swallowed: nobody learns that this thread was asked to stop
+}
+System.out.println(Thread.currentThread().isInterrupted());   // false
+```
+
+Safer:
+
+```java
+Thread.currentThread().interrupt();       // simulate a shutdown request
+try {
+    Thread.sleep(5_000);
+} catch (InterruptedException e) {
+    Thread.currentThread().interrupt();   // restore the flag so callers can react
+    return;                               // inside a void method
+}
+```
+
+**C#: async void.** Reserve `async void` for event handlers. Everywhere else return `Task`, so errors travel to the caller. Written as top-level statements (.NET 10).
+
+Risky:
+
+```csharp
+static async void SaveAsync()               // async void: the caller can neither await it nor catch its exception
+{
+    await Task.Delay(10);
+    throw new InvalidOperationException("save failed");
+}
+
+try { SaveAsync(); }
+catch (Exception) { Console.WriteLine("never printed"); }   // the exception escapes: unhandled, the process crashes
+```
+
+Safer:
+
+```csharp
+static async Task SaveAsync()               // returns a Task the caller can await
+{
+    await Task.Delay(10);
+    throw new InvalidOperationException("save failed");
+}
+
+try { await SaveAsync(); }
+catch (InvalidOperationException e) { Console.WriteLine($"caught: {e.Message}"); }
+```
+
+**SQL: SQL built from user input.** Shown with Python's `sqlite3` on a table of three users: the concatenated query returned all three, the parameterised one returned none. Every database driver offers placeholders; use them instead of building SQL text.
+
+Risky:
+
+```python
+name = "x' OR '1'='1"                       # attacker-controlled input
+rows = db.execute(f"SELECT * FROM users WHERE name = '{name}'").fetchall()   # the quote ends the string: every row comes back
+```
+
+Safer:
+
+```python
+name = "x' OR '1'='1"
+rows = db.execute("SELECT * FROM users WHERE name = ?", (name,)).fetchall()  # the value is data, never SQL: no rows
+```
+
+**Bash: Unquoted variable.** Unquoted, the shell splits the value at the space and passes two arguments. In the test folder it deleted an unrelated file named `my` and left `my notes.txt` in place. Quote every expansion, and let ShellCheck catch the ones you miss.
+
+Risky:
+
+```bash
+file="my notes.txt"
+rm $file            # word splitting: runs rm my notes.txt, so a different file named "my" is deleted
+```
+
+Safer:
+
+```bash
+file="my notes.txt"
+rm -- "$file"       # one argument, spaces intact; -- stops a leading dash being read as an option
+```
+
+## 21. Test design in practice
+
+You can't test everything, so testers choose the small set of inputs most likely to expose a defect.
+
+| Technique | Idea | Example |
+| --- | --- | --- |
+| Equivalence partitioning | Split inputs into valid and invalid classes and test one value from each. | An age field that accepts 18 to 65: below 18, 18 to 65, above 65, not a number, empty. Five tests instead of fifty. |
+| Boundary value analysis | Test just below, on and just above each edge of a range. | 17, 18, 19 and 64, 65, 66. Also very long strings, leap days and size limits. |
+| Decision table | List every combination of conditions with its expected outcome. | Member, coupon and order over 100 give 8 combinations; merge the ones with the same outcome. |
+| State-transition testing | Test the allowed and the forbidden moves between states. | An order may go draft → submitted → approved; approved → draft must be refused. |
+| Pairwise testing | Cover every pair of parameter values instead of every combination. | Browser × OS × locale: a tool such as PICT builds the smallest set; add the riskiest combinations by hand. |
+| Error guessing | Probe the places where experience says things break. | Double-click on submit, the back button after submit, a huge pasted text, an expired token. |
+| Exploratory charter | A time-boxed mission with notes on what you found. | Explore checkout with expired cards to discover how errors are shown (30 to 60 minutes). |
+| Property-based and fuzz testing | State a rule that must always hold and let a tool generate the inputs. | Sorting never changes the number of items: Hypothesis, fast-check or `go test -fuzz` try thousands of lists. |
+
+**Boundary values.** For a range from *min* to *max*, test min − 1, min, min + 1, max − 1, max and max + 1. For an age field that accepts 18 to 65 that is 17, 18, 19, 64, 65 and 66.
+
+**Severity** is impact times likelihood, each scored from 1 to 5. One convention, not a standard: teams define their own scales. Severity is how bad a defect is if it ships; priority, how soon to fix it, is a separate decision.
+
+| Severity | Score | Meaning | Example |
+| --- | --- | --- | --- |
+| Critical | 20–25 | Data loss or corruption, a security breach, or a core journey that is impossible with no workaround. | Any signed-in user can read another user's orders. |
+| High | 12–19 | A major function fails or a serious weakness exists, and the workaround is hard or risky. | Checkout fails for one payment method. |
+| Medium | 6–11 | Partial loss of function, or a real weakness with a workaround or limited exposure. | A filter ignores one criterion. |
+| Low | 2–5 | A minor defect with negligible impact. | A label is misaligned. |
+| Informational | 0–1 | An observation or an improvement, not a defect. | An optional response header is missing. |
+
+**Anatomy of a good bug report.** A developer should be able to reproduce the problem without asking you anything.
+
+| Field | What to write |
+| --- | --- |
+| Title | One line: what is wrong and where. "Checkout returns HTTP 500 when the coupon field is empty". |
+| Environment | Browser or OS and version, app version, the test account and data you used. |
+| Steps | Numbered and exact, starting from a known state. Anyone should be able to follow them. |
+| Expected vs. actual | What should have happened and what did happen, side by side. |
+| Evidence | Real logs, requests and responses or screenshots. Mask secrets and personal data. |
+| Severity and impact | A level plus one sentence on why it matters: "a signed-in user can read another user's orders". |
+| Reproducible | Always, intermittent or not reproduced. If intermittent, say how often. |
+| Regression test | The test that should stop the bug coming back. |
+
+```markdown
+## QA-001: <title>
+
+- **Status:** Confirmed | Suspected
+- **Severity:** Critical | High | Medium | Low | Informational, plus one line on the impact
+- **Environment:** browser/OS and version, app version
+- **Steps:**
+  1. ...
+  2. ...
+- **Expected:** ...
+- **Actual:** ...
+- **Evidence:** logs, request/response, screenshots (secrets masked)
+- **Reproducible:** Always | Intermittent | Not reproduced
+- **Regression test:** ...
+```
+
+Label every finding **Confirmed** (reproduced, with evidence), **Suspected** (signs, but not proven) or **Not tested**. "I didn't see a problem" is not the same as "I checked and it's fine", so list what you didn't check as well.
+
+**The test pyramid.** Write many fast unit tests for validation and business rules, fewer API and integration tests, and a small set of end-to-end tests for the critical journeys. Quarantine flaky tests with an owner and a deadline instead of ignoring them.
+
+## 22. Quick reference: terminal checks for a first look at a machine
+
+| Check | Linux | Windows (PowerShell) | macOS |
+| --- | --- | --- | --- |
+| Failed services | `systemctl --failed` | `Get-Service \| Where-Object { $_.Status -eq 'Stopped' -and $_.StartType -eq 'Automatic' }` | `launchctl list \| awk '$2 != 0'` |
+| Top CPU consumers | `ps aux --sort=-%cpu \| head -10` | `Get-Process \| Sort-Object CPU -Descending \| Select-Object -First 10 Name, Id, CPU` | `ps aux -r \| head -10` |
+| Memory | `free -h` | `Get-CimInstance Win32_OperatingSystem \| Select-Object FreePhysicalMemory, TotalVisibleMemorySize` | `vm_stat` |
+| Disk space | `df -h` | `Get-PSDrive -PSProvider FileSystem` | `df -h` |
+| Listening ports | `ss -tulpn` | `Get-NetTCPConnection -State Listen \| Sort-Object LocalPort` | `lsof -iTCP -sTCP:LISTEN -n -P` |
+| Firewall | `sudo ufw status` | `Get-NetFirewallProfile \| Select-Object Name, Enabled` | `/usr/libexec/ApplicationFirewall/socketfilterfw --getglobalstate` |
+| Recent errors in the logs | `journalctl -p err --since "24 hours ago" --no-pager \| tail -50` | `Get-WinEvent -FilterHashtable @{ LogName = 'System','Application'; Level = 1,2; StartTime = (Get-Date).AddDays(-1) } -MaxEvents 50` | `log show --last 24h --predicate 'messageType == error' \| tail -50` |
+| Pending updates | `apt list --upgradable 2>/dev/null \| head` | — | `softwareupdate -l` |
+| System protection | — | `Get-MpComputerStatus` | `csrutil status; spctl --status` |
+| Runtime versions | `python3 --version; node -v` | `python --version; node -v` | `python3 --version; node -v` |
+
+**Read-only, but not harmless.** These commands only inspect state, but their output can contain host names, user names, paths and sometimes secrets, so redact it before sharing. Some need elevated rights (missing output means not checked, not healthy), and `softwareupdate -l` contacts Apple's servers. Run them one at a time, only on machines you own or may inspect. A failed service or a non-zero exit status is a lead, not a verdict: weigh benign explanations first, then rate what's left with the severity scale. If you see signs of a real compromise (unknown persistence, unexplained outbound connections), don't clean up: preserve the evidence and involve whoever handles incidents. A dash means there is no matching command to list.
+
 ---
 
 **Bottom line:** learn one language deeply enough to understand programming fundamentals, then learn additional languages by comparing their type systems, execution models, memory models, concurrency models, tooling and ecosystems. For a QA-oriented path, TypeScript/JavaScript and Python are particularly useful starting points, while Java, C#, Go, Rust and C++ provide valuable exposure to different engineering models. In 2026, add two habits to everything above: verify AI-generated code like code you didn't write, and let data (surveys, commit activity, local job listings) — not hype — guide your language choices.

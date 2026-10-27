@@ -146,7 +146,28 @@ nav.toc details[open] summary::after{content:"▴"}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 .tabs button,.card button,.card .opt,.ctabtn,.act{min-height:36px}.ctabtn{display:inline-flex;align-items:center}
 @media (pointer:coarse){.tabs button,.card button,.card .opt,.ctabtn,.act,.reset,.search,.checks label,.seq label,nav.toc a{min-height:44px}.reset,.checks label,.seq label,nav.toc a{display:flex;align-items:center}}
-@media print{.herocta,.toTop,.readbar{display:none!important}}
+/* inline code and command columns read as code */
+p code,li code,td code,.tip code,.note code{font:.9em var(--mono)}
+#t-gitcmds td:first-child,#t-regex td:first-child{font:600 14px var(--mono)}
+#t-term td{min-width:200px}#t-term td:first-child{min-width:130px}
+#t-term code{word-break:break-word}
+/* pitfalls by language */
+.pitcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;align-items:start}
+.pitcols>div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:14px 16px;display:grid;gap:8px;align-content:start}
+.pitcols h4{margin:0}
+.pitcols ul{margin:0;padding-left:18px;display:grid;gap:6px;font-size:15px}
+section{grid-template-columns:minmax(0,1fr)}   /* a wide child (a select with a long label, say) must scroll or shrink, never stretch the page */
+.pc{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}
+.pc>div{display:grid;gap:6px;align-content:start;min-width:0}
+.pc .label.risky{color:var(--mid)}.pc .label.safer{color:var(--brand)}
+/* small calculators */
+.calc{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:end}
+.calc label{min-width:0;max-width:100%;display:grid;gap:4px;font:500 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.calc input,.calc select{font:15px var(--sans);letter-spacing:0;text-transform:none;color:var(--ink);background:var(--surface);border:1px solid var(--control);border-radius:6px;padding:8px 10px;min-height:40px;max-width:100%}
+.calc input{width:9em}
+tr.hit td{background:var(--brand-tint)}
+@media (pointer:coarse){.calc input,.calc select{min-height:44px}}
+@media print{.herocta,.toTop,.readbar,.calc,#bugCopy{display:none!important}}
 @media print{
 body{background:#fff;padding:0;font-size:11pt}
 .wrap{display:block;max-width:none;padding:0}
